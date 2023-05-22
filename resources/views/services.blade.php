@@ -113,7 +113,7 @@
     //   "responsive": true, "lengthChange": false, "autoWidth": false,
     //   "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
     // }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    // $('#example2').DataTable({
+    // $('#tbl_services').DataTable({
     //   "paging": true,
     //   "lengthChange": false,
     //   "searching": false,
@@ -138,6 +138,12 @@
             }
         })
         var _token = $('input[name="_token"]').val();
+        $("#search").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#tbl_services tbody tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
         $("#s_services").addClass('active');
         show_allData();
         function show_allData()
