@@ -13,14 +13,9 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-
-            $table->unsignedBigInteger('usertype_id');
-            $table->foreign('usertype_id')
-                ->references('id')
-                ->on('usertypes')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
-
+            //1 = Manager;
+            //2 = Staff;
+            $table->tinyInteger('role')->default(0);
             $table->string('name');
             $table->longtext('address');
             $table->string('contactnumber');

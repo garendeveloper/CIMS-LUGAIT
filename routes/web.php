@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\DashboardController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,11 +14,14 @@ use App\Http\Controllers\LoginController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
-Route::get('/login', [LoginController::class, 'index']);
+Route::get('/', [LoginController::class, 'index']);
 Route::post('/login_user', [LoginController::class, 'login'])->name('user.login');
 
-Route::get('/manager/dashboard', [LoginController::class, 'manager_dashboard'])->name('managers.dashboard');
+Route::group(['middleware' => ['adminAccess']], function(){
+    Route::get('/manager/dashboard', [DashboardController::class, 'manager_index'])->name('managers.dashboard');
+});
+
+Route::group(['middleware' => ['staffAccess']], function(){
+    Route::get('/staff/dashboard', [DashboardController::class, 'staff_index'])->name('staff.dashboard');
+});
+

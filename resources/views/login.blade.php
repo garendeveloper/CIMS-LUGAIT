@@ -48,7 +48,7 @@
             <button type="button" id = "btn_signin" class="btn btn-primary btn-block">Sign In</button>
           </div>
           <!-- /.col -->
-        </div>
+        </div><br>
         <ul id = "validation-errors" style = "color: red">
 
         </ul>
@@ -86,14 +86,20 @@
             dataType: 'json',
             success: function(response)
             {
-              if(response == "1")
+              if(response.status == 1)
               {
                 window.location.href = "{{ route('managers.dashboard') }}";
               }
-              else{
-                $.each(response, function(key,value) {
+              else if(response.status == 2)
+              {
+                $("#validation-errors").html("");
+                $.each(response.message, function(key,value) {
                     $('#validation-errors').append("<li>"+value+"</li>");
                 }); 
+              }
+              else{
+                $("#validation-errors").html("");
+                $("#validation-errors").html("<li>"+response.message+"</li>");
               }
             },
             error: function(resp)

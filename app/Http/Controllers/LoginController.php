@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use \Auth;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -13,6 +14,7 @@ class LoginController extends Controller
 {
     public function index()
     {
+        Auth::logout();
         return view('login');
     }
     public function login(Request $request)
@@ -24,10 +26,17 @@ class LoginController extends Controller
             'email' => 'required|email',
             'password' => 'required|min:5'
         ]);
-        
+
+        $response = [
+            'status' => 0,
+            'message' => 'Email or Password in invalid!',
+        ];
         if($validate->fails())
         {
-            echo json_encode($validate->messages());
+            $response = [
+                'status' => 2,
+                'message' => $validate->messages(),
+            ];
         }
         else
         {
@@ -35,17 +44,14 @@ class LoginController extends Controller
                 'email' => $email,
                 'password' => $password
             ];
-            $check_credentials = User::where($data)->count();
-            $status = 0;
-            if($check_credentials > 0)
+            if(Auth::attempt($data))
             {
-                $status = 1;
+                $response = [
+                    'status' => 1,
+                    'message' => 'You are successfully login!',
+                ];
             }
-            echo json_encode($status);
         }
-    }
-    public function manager_dashboard()
-    {
-        return view('manager_dashboard');
+        echo json_encode($response);
     }
 }
