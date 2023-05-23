@@ -22,7 +22,7 @@ Route::group(['middleware' => ['adminAccess']], function(){
     Route::get('/manager/dashboard', [DashboardController::class, 'manager_index'])->name('managers.dashboard');
     
     Route::resource('services', ServicesController::class);
-    Route::get('/', [ServicesController::class, 'index'])->name('services');
+    Route::get('/services', [ServicesController::class, 'index'])->name('services');
     Route::get('/get/records', [ServicesController::class, 'get_allRecords'])->name('get_allServices');
     Route::get('/services/show/{id}', [ServicesController::class, 'show']);
     Route::get('/services/delete/{id}', [ServicesController::class, 'destroy']);

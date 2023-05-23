@@ -80,7 +80,7 @@ class ServicesController extends Controller
     public function update(Request $request, services $services)
     {
         $validate = Validator::make($request->all(), [
-            'service_name' => 'required|min:5|unique:services,service_name,{$request->service_id}', 
+            'service_name' => 'required|min:5|unique:services,service_name,'.$request->service_id.',id', 
         ]);
         
         $status = 0;

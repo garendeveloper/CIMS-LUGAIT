@@ -273,6 +273,7 @@
                             {
                                 $("#service_name").removeClass('is-invalid');
                                 $("#service_name").val("");
+                                $("#service_id").val("");
                                 show_allData();
                                 $(document).Toasts('create', {
                                     class: 'bg-success',
@@ -364,6 +365,7 @@
                             delay: 3000,
                             body: data.message,
                         })
+                        $("#service_id").val("");
                         show_allData();
                     },
                     error: function(error)
