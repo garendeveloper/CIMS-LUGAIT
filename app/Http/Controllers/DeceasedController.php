@@ -13,7 +13,7 @@ class DeceasedController extends Controller
      */
     public function index()
     {
-        //
+        return view('deceasedpage');
     }
 
     /**
