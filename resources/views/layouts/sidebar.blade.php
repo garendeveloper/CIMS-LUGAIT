@@ -30,18 +30,18 @@
             </a>
           </li>
           <li class="nav-item" >  
-            <a href="{{ route('deceaseds.index') }}" id = "s_deceaseds" class="nav-link">
+            <a href="{{ route('spaceareas.index') }}" id = "s_spaceareas" class="nav-link">
               <i class="nav-icon fas fa-copy"></i>
               <p>
-                Manage Deceased
+                Manage Space Area
               </p>
             </a>
           </li>
           <li class="nav-item" >  
-            <a href="#" class="nav-link">
+            <a href="{{ route('deceaseds.index') }}" id = "s_deceaseds" class="nav-link">
               <i class="nav-icon fas fa-copy"></i>
               <p>
-                Manage Space Area
+                Manage Deceased
               </p>
             </a>
           </li>

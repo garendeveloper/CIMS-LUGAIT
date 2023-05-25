@@ -5,6 +5,8 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ServicesController;
 use App\Http\Controllers\DeceasedController;
+use App\Http\Controllers\BlockController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -31,6 +33,12 @@ Route::group(['middleware' => ['adminAccess']], function(){
 
     //deceaseds
     Route::resource('deceaseds', DeceasedController::class);
+
+    //Space areas
+    Route::resource('spaceareas', BlockController::class);
+    Route::get('/spaceAreas/show/{id}', [BlockController::class, 'show']);
+    Route::get('/spaceAreas/delete/{id}', [BlockController::class, 'destroy']);
+    Route::get('/get/blocks', [BlockController::class, 'get_allBlocks'])->name('spaceareas.get_allBlocks');
 });
 
 Route::group(['middleware' => ['staffAccess']], function(){
