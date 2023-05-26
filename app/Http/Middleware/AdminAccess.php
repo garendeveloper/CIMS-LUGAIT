@@ -21,9 +21,8 @@ class AdminAccess
             return $next($request);
         }
         else 
-        {
-            Auth::logout();
-            return redirect('/')->with('You do not have permission to access this page');
+        {   
+            return redirect('/')->with('NotFound', 'You must logged in first!');
         }
     }
 }

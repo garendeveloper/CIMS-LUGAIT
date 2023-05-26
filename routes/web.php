@@ -39,6 +39,8 @@ Route::group(['middleware' => ['adminAccess']], function(){
     Route::get('/spaceAreas/show/{id}', [BlockController::class, 'show']);
     Route::get('/spaceAreas/delete/{id}', [BlockController::class, 'destroy']);
     Route::get('/get/blocks', [BlockController::class, 'get_allBlocks'])->name('spaceareas.get_allBlocks');
+
+    Route::get('/logout', [LoginController::class, 'logout'])->name('system.logout');
 });
 
 Route::group(['middleware' => ['staffAccess']], function(){

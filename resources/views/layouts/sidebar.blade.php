@@ -4,7 +4,8 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="info">
-          <a href="#" class="d-block"><b>LCIMS</b></a>
+          <h1 href="#" class="d-block" style = "color: white; text-align: center; font-family: Gabriola"><b>LUGAIT CIMS</b></h1>
+           <!-- <img src="{{ asset('assets/img/logos/Lugait.png') }}" alt="CIMS LOGO" style = "width: 200px; height: 200px"> -->
         </div>
       </div>
 
@@ -55,9 +56,22 @@
               </p>
             </a>
           </li>
+          <li class="nav-item" >  
+            <a id = "s_logout" type = "button" class="nav-link">
+              <i class="nav-icon fas fa-arrow-left"></i>
+              <p>
+                Logout
+              </p>
+            </a>
+          </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
+      
     </div>
     <!-- /.sidebar -->
   </aside>
+
+  <script>
+  
+  </script>

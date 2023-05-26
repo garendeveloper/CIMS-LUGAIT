@@ -57,3 +57,14 @@
 <!-- ChartJS -->
 <!-- <script src="{{ asset('plugins/chart.js/Chart.min.js') }}"></script>
 <script src="{{ asset('dist/js/pages/dashboard3.js') }}"></script> -->
+
+<script>
+    $(document).ready(function(){
+        $("#s_logout").on('click', function(){
+            if(confirm("Are you sure you want to log out?"))
+            {
+                window.location.href="{{ route('system.logout') }}";
+            }
+        })
+    })
+</script>

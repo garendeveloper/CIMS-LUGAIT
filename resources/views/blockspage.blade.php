@@ -29,6 +29,11 @@
         border-color: 3px solid #555;
     }
   </style>
+  @if(Session::get('NotFound'))
+    <script>
+        alert({{ Session::get('NotFound') }});
+    </script>
+  @endif
  <!-- Content Wrapper. Contains page content -->
  <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -147,13 +152,7 @@
   <!-- /.control-sidebar -->
 
   <!-- Main Footer -->
-  <footer class="main-footer">
-    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
-    All rights reserved.
-    <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> 3.2.0
-    </div>
-  </footer>
+  @include('layouts.footer')
 </div>
 <!-- ./wrapper -->
 

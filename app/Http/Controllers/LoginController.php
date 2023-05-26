@@ -14,6 +14,18 @@ class LoginController extends Controller
 {
     public function index()
     {
+        if(Auth::check())
+        {
+            return back();
+        }
+        else
+        {
+            Auth::logout();
+            return view('login');
+        }
+    }
+    public function logout()
+    {
         Auth::logout();
         return view('login');
     }
@@ -48,10 +60,10 @@ class LoginController extends Controller
             {
                 $response = [
                     'status' => 1,
-                    'message' => 'You are successfully login!',
+                    'message' => 'You have successfully logged in!',
                 ];
             }
         }
-        echo json_encode($response);
+        return response()->json($response);
     }
 }
