@@ -8,14 +8,18 @@
   @include('references/links')
 
 </head>
+
 <body class="hold-transition login-page">
+<div class="googlemaps"></div>
 <div class="login-box">
-  <div class="login-logo">
-    <a href="index2.html"><b>LUGAIT </b>CEMETERY IS</a>
-  </div>
+  
   <!-- /.login-logo -->
   <div class="card">
     <div class="card-body login-card-body">
+      <div class="login-logo">
+        <img src="{{ asset('/assets/img/logos/calvarylogo.png') }}" style = "width: 120px; height: 120px" alt="">
+        <img src="{{ asset('/assets/img/logos/Lugait.png') }}" style = "width: 120px; height: 120px" alt="">
+      </div>
       <p class="login-box-msg">Sign in to start your session</p>
 
       <form action="" id = "login_form" method="post">
@@ -59,6 +63,7 @@
 <!-- /.login-box -->
 
 @include('references/scripts')
+<!-- Include the Google Maps API library - required for embedding maps -->
 
 <script type = "text/javascript">
   $(document).ready(function() {

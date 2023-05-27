@@ -38,12 +38,15 @@
 <!-- Theme style -->
 <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
 <style>
+    body,input,select,option,table{
+        font-size: 14px;
+    }
     .sidebar {
-    height: inherit;
-    min-height: 100%;
-    position: absolute;
-    top: 0;
-    background-color: #170036;
-    /* background-color: #332600; */
-}
+        height: inherit;
+        min-height: 100%;
+        position: absolute;
+        top: 0;
+        background-color: #343a40;
+        /* background-color: #332600; */
+    }
 </style>

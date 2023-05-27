@@ -20,7 +20,7 @@ class UserFactory extends Factory
         return [
             'name' => 'JEROME BAHIAN PORCADO',
             'role' => 1,
-            'address' => 'Manticao Misamis Oriental',
+            'address_id' => 1,
             'contactnumber' => '09312158479',
             'email' => 'porcadojerome@gmail.com',
             'email_verified_at' => now(),

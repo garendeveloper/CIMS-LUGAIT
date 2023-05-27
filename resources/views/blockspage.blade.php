@@ -253,6 +253,7 @@
                     {
                         if(response.status == 1)
                         {
+                            show_allData();
                             $("#modal_form").modal('hide');
                             $("#block_form").trigger('reset');
                             $("input[type='text']").removeClass('is-invalid');
@@ -317,6 +318,7 @@
                     {
                         if(response.status == 1)
                         {
+                            show_allData();
                             $("#modal_form").modal('hide');
                             $("#block_form").trigger('reset');
                             $("input[type='text']").removeClass('is-invalid');

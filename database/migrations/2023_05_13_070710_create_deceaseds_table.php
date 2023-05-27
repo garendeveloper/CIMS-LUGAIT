@@ -20,19 +20,19 @@ return new class extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
 
-            $table->unsignedBigInteger('nationality_id');
-            $table->foreign('nationality_id')
-                ->references('id')
-                ->on('nationalities')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');  
+            // $table->unsignedBigInteger('nationality_id');
+            // $table->foreign('nationality_id')
+            //     ->references('id')
+            //     ->on('nationalities')
+            //     ->onUpdate('cascade')
+            //     ->onDelete('cascade');  
         
-            $table->unsignedBigInteger('cod_id');
-            $table->foreign('cod_id')
-                ->references('id')
-                ->on('causeofdeaths')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
+            // $table->unsignedBigInteger('cod_id');
+            // $table->foreign('cod_id')
+            //     ->references('id')
+            //     ->on('causeofdeaths')
+            //     ->onUpdate('cascade')
+            //     ->onDelete('cascade');
 
             $table->unsignedBigInteger('address_id');
             $table->foreign('address_id')
@@ -41,15 +41,26 @@ return new class extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
 
+            $table->char('causeofdeath');
+            // N = Natural
+            // A = Accident
+            // H = Homicide
+            // S = Suicide.
+            // U = Undetermined
+            // O = Other
             $table->string('lastname');
             $table->string('firstname');
             $table->string('middlename');
+            //M = Male
+            //F = Female
+            $table->char('civilstatus');
+            $table->char('sex');
             $table->date('dateof_death');
+            $table->date('dateof_burial');
+            $table->time('burial_time');
             $table->date('dateofbirth');
 
-            //1 = Male
-            //2 = Female
-            $table->tinyInteger('civilstatus')->default(0);
+          
             $table->timestamps();
         });
     }

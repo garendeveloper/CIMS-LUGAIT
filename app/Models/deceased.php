@@ -13,8 +13,12 @@ class deceased extends Model
         'firstname',
         'middlename',
         'civilstatus',
-        'address',
+        'address_id',
+        'causeofdeath',
+        'sex',
         'dateofbirth',
         'dateof_death',
+        'dateof_burial',
+        'burial_time',
     ];
 }
