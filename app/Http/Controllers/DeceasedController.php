@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Address;
+use App\Models\User;
 class DeceasedController extends Controller
 {
     /**
@@ -43,12 +44,14 @@ class DeceasedController extends Controller
                     'dateofbirth' => 'required',
                     'dateof_burial' => 'required',
                     'burial_time' => 'required',
+                    'civilstatus' => 'required|in:S,M,W,D',
+                    'sex' => 'required|in:M,F',
                     'region' => 'required',
                     'province' => 'required',
                     'city' => 'required',
                     'barangay' => 'required',
                     'causeofdeath' => 'required',
-                    'service_id' => 'required',
+                    // 'service_id' => 'required',
                     'contactperson' => 'required',
                     'relationship' => 'required',
                     'contactnumber' => 'required|min:11|max:11',
@@ -65,6 +68,8 @@ class DeceasedController extends Controller
                     'dateofbirth' => 'required',
                     'dateof_burial' => 'required',
                     'burial_time' => 'required',
+                    'civilstatus' => 'required|in:S,M,W,D',
+                    'sex' => 'required|in:M,F',
                     'region' => 'required',
                     'province' => 'required',
                     'city' => 'required',
@@ -74,7 +79,7 @@ class DeceasedController extends Controller
                     'city1' => 'required',
                     'barangay1' => 'required',
                     'causeofdeath' => 'required',
-                    'service_id' => 'required',
+                    // 'service_id' => 'required',
                     'contactperson' => 'required',
                     'relationship' => 'required',
                     'contactnumber' => 'required|min:11|max:11',
@@ -91,33 +96,157 @@ class DeceasedController extends Controller
             else
             {
                 //Address
-                $address = Address::where([
-                    'region_no' => $request->region,
-                    'region' => $request->region_text,
-                    'province_no' => $request->province,
-                    'province' => $request->province_text,
-                    'city_no' => $request->city,
-                    'city' => $request->city_text,
-                    'barangay_no' => $request->barangay,
-                    'barangay' => $request->barangay_text
-                ])->count();
-
-                if($address > 0)
+                $address = 1;
+                $contactperson = 1;
+                if($request->sameaddress == 1)
                 {
-                    $address = 1;
+                    $address = Address::where([
+                        'region_no' => $request->region,
+                        'region' => strtoupper($request->region_text),
+                        'province_no' => $request->province,
+                        'province' => strtoupper($request->province_text),
+                        'city_no' => $request->city,
+                        'city' => strtoupper($request->city_text),
+                        'barangay_no' => $request->barangay,
+                        'barangay' => strtoupper($request->barangay_text)
+                    ])->first();
+
+                    if($address !== null)
+                    {
+                        $address = $address->id;
+                    }
+                    else
+                    {
+                        $address = new Address;
+                        $address->region_no = $request->region;
+                        $address->region = strtoupper($request->region_text);
+                        $address->province_no = $request->province;
+                        $address->province =  strtoupper($request->province_text);
+                        $address->city_no = $request->city;
+                        $address->city = strtoupper($request->city_text);
+                        $address->barangay_no = $request->barangay;
+                        $address->barangay = strtoupper($request->barangay_text);
+                        $address->save();
+                        $address = $address->id;
+                    }
+
+                    $contactperson = User::where([
+                        'role' => 3,
+                        'address_id' => $address,
+                        'name' => strtoupper($request->contactperson),
+                    ])->first();
+    
+                    if($contactperson !== null)
+                    {
+                        $contactperson = $contactperson->id;
+                    }
+                    else
+                    {
+                        $contactperson = new User();
+                        $contactperson->role = 3;
+                        $contactperson->name = strtoupper($request->contactperson);
+                        $contactperson->contactnumber = $request->contactnumber;
+                        $contactperson->address_id = $address;
+                        $contactperson->save();
+                        $contactperson = $contactperson->id;
+                    }
                 }
                 else
                 {
-                    $address = new Address;
-                    $address->region_no = $request->region;
-                    $address->region = $request->region_text;
-                    $address->province_no = $request->province;
-                    $address->province = $request->province_text;
-                    $address->city_no = $request->city;
-                    $address->city = $request->city_text;
-                    $address->barangay_no = $request->barangay;
-                    $address->barangay = $request->barangay_text;
-                    $address->save();
+                    $address = Address::where([
+                        'region_no' => $request->region1,
+                        'region' => strtoupper($request->region_text1),
+                        'province_no' => $request->province1,
+                        'province' => strtoupper($request->province_text1),
+                        'city_no' => $request->city1,
+                        'city' => strtoupper($request->city_text1),
+                        'barangay_no' => $request->barangay1,
+                        'barangay' => strtoupper($request->barangay_text1)
+                    ])->first();
+
+                    if($address !== null)
+                    {
+                        $address = $address->id;
+                    }
+                    else
+                    {
+                        $address = new Address;
+                        $address->region_no = $request->region1;
+                        $address->region = strtoupper($request->region_text1);
+                        $address->province_no = $request->province1;
+                        $address->province =  strtoupper($request->province_text1);
+                        $address->city_no = $request->city1;
+                        $address->city = strtoupper($request->city_text1);
+                        $address->barangay_no = $request->barangay1;
+                        $address->barangay = strtoupper($request->barangay_text1);
+                        $address->save();
+                        $address = $address->id;
+                    }
+
+                    $contactperson = User::where([
+                        'role' => 3,
+                        'address_id' => $address,
+                        'name' => strtoupper($request->contactperson),
+                    ])->first();
+    
+                    if($contactperson !== null)
+                    {
+                        $contactperson = $contactperson->id;
+                    }
+                    else
+                    {
+                        $contactperson = new user();
+                        $contactperson->role = 3;
+                        $contactperson->name = strtoupper($request->contactperson);
+                        $contactperson->contactnumber = $request->contactnumber;
+                        $contactperson->address_id = $address;
+                        $contactperson->save();
+                        $contactperson = $contactperson->id;
+                    }
+                }
+
+                //Add Deceased
+                $deceased = Deceased::where([
+                    'service_id' => 1,
+                    'address_id' => $address,
+                    'contactperson_id' => $contactperson,
+                    'causeofdeath' => $request->causeofdeath,
+                    'lastname' => strtoupper($request->lastname),
+                    'middlename' => strtoupper($request->middlename),
+                    'firstname' => strtoupper($request->firstname),
+                    'civilstatus' => $request->civilstatus,
+                    'sex' => $request->sex,
+                    'dateof_death' => $request->dateof_death,
+                    'dateof_burial' => $request->dateof_burial,
+                    'burial_time' => $request->burial_time,
+                    'dateofbirth' => $request->dateofbirth,
+                ])->first();
+
+                if($deceased !== null)
+                {
+                    $status = 0;
+                    $message = "Deceased already exists.";
+                }
+                else
+                {
+                    $deceased = new Deceased;
+                    $deceased->service_id = 1;
+                    $deceased->address_id = $address;
+                    $deceased->contactperson_id = $contactperson;
+                    $deceased->causeofdeath = $request->causeofdeath;
+                    $deceased->lastname = strtoupper($request->lastname);
+                    $deceased->middlename = strtoupper($request->middlename);
+                    $deceased->firstname = strtoupper($request->firstname);
+                    $deceased->civilstatus = $request->civilstatus;
+                    $deceased->sex = $request->sex;
+                    $deceased->dateof_death = $request->dateof_death;
+                    $deceased->dateof_burial = $request->dateof_burial;
+                    $deceased->burial_time = $request->burial_time;
+                    $deceased->dateofbirth = $request->dateofbirth;
+                    $deceased->save();
+
+                    $status = 1;
+                    $message = "Deceased has been successfully registered.";
                 }
             }
             $json = [

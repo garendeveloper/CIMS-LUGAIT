@@ -20,12 +20,12 @@ return new class extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
 
-            // $table->unsignedBigInteger('nationality_id');
-            // $table->foreign('nationality_id')
-            //     ->references('id')
-            //     ->on('nationalities')
-            //     ->onUpdate('cascade')
-            //     ->onDelete('cascade');  
+            $table->unsignedBigInteger('contactperson_id');
+            $table->foreign('contactperson_id')
+                ->references('id')
+                ->on('users')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');  
         
             // $table->unsignedBigInteger('cod_id');
             // $table->foreign('cod_id')

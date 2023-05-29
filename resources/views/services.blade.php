@@ -153,18 +153,36 @@
                 {
                     for(var i = 0; i<data.length; i++)
                     {
-                        row += '<tr data-id = '+data[i].id+' style = "text-transform: uppercase">';
-                        row += '<td data-column_name  = "service_name" data-id = '+data[i].id+'>'+data[i].service_name+'</td>';
-                        row += '<td data-id = '+data[i].id+'>'+data[i].created_at+'</td>';    
-                        row += '<td data-id = '+data[i].id+'>'+data[i].updated_at+'</td>';
-                        row += '<td align = "center">';
-                        row += '<button data-id = '+data[i].id+' id = "btn_edit" type="button" class="btn btn-success btn-sm btn-flat">';
-                        row += '<i class = "fa fa-edit"></i>';
-                        row += '</button>';
-                        row += '<button data-id = '+data[i].id+' id = "btn_remove" type="button" class="btn btn-danger btn-sm btn-flat">';
-                        row += '<i class = "fas fa fa-trash"></i>';
-                        row += '</button></td>';
-                        row += '</tr>';
+                        if(data[i].service_name == "NEW ARRIVAL")
+                        {
+                            row += '<tr data-id = '+data[i].id+' class = "disabled" style = "background-color: darkgray; text-transform: uppercase">';
+                            row += '<td data-column_name  = "service_name" data-id = '+data[i].id+'>'+data[i].service_name+'</td>';
+                            row += '<td data-id = '+data[i].id+'>'+data[i].created_at+'</td>';    
+                            row += '<td data-id = '+data[i].id+'>'+data[i].updated_at+'</td>';
+                            row += '<td align = "center">';
+                            row += '<button data-id = '+data[i].id+'  type="button" class="btn btn-success btn-sm btn-flat disabled">';
+                            row += '<i class = "fa fa-edit disabled"></i>';
+                            row += '</button>';
+                            row += '<button data-id = '+data[i].id+'  type="button" class="btn btn-danger btn-sm btn-flat disabled">';
+                            row += '<i class = "fas fa fa-trash disabled"></i>';
+                            row += '</button></td>';
+                            row += '</tr>';
+                        }
+                        else
+                        {
+                            row += '<tr data-id = '+data[i].id+' style = "text-transform: uppercase">';
+                            row += '<td data-column_name  = "service_name" data-id = '+data[i].id+'>'+data[i].service_name+'</td>';
+                            row += '<td data-id = '+data[i].id+'>'+data[i].created_at+'</td>';    
+                            row += '<td data-id = '+data[i].id+'>'+data[i].updated_at+'</td>';
+                            row += '<td align = "center">';
+                            row += '<button data-id = '+data[i].id+' id = "btn_edit" type="button" class="btn btn-success btn-sm btn-flat">';
+                            row += '<i class = "fa fa-edit"></i>';
+                            row += '</button>';
+                            row += '<button data-id = '+data[i].id+' id = "btn_remove" type="button" class="btn btn-danger btn-sm btn-flat">';
+                            row += '<i class = "fas fa fa-trash"></i>';
+                            row += '</button></td>';
+                            row += '</tr>';
+                        }
                     }
                 }
                 else

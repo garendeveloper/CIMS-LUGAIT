@@ -51,7 +51,7 @@
                 <div class="form-group row">
                   
                     <div class="col-md-4">
-                        <button class = "btn btn-primary" id = "btn_add"><i class = "fa fa-plus-square"></i></button>
+                        <button class = "btn btn-danger" id = "btn_add"><i class = "fa fa-plus-square"></i> Add New Arrival</button>
                     </div>
                     <div class="col-md-2">
                         <input type="text" autocomplete = "off" class = "form-control" id = "search">
@@ -76,8 +76,8 @@
                   <thead style = "background-color: #170036; color: white">
                   <tr>
                     <th>Last Name</th>
+                    <th>Niddle Name</th>
                     <th>First Name</th>
-                    <th>Middlename</th>
                     <th>Address</th>
                     <th>Date of death</th>
                     <th>Service</th>
@@ -119,6 +119,7 @@
             <form action="" id = "cemetery_form" method="post">
                 {{ csrf_field() }}
                 <div class="modal-body">
+                    <h5 style = "color: red"><b>Deceased Information</b> </h5><p></p>
                     <div class="row" >
                         <div class="col-md-3" >
                             <label for="">Last Name</label>
@@ -127,7 +128,7 @@
                                 <span class="input-group-text"><i class="fas fa-user"></i></span>
                                 </div>
                                 <input type="text" autocomplete = "off" 
-                                onkeydown="return /[a-zA-Z]/i.test(event.key)"
+                                onkeydown="return /[a-zA-Z, ]/i.test(event.key)"
                                 name="lastname" id="lastname" class="form-control form-control-border">
                             </div>
                             <span style = "color: red" class = "span" id = "sp_lastname"></span>
@@ -138,17 +139,17 @@
                                 <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-user"></i></span>
                                 </div>
-                                <input type="text" autocomplete = "off" onkeydown="return /[a-zA-Z]/i.test(event.key)" name="middlename" id="middlename" class="form-control form-control-border">
+                                <input type="text" autocomplete = "off" onkeydown="return /[a-zA-Z, ]/i.test(event.key)" name="middlename" id="middlename" class="form-control form-control-border">
                             </div>
                             <span style = "color: red" class = "span" id = "sp_middlename"></span>
                         </div>
                         <div class="col-md-3">
-                            <label for="">Middle Name</label>
+                            <label for="">First Name</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-user"></i></span>
                                 </div>
-                                <input type="text" autocomplete = "off" onkeydown="return /[a-zA-Z]/i.test(event.key)" name="firstname" id="firstname" class="form-control form-control-border">
+                                <input type="text" autocomplete = "off" onkeydown="return /[a-zA-Z, ]/i.test(event.key)" name="firstname" id="firstname" class="form-control form-control-border">
                             </div>
                             <span style = "color: red" class = "span" id = "sp_firstname"></span>
                         </div>
@@ -160,56 +161,26 @@
                     </div>
                     <p></p>
                     <div class="row">
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <label for="">Date of Birth</label>
                             <input type="date" name="dateofbirth" id="dateofbirth" class="form-control form-control-border">
                             <span style = "color: red" class = "span" id = "sp_dateofbirth"></span>
                         </div>
-                        <div class="col-md-4">
-                            <label for="">Civil Status</label>
-                            <div class="form-group clearfix">
-                                <div class="icheck-primary d-inline">
-                                    <input type="radio" id="radioPrimary1" value = "S" id = "civilstatus" name="civilstatus" required>
-                                    <label for="radioPrimary1">
-                                        Single
-                                    </label>
-                                </div>
-                                <div class="icheck-success d-inline">
-                                    <input type="radio" id="radioPrimary2"  value = "M" id = "civilstatus" name="civilstatus">
-                                    <label for="radioPrimary2">
-                                        Married
-                                    </label>
-                                </div>
-                                <div class="icheck-danger d-inline">
-                                    <input type="radio" id="radioPrimary3" value = "W" id = "civilstatus" name="civilstatus">
-                                    <label for="radioPrimary3">
-                                        Widowed
-                                    </label>
-                                </div>
-                                <div class="icheck-danger d-inline">
-                                    <input type="radio" id="radioPrimary4" value = "D" id = "civilstatus" name="civilstatus">
-                                    <label for="radioPrimary4">
-                                        Divorced
-                                    </label>
-                                </div>
-                            </div>
-                            <span style = "color: red" class = "span" id = "sp_civilstatus"></span>
-                        </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <label for="">Date of Burial</label>
                             <input type="date" name="dateof_burial" id="dateof_burial" class="form-control form-control-border">
                             <span style = "color: red" class = "span" id = "sp_dateofburial"></span>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <label for="">Time</label>
                             <input type="time" name="burial_time" id="burial_time" class ="form-control form-control-border">
                             <span style = "color: red" class = "span" id = "sp_burialtime"></span>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <label for="">Sex</label>
                             <div class="form-group clearfix">
                                 <div class="icheck-primary d-inline">
-                                    <input type="radio" id="radioPrimary5" value = "M" id = "sex" name="sex" required>
+                                    <input type="radio" id="radioPrimary5" value = "M" id = "sex" name="sex">
                                     <label for="radioPrimary5">
                                         Male
                                     </label>
@@ -267,6 +238,36 @@
                             <span style = "color: red" class = "span" id = "sp_causeofdeath"></span>
                         </div>
                         <div class="col-md-6">
+                            <label for="">Civil Status</label>
+                            <div class="form-group clearfix">
+                                <div class="icheck-primary d-inline">
+                                    <input type="radio" id="radioPrimary1" value = "S" id = "civilstatus" name="civilstatus">
+                                    <label for="radioPrimary1">
+                                        Single
+                                    </label>
+                                </div>
+                                <div class="icheck-success d-inline">
+                                    <input type="radio" id="radioPrimary2"  value = "M" id = "civilstatus" name="civilstatus">
+                                    <label for="radioPrimary2">
+                                        Married
+                                    </label>
+                                </div>
+                                <div class="icheck-danger d-inline">
+                                    <input type="radio" id="radioPrimary3" value = "W" id = "civilstatus" name="civilstatus">
+                                    <label for="radioPrimary3">
+                                        Widowed
+                                    </label>
+                                </div>
+                                <div class="icheck-danger d-inline">
+                                    <input type="radio" id="radioPrimary4" value = "D" id = "civilstatus" name="civilstatus">
+                                    <label for="radioPrimary4">
+                                        Divorced
+                                    </label>
+                                </div>
+                            </div>
+                            <span style = "color: red" class = "span" id = "sp_civilstatus"></span>
+                        </div>
+                        <!-- <div class="col-md-6">
                             <label for=""><u>Other Services</u> </label>
                             <div class="form-group ">
                                 <select class="form-control form-control-border  select2-info" data-dropdown-css-class="select2-info" id = "service_id" name = "service_id" style="width: 100%;">
@@ -274,8 +275,10 @@
                                 </select>
                                 <span style = "color: red" class = "span" id = "sp_service"></span>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
+                    <p></p>
+                    <h5 style = "color: green"><b>Contact Person Information</b> </h5><p></p>
                     <div class="row" >
                         <div class="col-md-4" >
                             <label for="">Contact Person</label>
@@ -283,12 +286,12 @@
                                 <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-user"></i></span>
                                 </div>
-                                <input type="text" autocomplete = "off" onkeydown="return /[a-zA-Z]/i.test(event.key)" name="contactperson" id="contactperson" class="form-control form-control-border">
+                                <input type="text" autocomplete = "off" onkeydown="return /[a-zA-Z, ]/i.test(event.key)" name="contactperson" id="contactperson" class="form-control form-control-border">
                             </div>
                             <span style = "color: red" class = "span" id = "sp_contactperson"></span>
                         </div>
                         <div class="col-md-4">
-                            <label for="">Relationship</label>
+                            <label for="">Relationship to the Deceased</label>
                             <select  class="form-control form-control-border select2-primary"  data-dropdown-css-class="select2-primary" id = "relationship" name = "relationship" style="width: 100%;">
                                 <option value="1">SIBLING</option>
                                 <option value="2">COUSIN</option>
@@ -582,16 +585,16 @@
                     firstname: $("#firstname").val(),
                     dateof_death: $("#dateof_death").val(),
                     dateofbirth: $("#dateofbirth").val(),
-                    civilstatus: $("#civilstatus").val(),
+                    civilstatus: $("input[name='civilstatus']:checked").val(),
                     dateof_burial: $("#dateof_burial").val(),
                     burial_time: $("#burial_time").val(),
-                    sex: $("#sex").val(),
+                    sex: $("input[name='sex']:checked").val(),
                     region: $("#region").val(),
                     province: $("#province").val(),
                     city: $("#city").val(),
                     barangay: $("#barangay").val(),
                     causeofdeath: $("#causeofdeath").val(),
-                    service_id: $("#service_id").val(),
+                    // service_id: $("#service_id").val(),
                     contactperson: $("#contactperson").val(),
                     relationship: $("#relationship").val(),
                     contactnumber: $("#contactnumber").val(),
@@ -613,7 +616,15 @@
                 success: function(response){
                     if(response.status == 1)
                     {
-                        $("input[type='text]'").removeClass('is-invalid');
+                        $("input[type='text']").removeClass('is-invalid');
+                        $("input[type='radio']").removeClass('is-invalid');
+                        $("input[type='checkbox']").removeClass('is-invalid');
+                        $("input[type='date']").removeClass('is-invalid');
+                        $("input[type='number']").removeClass('is-invalid');
+                        $(".select2-primary").removeClass('is-invalid');
+                        $(".select2-info").removeClass('is-invalid');
+                        $(".span").html("");
+                        $("#modal_form").modal('hide');
                         $(document).Toasts('create', {
                             class: 'bg-success',
                             title: 'Responses',
@@ -743,13 +754,7 @@
                     }
                     else
                     {
-                        $(document).Toasts('create', {
-                            class: 'bg-danger',
-                            title: 'Responses',
-                            autohide: true,
-                            delay: 3000,
-                            body: response.message,
-                        })
+                        alert(response.message);
                     }
                 },
                 error: function(response)
