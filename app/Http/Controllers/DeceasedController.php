@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Address;
 use App\Models\User;
+use DB;
 class DeceasedController extends Controller
 {
     /**
@@ -257,6 +258,15 @@ class DeceasedController extends Controller
         }
     }
 
+    public function get_allData()
+    {
+        $data = DB::select('select addresses.*, services.*, users.*, deceaseds.*, deceaseds.id as deceased_id
+                            from addresses, users, deceaseds, services
+                            where addresses.id = deceaseds.address_id
+                            and services.id = deceaseds.service_id
+                            and users.id = deceaseds.contactperson_id');
+        return response()->json($data);
+    }
     /**
      * Display the specified resource.
      */

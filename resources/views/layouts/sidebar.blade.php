@@ -51,8 +51,15 @@
               <i class="nav-icon fas fa-copy"></i>
               <p>
                 Coffin Plots
-                <i class="fas fa-angle-left right"></i>
-                <span class="badge badge-info right">6</span>
+                <!-- <span class="badge badge-info right">6</span> -->
+              </p>
+            </a>
+          </li>
+          <li class="nav-item" >  
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-users"></i>
+              <p>
+                Manage Users
               </p>
             </a>
           </li>

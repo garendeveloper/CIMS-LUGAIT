@@ -64,8 +64,6 @@
                   <thead style = "background-color: #170036; color: white">
                   <tr>
                     <th>Service Name</th>
-                    <th>Created At</th>
-                    <th>Updated At</th>
                     <th>Action</th>
                   </tr>
                   </thead>
@@ -157,8 +155,6 @@
                         {
                             row += '<tr data-id = '+data[i].id+' class = "disabled" style = "background-color: darkgray; text-transform: uppercase">';
                             row += '<td data-column_name  = "service_name" data-id = '+data[i].id+'>'+data[i].service_name+'</td>';
-                            row += '<td data-id = '+data[i].id+'>'+data[i].created_at+'</td>';    
-                            row += '<td data-id = '+data[i].id+'>'+data[i].updated_at+'</td>';
                             row += '<td align = "center">';
                             row += '<button data-id = '+data[i].id+'  type="button" class="btn btn-success btn-sm btn-flat disabled">';
                             row += '<i class = "fa fa-edit disabled"></i>';
@@ -172,8 +168,6 @@
                         {
                             row += '<tr data-id = '+data[i].id+' style = "text-transform: uppercase">';
                             row += '<td data-column_name  = "service_name" data-id = '+data[i].id+'>'+data[i].service_name+'</td>';
-                            row += '<td data-id = '+data[i].id+'>'+data[i].created_at+'</td>';    
-                            row += '<td data-id = '+data[i].id+'>'+data[i].updated_at+'</td>';
                             row += '<td align = "center">';
                             row += '<button data-id = '+data[i].id+' id = "btn_edit" type="button" class="btn btn-success btn-sm btn-flat">';
                             row += '<i class = "fa fa-edit"></i>';

@@ -62,29 +62,26 @@
                 table, td, th{
                     border: 1px solid #170036;
                 }
-                table{
+                /* table{
                     border-collapse: collapse;
                     width: 100%;
                 }
                 th{
                     height: 30px;
-                }
+                } */
               </style>
               <!-- /.card-header -->
               <div class="card-body">
-                <table id="tbl_deceased" style = "font-size: 12px;" class="">
+                <table id="tbl_deceaseds"  class="table table-stripped table-bordered">
                   <thead style = "background-color: #170036; color: white">
-                  <tr>
-                    <th>Last Name</th>
-                    <th>Niddle Name</th>
-                    <th>First Name</th>
-                    <th>Address</th>
-                    <th>Date of death</th>
-                    <th>Service</th>
-                    <th>Nationality</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                  </tr>
+                    <tr>
+                        <th>Full Name (L,M,F)</th>
+                        <th>Address</th>
+                        <th>Date of death</th>
+                        <th>Sex</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
                   </thead>
                   <tbody >
                  
@@ -495,7 +492,54 @@
     $("#btn_add").on('click', function(){
         $("#modal_form").modal({backdrop:'static', keyboard: false});
     })
-   
+    show_allData();
+    function show_allData()
+    {
+        $.ajax({
+        type: 'get',
+        url: "{{ route('deceaseds.get_allData') }}",
+        dataType: 'json',
+        success:function(data)
+        {
+            var row = "";
+            if(data.length > 0)
+            {
+                for(var i = 0; i<data.length; i++)
+                {
+                    row += '<tr data-id = '+data[i].deceased_id+' style = "text-transform: uppercase">';
+                    row += '<td>'+data[i].lastname+", "+data[i].middlename+" "+data[i].firstname+'</td>';
+                    row += '<td>'+data[i].barangay+", "+data[i].city+", "+data[i].province+" "+data[i].region+'</td>';
+                    row += '<td>'+data[i].dateof_death+'</td>';
+                    row += '<td>'+data[i].sex+'</td>';
+                    row += '<td><span class = "badge badge-danger right"> '+data[i].service_name+'</span></td>';
+                    row += '<td align = "center">';
+                    row += '<button data-id = '+data[i].deceased_id+' id = "btn_assign" type="button" class="btn btn-primary btn-sm btn-flat">';
+                    row += '<i class = "fa fa-building"></i>';
+                    row += '</button>';
+                    row += '<button data-id = '+data[i].deceased_id+' id = "btn_edit" type="button" class="btn btn-success btn-sm btn-flat">';
+                    row += '<i class = "fa fa-edit"></i>';
+                    row += '</button>';
+                    row += '<button data-id = '+data[i].deceased_id+' id = "btn_info" type="button" class="btn btn-primary btn-sm btn-flat">';
+                    row += '<i class = "fa fa-info"></i>';
+                    row += '</button>';
+                    row += '<button data-id = '+data[i].deceased_id+' id = "btn_remove" type="button" class="btn btn-danger btn-sm btn-flat">';
+                    row += '<i class = "fas fa fa-trash"></i>';
+                    row += '</button></td>';
+                    row += '</tr>';
+                }
+            }
+            else
+            {
+                row += '<tr style = "text-transform: uppercase"><td colspan = "8">No data available</td></tr>';
+            }
+            $("#tbl_deceaseds tbody").html(row);
+        },
+        error: function()
+        {
+            alert("System cannot process request.")
+        }
+        })
+    }
     function show_allServices()
     {
         $.ajax({

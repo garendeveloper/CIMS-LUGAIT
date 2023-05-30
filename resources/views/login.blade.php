@@ -8,19 +8,23 @@
   @include('references/links')
 
 </head>
-
+<style>
+  body{
+  background: url("/dist/img/cemetery.jpg") no-repeat center fixed;
+  background-size: cover;
+}
+</style>
 <body class="hold-transition login-page">
-<div class="googlemaps"></div>
 <div class="login-box">
   
   <!-- /.login-logo -->
   <div class="card">
     <div class="card-body login-card-body">
       <div class="login-logo">
-        <img src="{{ asset('/assets/img/logos/calvarylogo.png') }}" style = "width: 120px; height: 120px" alt="">
+        <!-- <img src="{{ asset('/assets/img/logos/calvarylogo.png') }}" style = "width: 120px; height: 120px" alt=""> -->
         <img src="{{ asset('/assets/img/logos/Lugait.png') }}" style = "width: 120px; height: 120px" alt="">
       </div>
-      <p class="login-box-msg">Sign in to start your session</p>
+      <p class="login-box-msg">Meedo Lugait Center</p>
 
       <form action="" id = "login_form" method="post">
         <input type="hidden" value="{{ csrf_token() }}">
