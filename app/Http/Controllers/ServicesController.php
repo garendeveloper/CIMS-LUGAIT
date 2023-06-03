@@ -48,7 +48,7 @@ class ServicesController extends Controller
         else
         {
             $service = new Services;
-            $service->service_name = ucwords($request->service_name);
+            $service->service_name = strtoupper($request->service_name);
             $service->save();
 
             $status = 1;
@@ -93,7 +93,7 @@ class ServicesController extends Controller
         else
         {
             $service = Services::find($request->service_id);
-            $service->service_name = ucwords($request->service_name);
+            $service->service_name = strtoupper($request->service_name);
             $service->update();
 
             $status = 1;

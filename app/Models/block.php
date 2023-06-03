@@ -9,6 +9,6 @@ class block extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['block_number', 'section_name'];
+    protected $fillable = ['slot', 'section_name', 'block_cost'];
 
 }

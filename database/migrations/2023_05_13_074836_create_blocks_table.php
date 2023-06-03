@@ -13,9 +13,12 @@ return new class extends Migration
     {
         Schema::create('blocks', function (Blueprint $table) {
             $table->id();
-            $table->string('block_number');
+            $table->string('slot');
             $table->string('section_name')->nullable();
             $table->bigInteger('block_cost');
+            //1 = Active
+            //0 = Deactivated
+            $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });
     }

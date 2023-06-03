@@ -12,6 +12,7 @@ class deceased extends Model
         'lastname',
         'firstname',
         'middlename',
+        'suffix',
         'civilstatus',
         'address_id',
         'causeofdeath',

@@ -29,7 +29,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Manage Deceaseds</h1>
+            <h4>Manage Deceaseds <span class = "badge badge-sm badge-success" id = "no_ofrecords">0</span></h4>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -49,12 +49,16 @@
             <div class="card">
               <div class="card-header">
                 <div class="form-group row">
-                  
                     <div class="col-md-4">
-                        <button class = "btn btn-danger" id = "btn_add"><i class = "fa fa-plus-square"></i> Add New Arrival</button>
+                        <button class = "btn btn-danger" id = "btn_add"><i class = "fa fa-user-injured"></i> &nbsp;&nbsp;Add New Deceased</button>
                     </div>
-                    <div class="col-md-2">
-                        <input type="text" autocomplete = "off" class = "form-control" id = "search">
+                    <div class="col-md-8">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                            <span class="input-group-text" ><i class="fas fa-search"></i></span>
+                            </div>
+                            <input type="text" class = "form-control" style ="text-transform: uppercase" placeholder = "Search Record Here" id = "search">
+                        </div>
                     </div>
                 </div>
               </div>
@@ -151,9 +155,24 @@
                             <span style = "color: red" class = "span" id = "sp_firstname"></span>
                         </div>
                         <div class="col-md-3">
-                            <label for="">Date of Death</label>
-                            <input type="date" name="dateof_death" id="dateof_death" class="form-control form-control-border">
-                            <span style = "color: red" class = "span" id = "sp_dateofdeath"></span>
+                            <label for="">Suffix</label>
+                            <select class="form-control form-control-border select2-primary" data-dropdown-css-class="select2-primary" id = "suffix" name = "suffix" style="width: 100%;">
+                                <option value="">-- Please select here</option>
+                                <option value="N">NONE</option>
+                                <option value="SR">SR</option>
+                                <option value="JR">JR</option>
+                                <option value="I">I</option>
+                                <option value="II">II</option>
+                                <option value="III">III</option>
+                                <option value="IV">IV</option>
+                                <option value="V">V</option>
+                                <option value="VI">VI</option>
+                                <option value="VII">VII</option>
+                                <option value="VIII">VIII</option>
+                                <option value="IX">IX</option>
+                                <option value="X">X</option>
+                            </select>
+                            <span style = "color: red" class = "span" id = "sp_suffix"></span>
                         </div>
                     </div>
                     <p></p>
@@ -197,6 +216,7 @@
                         <div class="col-md-3">
                             <label for="">Region</label>
                             <select class="form-control form-control-border select2-primary" data-dropdown-css-class="select2-primary" id = "region" name = "region" style="width: 100%;">
+                                
                             </select>
                             <span style = "color: red" class = "span" id = "sp_region"></span>
                         </div>
@@ -221,10 +241,10 @@
                     </div>
                     <p></p>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label for=""><u>Cause of Death</u></label>
                             <select class="form-control form-control-border select2-primary" data-dropdown-css-class="select2-primary" id = "causeofdeath" name = "causeofdeath" style="width: 100%;">
-                                <option value="">--Select Here--</option>
+                                <option value="">-- Please select here</option>
                                 <option value="N">NATURAL</option>
                                 <option value="A">ACCIDENT</option>
                                 <option value="H">HOMICIDE</option>
@@ -234,7 +254,12 @@
                             </select>
                             <span style = "color: red" class = "span" id = "sp_causeofdeath"></span>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
+                            <label for="">Date of Death</label>
+                            <input type="date" name="dateof_death" id="dateof_death" class="form-control form-control-border">
+                            <span style = "color: red" class = "span" id = "sp_dateofdeath"></span>
+                        </div>
+                        <div class="col-md-4">
                             <label for="">Civil Status</label>
                             <div class="form-group clearfix">
                                 <div class="icheck-primary d-inline">
@@ -264,15 +289,6 @@
                             </div>
                             <span style = "color: red" class = "span" id = "sp_civilstatus"></span>
                         </div>
-                        <!-- <div class="col-md-6">
-                            <label for=""><u>Other Services</u> </label>
-                            <div class="form-group ">
-                                <select class="form-control form-control-border  select2-info" data-dropdown-css-class="select2-info" id = "service_id" name = "service_id" style="width: 100%;">
-                                
-                                </select>
-                                <span style = "color: red" class = "span" id = "sp_service"></span>
-                            </div>
-                        </div> -->
                     </div>
                     <p></p>
                     <h5 style = "color: green"><b>Contact Person Information</b> </h5><p></p>
@@ -290,6 +306,7 @@
                         <div class="col-md-4">
                             <label for="">Relationship to the Deceased</label>
                             <select  class="form-control form-control-border select2-primary"  data-dropdown-css-class="select2-primary" id = "relationship" name = "relationship" style="width: 100%;">
+                                <option value="">-- Please select here</option>
                                 <option value="1">SIBLING</option>
                                 <option value="2">COUSIN</option>
                                 <option value="3">PARENT</option>
@@ -384,7 +401,7 @@
     var my_handlers = {
 
         fill_provinces:  function(){
-
+          
             var region_code = $(this).val();
             $('#province').ph_locations('fetch_list', [{"region_code": region_code}]);
             
@@ -421,7 +438,7 @@
 
 
         fill_barangays: function(){
-
+           
             var city_code = $(this).val();
             $('#barangay1').ph_locations('fetch_list', [{"city_code": city_code}]);
         }
@@ -502,6 +519,7 @@
         success:function(data)
         {
             var row = "";
+            $("#no_ofrecords").text(data.length);
             if(data.length > 0)
             {
                 for(var i = 0; i<data.length; i++)
@@ -627,6 +645,7 @@
                     lastname: $("#lastname").val(),
                     middlename: $("#middlename").val(),
                     firstname: $("#firstname").val(),
+                    suffix: $("#suffix").val(),
                     dateof_death: $("#dateof_death").val(),
                     dateofbirth: $("#dateofbirth").val(),
                     civilstatus: $("input[name='civilstatus']:checked").val(),
@@ -694,6 +713,11 @@
                             {
                                 $("#sp_middlename").text(value);
                                 $("#middlename").addClass('is-invalid');
+                            }
+                            else if(key == "suffix")
+                            {
+                                $("#sp_suffix").text(value);
+                                $("#suffix").addClass('is-invalid');
                             }
                             else if(key == "dateof_death")
                             {

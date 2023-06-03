@@ -20,11 +20,11 @@
   <!-- /.login-logo -->
   <div class="card">
     <div class="card-body login-card-body">
-      <div class="login-logo">
+      <div class="login-logo" >
         <!-- <img src="{{ asset('/assets/img/logos/calvarylogo.png') }}" style = "width: 120px; height: 120px" alt=""> -->
         <img src="{{ asset('/assets/img/logos/Lugait.png') }}" style = "width: 120px; height: 120px" alt="">
       </div>
-      <p class="login-box-msg">Meedo Lugait Center</p>
+      <h5 class="login-box-msg">MEEDO USER LOGIN</h5>
 
       <form action="" id = "login_form" method="post">
         <input type="hidden" value="{{ csrf_token() }}">

@@ -47,6 +47,9 @@
 <!-- dropzonejs -->
 <script src="{{ asset('plugins/dropzone/min/dropzone.min.js') }}"></script>
 
+<!-- Number Format -->
+<script src="{{ asset('numberformat/jquery.number.js') }}"></script>
+
 
 <!-- PAGE PLUGINS -->
 <!-- jQuery Mapael -->

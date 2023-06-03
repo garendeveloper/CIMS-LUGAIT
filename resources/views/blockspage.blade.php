@@ -41,7 +41,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Space Areas</h1>
+            <h1>Space Areas <span class = "badge badge-success" id = "no_ofrecords">1</span></h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -76,9 +76,9 @@
                 <table id="tbl_spaceAreas" class="table table-bordered table-striped">
                   <thead style = "background-color: #170036; color: white">
                   <tr>
-                    <th>Block Number</th>
                     <th>Section Name</th>
-                    <th>Block Cost</th>
+                    <th>Slot / Vacancy</th>
+                    <th>Section Cost</th>
                     <th style = "text-align: center">Action</th>
                   </tr>
                   </thead>
@@ -116,26 +116,61 @@
                 <div class="modal-body">
                     <div class="row" >
                         <input type="hidden" name = "block_id" id = "block_id" value = "">
-                        <div class="col-md-4" >
-                            <label for="">Block Number <span style="color:red">*</span></label>
-                            <input type="text" style = "text-transform: uppercase" name="block_number" id="block_number" class="form-control form-control-border border-width-3" autocomplete = "off">
-                            <span style ="color:red; font-size: 12px" id = "errmsg_blocknumber"></span>
-                        </div>
                         <div class="col-md-4">
                             <label for="">Section Name <span style="color:red">*</span></label>
                             <input type="text" style = "text-transform: uppercase" name="section_name" id="section_name" class="form-control form-control-border border-width-3" autocomplete = "off">
-                            <span style ="color:red; font-size: 12px" id = "errmsg_sectionname"></span>
+                            <span class = "span_error" style ="color:red; font-size: 12px" id = "errmsg_sectionname"></span>
+                        </div>
+                        <div class="col-md-4" >
+                            <label for="">Slot / Vacancy<span style="color:red">*</span></label>
+                            <input type="number" style = "text-transform: uppercase" name="slot" id="slot" class="form-control form-control-border border-width-3" autocomplete = "off">
+                            <span class = "span_error" style ="color:red; font-size: 12px" id = "errmsg_blocknumber"></span>
                         </div>
                         <div class="col-md-4">
-                            <label for="">Block Cost <span style="color:red">*</span></label>
+                            <label for="">Section Cost <span style="color:red">*</span></label>
                             <input type="number" style = "font-size: 25px; text-transform: uppercase; text-align: right;" name="block_cost" id="block_cost" class="form-control form-control-border border-width-3" autocomplete = "off">
-                            <span style ="color:red; font-size: 12px" id = "errmsg_blockcost"></span>
+                            <span class = "span_error" style ="color:red; font-size: 12px" id = "errmsg_blockcost"></span>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+    <!-- /.modal -->
+
+<div class="modal fade" id="slot_modal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header" style = "background-color: #170036; color: white;">
+                <img src="{{ asset('assets/img/logos/Lugait.png') }}" style = "width: 50px; height: 50px" alt="">    
+                <h6 class="modal-title" style = "font-weight: bold"> 
+                 ADJUST SECTION SLOT</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="" id = "slot_form" method="post">
+                <div class="modal-body">
+                    <div class="row" >
+                        <input type="hidden" name = "_block_id" id = "_block_id" value = "">
+                        <h5 style = "font-size: 12px; color: green">Note: <i> Just put negative sign to decrease the slot</i></h5>
+                        <div class="col-md-12">
+                            <label for="">ADJUST (<span style = "color: green; font-size: 15px;">+</span> <span style = "color: red; font-size: 15px;">-</span>)</label>
+                            <input type="number" value = "0" style = "font-size: 25px; text-transform: uppercase; text-align: right;"    
+                            name="_slot" id="_slot" class="form-control form-control-border border-width-3" autocomplete = "off">
+                            <span style ="color:red; font-size: 12px" id = "errmsg_slot"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="submit" class="btn btn-primary btn-block btn-sm">Save changes</button>
                 </div>
             </form>
         </div>
@@ -183,13 +218,50 @@
             });
         });
         $("#s_spaceareas").addClass('active');
-
+        $("#_slot").on('change', function(){
+           $(this).number(true, 2);
+        })
         $("#btn_openform").on('click', function(){
+            $("#slot").prop('readonly', false);
+            $("#block_form")[0].reset();
+            $("#block_id").val("");
+            $(".span_error").html("");
+            $("input").removeClass('is-invalid')
             $("#modal_form").modal({
                 'backdrop': 'static',
                 'keyboard': false
             });
         })
+        $("#tbl_spaceAreas tbody").on('click', "#btn_slot", function(){
+            var id = $(this).data('id');
+            $.ajax({
+                type: 'get',
+                url: '/spaceAreas/show/'+id,
+                dataType: 'json',
+                success: function(data)
+                {
+                    $("#slot_form").trigger('reset');
+                    $("#slot_modal").modal({
+                        'backdrop': 'static',
+                        'keyboard': false,
+                    });
+                    $("#_block_id").val(data.id);
+                    $("#slot_modal").find('.modal-title').text("ADJUST VACANCY FOR "+data.section_name+"")
+                },
+                error: function(error)
+                {
+                    $(document).Toasts('create', {
+                        class: 'bg-danger',
+                        title: 'Responses',
+                        autohide: true,
+                        delay: 3000,
+                        body: "Cannot process the request.",
+                    })
+                }
+            })
+        })
+        // apply the currencyFormat behaviour to elements with 'currency' as their class
+    
         show_allData();
         function show_allData()
         {
@@ -200,21 +272,25 @@
             success:function(data)
             {
                 var row = "";
+                $("#no_ofrecords").text(data.length + " Records");
                 if(data.length > 0)
                 {
                     for(var i = 0; i<data.length; i++)
                     {
                         row += '<tr data-id = '+data[i].id+' style = "text-transform: uppercase">';
-                        row += '<td  data-id = '+data[i].id+'>'+data[i].block_number+'</td>';
                         row += '<td data-id = '+data[i].id+'>'+data[i].section_name+'</td>';    
-                        row += '<td data-id = '+data[i].id+'>'+data[i].block_cost+'</td>';
+                        row += '<td  data-id = '+data[i].id+' style = "font-size: 20px; text-align: center; font-family: Times New Roman; font-weight: bold; color: red">'+data[i].slot+'</td>';
+                        row += '<td data-id = '+data[i].id+' style = "font-size: 20px; text-align: right; font-family: Times New Roman; "> P '+$.number(data[i].block_cost, 2)+'</td>';
                         row += '<td align = "center">';
                         row += '<button data-id = '+data[i].id+' id = "btn_edit" type="button" class="btn btn-success btn-sm btn-flat">';
                         row += '<i class = "fa fa-edit"></i>';
                         row += '</button>';
-                        row += '<button data-id = '+data[i].id+' id = "btn_remove" type="button" class="btn btn-danger btn-sm btn-flat">';
-                        row += '<i class = "fas fa fa-trash"></i>';
-                        row += '</button></td>';
+                        row += '<button data-id = '+data[i].id+' id = "btn_slot" type="button" class="btn btn-primary btn-sm btn-flat">';
+                        row += '<i class = "fa fa-laptop"></i>';
+                        row += '</button>';
+                        // row += '<button data-id = '+data[i].id+' id = "btn_de" type="button" class="btn btn-danger btn-sm btn-flat">';
+                        // row += '<i class = "fas fa fa-lock"></i>';
+                        // row += '</button></td>';
                         row += '</tr>';
                     }
                 }
@@ -230,9 +306,70 @@
             }
           })
         }
+        $("#slot_form").on('submit', function(e){
+            e.preventDefault();
+            if($("#_slot").val() == 0)
+            {
+                alert("No adjustment.");
+            }
+            else
+            {
+                if(confirm("Are you sure you want to expand this section?"))
+                {
+                    $.ajax({
+                        type: 'put',
+                        url: "{{ route('spaceareas.update', 'id') }}",
+                        data: {
+                            type: 'update_slot',
+                            _slot: $("#_slot").val(),
+                            _block_id: $("#_block_id").val()
+                        },
+                        dataType: 'json',
+                        success: function(response)
+                        {
+                            if(response.status == 1)
+                            {
+                                show_allData();
+                                $("#slot_modal").modal('hide');
+                                $("#slot_form").trigger('reset');
+                                $("input").removeClass('is-invalid');
+                                $(document).Toasts('create', {
+                                    class: 'bg-success',
+                                    title: 'Responses',
+                                    autohide: true,
+                                    delay: 3000,
+                                    body: response.message,
+                                })
+                            }
+                            else if(response.status == 2)
+                            {
+                                $("#slot_form").trigger('reset');
+                                $("input").removeClass('is-invalid');
+                                $.each(response.message, function(key,value) {
+                                    
+                                    if(key == "_slot")
+                                    {
+                                        $("#errmsg_slot").text(value);
+                                        $("input[name='slot']").addClass('is-invalid');
+                                    }
+                                }); 
+                            }
+                            else
+                            {
+                                alert(response.message);
+                            }
+                        },
+                        error: function(error)
+                        {
+                            alert("Cannot process the request.");
+                        }
+                    })   
+                }
+            }
+        })
         $("#block_form").on('submit', function(e){
             e.preventDefault();
-            var block_number = $("input[name='block_number']").val().toUpperCase();
+            var slot = $("input[name='slot']").val().toUpperCase();
             var section_name = $("input[name='section_name']").val().toUpperCase();
             var block_cost = $("input[name='block_cost']").val();
             var block_id = $("#block_id").val();
@@ -243,9 +380,10 @@
                     type: 'put',
                     url: "{{ route('spaceareas.update', 'id') }}",
                     data: {
+                        type: 'update_block',
                         block_id: block_id,
                         block_cost: block_cost,
-                        block_number: block_number,
+                        slot: slot,
                         section_name: section_name,
                     },
                     dataType: 'json',
@@ -284,10 +422,10 @@
                                     $("#errmsg_sectionname").text(value);
                                     $("input[name='section_name']").addClass('is-invalid');
                                 }
-                                if(key == "block_number")
+                                if(key == "slot")
                                 {
                                     $("#errmsg_blocknumber").text(value);
-                                    $("input[name='block_number']").addClass('is-invalid');
+                                    $("input[name='slot']").addClass('is-invalid');
                                 }
                             }); 
                         }
@@ -301,7 +439,6 @@
                         alert("Cannot process the request.");
                     }
                 })
-            
             }
             else
             {
@@ -310,7 +447,7 @@
                     url: "{{ route('spaceareas.store') }}",
                     data: {
                         block_cost: block_cost,
-                        block_number: block_number,
+                        slot: slot,
                         section_name: section_name,
                     },
                     dataType: 'json',
@@ -349,10 +486,10 @@
                                     $("#errmsg_sectionname").text(value);
                                     $("input[name='section_name']").addClass('is-invalid');
                                 }
-                                if(key == "block_number")
+                                if(key == "slot")
                                 {
                                     $("#errmsg_blocknumber").text(value);
-                                    $("input[name='block_number']").addClass('is-invalid');
+                                    $("input[name='slot']").addClass('is-invalid');
                                 }
                             }); 
                         }
@@ -370,6 +507,7 @@
         })
         
         $("#tbl_spaceAreas tbody").on('click', '#btn_edit', function(){
+            $("#slot").prop('readonly', true);
             var id = $(this).data('id');
             $.ajax({
                 type: 'get',
@@ -378,7 +516,7 @@
                 success: function(data)
                 {
                     $("#block_id").val(data.id);
-                    $("#block_number").val(data.block_number.toUpperCase());
+                    $("#slot").val(data.slot.toUpperCase());
                     $("#section_name").val(data.section_name.toUpperCase());
                     $("#block_cost").val(data.block_cost);
                     $("#modal_form").modal({
@@ -400,7 +538,7 @@
         })
         $("#tbl_spaceAreas tbody").on('click', '#btn_remove', function(){
             var id = $(this).data('id');
-            if(confirm("Are you sure you want to delete this record? \nCannot be undone."))
+            if(confirm("Are you sure you want to deactivate this section? \nCannot be undone."))
             {
                 $.ajax({
                     type: 'get',

@@ -24,7 +24,7 @@
           </li>
           <li class="nav-item">
             <a href="{{ route('services') }}" id = "s_services" class="nav-link">
-              <i class="nav-icon fas fa-plus-square"></i>
+              <i class="nav-icon fas fa-universal-access"></i>
               <p>
                 Services
               </p>
@@ -32,7 +32,7 @@
           </li>
           <li class="nav-item" >  
             <a href="{{ route('spaceareas.index') }}" id = "s_spaceareas" class="nav-link">
-              <i class="nav-icon fas fa-copy"></i>
+              <i class="nav-icon fas fa-church"></i>
               <p>
                 Manage Space Area
               </p>
@@ -40,7 +40,7 @@
           </li>
           <li class="nav-item" >  
             <a href="{{ route('deceaseds.index') }}" id = "s_deceaseds" class="nav-link">
-              <i class="nav-icon fas fa-copy"></i>
+              <i class="nav-icon fas fa-user-injured"></i>
               <p>
                 Manage Deceased
               </p>
@@ -48,7 +48,7 @@
           </li>
           <li class="nav-item" >  
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-copy"></i>
+              <i class="nav-icon fas fa-route"></i>
               <p>
                 Coffin Plots
                 <!-- <span class="badge badge-info right">6</span> -->
@@ -65,7 +65,7 @@
           </li>
           <li class="nav-item" >  
             <a id = "s_logout" type = "button" class="nav-link">
-              <i class="nav-icon fas fa-arrow-left"></i>
+              <i class="nav-icon fas fa-power-off"></i>
               <p>
                 Logout
               </p>

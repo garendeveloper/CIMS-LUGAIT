@@ -24,7 +24,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Services</h1>
+            <h4>Services <span class = "badge badge-sm badge-success" id = "no_ofrecords">1</span></h4>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -45,16 +45,29 @@
               <div class="card-header">
                 <div class="form-group row">
                     {{ csrf_field() }}
-                    <label for="" class = "col-sm-4 col-form-label">Service Name</label>
                     <div class="col-sm-4">
-                        <input type="hidden" value = "" id = "service_id" name = "id">
-                        <input type="text" style ="text-transform: uppercase" name = "service_name" class = "form-control " id = "service_name">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-universal-access"></i></span>
+                            </div>
+                            <input type="hidden" value = "" id = "service_id" name = "id">
+                            <input type="text" placeholder = "Encode Service Here" style ="text-transform: uppercase" name = "service_name" class = "form-control " id = "service_name">
+                        </div>
                     </div>
                     <div class="col-sm-2">
                         <button class = "btn btn-primary btn-sm" type = "button" id = "btn_add" ><i class = "fa fa-plus-square"></i> </button>
                     </div>
-                    <div class="col-sm-2">
-                        <input type="text" class = "form-control" id = "search">
+                    <div class="col-sm-3">
+                        
+                    </div>
+                    <div class="col-sm-3">
+                        <!-- <label for="">Search</label> -->
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                            <span class="input-group-text" ><i class="fas fa-search"></i></span>
+                            </div>
+                            <input type="text" class = "form-control" style ="text-transform: uppercase" placeholder = "Search Here" id = "search">
+                        </div>
                     </div>
                 </div>
               </div>
@@ -147,6 +160,7 @@
             success:function(data)
             {
                 var row = "";
+                $("#no_ofrecords").text(data.length);
                 if(data.length > 0)
                 {
                     for(var i = 0; i<data.length; i++)

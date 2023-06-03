@@ -51,6 +51,7 @@ return new class extends Migration
             $table->string('lastname');
             $table->string('firstname');
             $table->string('middlename');
+            $table->string('suffix');
             //M = Male
             //F = Female
             $table->char('civilstatus');

@@ -34,7 +34,7 @@ class BlockController extends Controller
         if($request->ajax())
         {
             $validation = Validator::make($request->all(), [
-                'block_number' => 'required|unique:blocks,block_number',
+                'slot' => 'required',
                 'section_name' => 'required|string|unique:blocks,section_name',
                 'block_cost' => 'required|numeric',
             ]);
@@ -47,8 +47,8 @@ class BlockController extends Controller
             else
             {
                 $block = new Block;
-                $block->block_number = ucwords($request->block_number);
-                $block->section_name = ucwords($request->section_name);
+                $block->slot = strtoupper($request->slot);
+                $block->section_name = strtoupper($request->section_name);
                 $block->block_cost = $request->block_cost;
                 $block->save();
     
@@ -88,27 +88,52 @@ class BlockController extends Controller
 
         if($request->ajax())
         {
-            $validation = Validator::make($request->all(), [
-                'block_number' => 'required|unique:blocks,block_number,'.$request->block_id.',id',
-                'section_name' => 'required|string|unique:blocks,section_name,'.$request->block_id.',id',
-                'block_cost' => 'required|numeric',
-            ]);
-    
-            if($validation->fails())
+            if($request->type == "update_block")
             {
-                $status = 2;
-                $message = $validation->messages();
+                $validation = Validator::make($request->all(), [
+                    'slot' => 'required|numeric',
+                    'section_name' => 'required|string|unique:blocks,section_name,'.$request->block_id.',id',
+                    'block_cost' => 'required|numeric',
+                ]);
+        
+                if($validation->fails())
+                {
+                    $status = 2;
+                    $message = $validation->messages();
+                }
+                else
+                {
+                    $block = Block::find($request->block_id);
+                    $block->slot = $request->slot;
+                    $block->section_name = strtoupper($request->section_name);
+                    $block->block_cost = $request->block_cost;
+                    $block->update();
+        
+                    $status = 1;
+                    $message = "Space area has been successfully updated.";
+                }
             }
-            else
+            if($request->type == "update_slot")
             {
-                $block = Block::find($request->block_id);
-                $block->block_number = ucwords($request->block_number);
-                $block->section_name = ucwords($request->section_name);
-                $block->block_cost = $request->block_cost;
-                $block->update();
-    
-                $status = 1;
-                $message = "Space area has been successfully updated.";
+                $validation = Validator::make($request->all(), [
+                    '_slot' => 'required|numeric',
+                    '_block_id' => 'required',
+                ]);
+        
+                if($validation->fails())
+                {
+                    $status = 2;
+                    $message = $validation->messages();
+                }
+                else
+                {
+                    $block = Block::find($request->_block_id);
+                    $block->slot = $block->slot+$request->_slot;
+                    $block->update();
+        
+                    $status = 1;
+                    $message = "Section has been successfully expanded.";
+                }
             }
         }
         return response()->json([

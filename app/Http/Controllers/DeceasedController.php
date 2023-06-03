@@ -41,6 +41,7 @@ class DeceasedController extends Controller
                     'lastname' => 'required',
                     'middlename' => 'required',
                     'firstname' => 'required',
+                    'suffix' => 'required',
                     'dateof_death' => 'required',
                     'dateofbirth' => 'required',
                     'dateof_burial' => 'required',
@@ -65,6 +66,7 @@ class DeceasedController extends Controller
                     'lastname' => 'required',
                     'middlename' => 'required',
                     'firstname' => 'required',
+                    'suffix' => 'required',
                     'dateof_death' => 'required',
                     'dateofbirth' => 'required',
                     'dateof_burial' => 'required',
@@ -215,6 +217,7 @@ class DeceasedController extends Controller
                     'lastname' => strtoupper($request->lastname),
                     'middlename' => strtoupper($request->middlename),
                     'firstname' => strtoupper($request->firstname),
+                    'suffix' => strtoupper($request->suffix),
                     'civilstatus' => $request->civilstatus,
                     'sex' => $request->sex,
                     'dateof_death' => $request->dateof_death,
@@ -238,6 +241,7 @@ class DeceasedController extends Controller
                     $deceased->lastname = strtoupper($request->lastname);
                     $deceased->middlename = strtoupper($request->middlename);
                     $deceased->firstname = strtoupper($request->firstname);
+                    $deceased->suffix = strtoupper($request->suffix);
                     $deceased->civilstatus = $request->civilstatus;
                     $deceased->sex = $request->sex;
                     $deceased->dateof_death = $request->dateof_death;
