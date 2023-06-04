@@ -13,12 +13,13 @@
   background: url("/dist/img/cemetery.jpg") no-repeat center fixed;
   background-size: cover;
 }
+
 </style>
 <body class="hold-transition login-page">
 <div class="login-box">
   
   <!-- /.login-logo -->
-  <div class="card">
+  <div class="card animated flash infinite">
     <div class="card-body login-card-body">
       <div class="login-logo" >
         <!-- <img src="{{ asset('/assets/img/logos/calvarylogo.png') }}" style = "width: 120px; height: 120px" alt=""> -->

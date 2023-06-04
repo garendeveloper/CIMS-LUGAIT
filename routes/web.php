@@ -33,6 +33,7 @@ Route::group(['middleware' => ['adminAccess']], function(){
 
     //deceaseds
     Route::resource('deceaseds', DeceasedController::class);
+    Route::get('/deceaseds/show/{id}', [DeceasedController::class, 'show']);
     Route::get('/get/deceaseds/records', [DeceasedController::class, 'get_allData'])->name('deceaseds.get_allData');
     //Space areas
     Route::resource('spaceareas', BlockController::class);

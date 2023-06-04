@@ -50,7 +50,6 @@
 <!-- Number Format -->
 <script src="{{ asset('numberformat/jquery.number.js') }}"></script>
 
-
 <!-- PAGE PLUGINS -->
 <!-- jQuery Mapael -->
 <script src="{{ asset('plugins/jquery-mousewheel/jquery.mousewheel.js') }}"></script>

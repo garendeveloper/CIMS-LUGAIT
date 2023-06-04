@@ -41,7 +41,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Space Areas <span class = "badge badge-success" id = "no_ofrecords">1</span></h1>
+            <h4>Space Areas <span class = "badge badge-success" id = "no_ofrecords">1</span></h4>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -214,7 +214,7 @@
         $("#search").on("keyup", function() {
             var value = $(this).val().toLowerCase();
             $("#tbl_spaceAreas tbody tr").filter(function() {
-            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
             });
         });
         $("#s_spaceareas").addClass('active');

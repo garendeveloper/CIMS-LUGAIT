@@ -81,7 +81,7 @@
                     <tr>
                         <th>Full Name (L,M,F)</th>
                         <th>Address</th>
-                        <th>Date of death</th>
+                        <th>Date of Burial</th>
                         <th>Sex</th>
                         <th>Status</th>
                         <th>Action</th>
@@ -119,6 +119,7 @@
             </div>
             <form action="" id = "cemetery_form" method="post">
                 {{ csrf_field() }}
+                <input type="hidden" name="cemetery_id" id = "cemetery_id" value = "">
                 <div class="modal-body">
                     <h5 style = "color: red"><b>Deceased Information</b> </h5><p></p>
                     <div class="row" >
@@ -129,7 +130,7 @@
                                 <span class="input-group-text"><i class="fas fa-user"></i></span>
                                 </div>
                                 <input type="text" autocomplete = "off" 
-                                onkeydown="return /[a-zA-Z, ]/i.test(event.key)"
+                                onkeydown="return /[a-zA-Z ]/i.test(event.key)"
                                 name="lastname" id="lastname" class="form-control form-control-border">
                             </div>
                             <span style = "color: red" class = "span" id = "sp_lastname"></span>
@@ -140,7 +141,7 @@
                                 <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-user"></i></span>
                                 </div>
-                                <input type="text" autocomplete = "off" onkeydown="return /[a-zA-Z, ]/i.test(event.key)" name="middlename" id="middlename" class="form-control form-control-border">
+                                <input type="text" autocomplete = "off" onkeydown="return /[a-zA-Z ]/i.test(event.key)" name="middlename" id="middlename" class="form-control form-control-border">
                             </div>
                             <span style = "color: red" class = "span" id = "sp_middlename"></span>
                         </div>
@@ -150,7 +151,7 @@
                                 <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-user"></i></span>
                                 </div>
-                                <input type="text" autocomplete = "off" onkeydown="return /[a-zA-Z, ]/i.test(event.key)" name="firstname" id="firstname" class="form-control form-control-border">
+                                <input type="text" autocomplete = "off" onkeydown="return /[a-zA-Z ]/i.test(event.key)" name="firstname" id="firstname" class="form-control form-control-border">
                             </div>
                             <span style = "color: red" class = "span" id = "sp_firstname"></span>
                         </div>
@@ -322,7 +323,7 @@
                                 <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-phone"></i></span>
                                 </div>
-                                <input type="number" id = "contactnumber" name = "contactnumber" class="form-control form-control-border" >
+                                <input type="number"  id = "contactnumber" name = "contactnumber" class="form-control form-control-border" >
                             </div>
                             <span style = "color: red" class = "span" id = "sp_contactnumber"></span>
                         </div>
@@ -401,21 +402,21 @@
     var my_handlers = {
 
         fill_provinces:  function(){
-          
+            $("#city").html("");
+            $("#barangay").html("");
             var region_code = $(this).val();
             $('#province').ph_locations('fetch_list', [{"region_code": region_code}]);
             
         },
 
         fill_cities: function(){
-
+            $("#barangay").html("");
             var province_code = $(this).val();
             $('#city').ph_locations( 'fetch_list', [{"province_code": province_code}]);
         },
 
 
         fill_barangays: function(){
-
             var city_code = $(this).val();
             $('#barangay').ph_locations('fetch_list', [{"city_code": city_code}]);
         }
@@ -424,21 +425,21 @@
     var my_handlers1 = {
 
         fill_provinces:  function(){
-
+            $("#city1").html("");
+            $("#barangay1").html("");
             var region_code = $(this).val();
             $('#province1').ph_locations('fetch_list', [{"region_code": region_code}]);
             
         },
 
         fill_cities: function(){
-
+            $("#barangay1").html("");
             var province_code = $(this).val();
             $('#city1').ph_locations( 'fetch_list', [{"province_code": province_code}]);
         },
 
 
         fill_barangays: function(){
-           
             var city_code = $(this).val();
             $('#barangay1').ph_locations('fetch_list', [{"city_code": city_code}]);
         }
@@ -477,7 +478,13 @@
             'X-CSRF-Token':$("input[name=_token").val()
         }
     }) 
-    
+    show_allData();
+    $("#search").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#tbl_deceaseds tbody tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+    });
     var _token = $('input[name="_token"]').val();
         //Money Euro
     $('[data-mask]').inputmask()
@@ -507,9 +514,14 @@
     show_allServices();
     show_allBlocks();
     $("#btn_add").on('click', function(){
+        $("#cemetery_form").trigger('reset');
+        $("#cemetery_id").val("");
+        $('input[type="radio"]').prop('checked', false);
+        $("select").val("");
+        $('#region').ph_locations('fetch_list');
+        $('#region1').ph_locations('fetch_list');
         $("#modal_form").modal({backdrop:'static', keyboard: false});
     })
-    show_allData();
     function show_allData()
     {
         $.ajax({
@@ -519,15 +531,15 @@
         success:function(data)
         {
             var row = "";
-            $("#no_ofrecords").text(data.length);
+            $("#no_ofrecords").text(data.length + " Records");
             if(data.length > 0)
             {
                 for(var i = 0; i<data.length; i++)
                 {
                     row += '<tr data-id = '+data[i].deceased_id+' style = "text-transform: uppercase">';
-                    row += '<td>'+data[i].lastname+", "+data[i].middlename+" "+data[i].firstname+'</td>';
+                    row += '<td>'+data[i].lastname+", "+data[i].middlename+", "+data[i].firstname+'</td>';
                     row += '<td>'+data[i].barangay+", "+data[i].city+", "+data[i].province+" "+data[i].region+'</td>';
-                    row += '<td>'+data[i].dateof_death+'</td>';
+                    row += '<td>'+data[i].dateof_burial+'</td>';
                     row += '<td>'+data[i].sex+'</td>';
                     row += '<td><span class = "badge badge-danger right"> '+data[i].service_name+'</span></td>';
                     row += '<td align = "center">';
@@ -558,6 +570,64 @@
         }
         })
     }
+    $("#tbl_deceaseds tbody").on('click', '#btn_edit', function(e){
+        e.preventDefault();
+        var id = $(this).data('id');
+        $.ajax({
+            type: 'get',
+            url: "/deceaseds/show/"+id,
+            dataType: 'json',
+            success:function(data)
+            {
+                $("#cemetery_id").val(id);
+                $("#lastname").val(data[0][0].lastname)
+                $("#middlename").val(data[0][0].middlename)
+                $("#firstname").val(data[0][0].firstname)
+                $("#suffix").val(data[0][0].suffix)
+                $("#dateof_death").val(data[0][0].dateof_death)
+                $("#dateofbirth").val(data[0][0].dateofbirth)
+                $("input[name='civilstatus'][value="+data[0][0].civilstatus+"]").attr('checked', true)
+                $("#dateof_burial").val(data[0][0].dateof_burial)
+                $("#burial_time").val(data[0][0].burial_time)
+                $("input[name='sex'][value="+data[0][0].sex+"]").attr('checked', true)
+                
+                //PINAHIRAPAN MO AKO
+            
+                $("#region option").filter(function() {
+                    return $(this).val() == data[0][0].region_no;
+                }).attr('selected', true);
+
+                $("#province").prepend("<option selected='selected' value = "+data[0][0].province_no+">"+data[0][0].province+"</option>");
+                $("#city").prepend("<option selected='selected' value = "+data[0][0].city_no+">"+data[0][0].city+"</option>");
+                $("#barangay").prepend("<option selected='selected' value = "+data[0][0].barangay_no+">"+data[0][0].barangay+"</option>");
+             
+                $("#causeofdeath option").filter(function() {
+                    return $(this).val() == data[0][0].causeofdeath;
+                }).attr('selected', true);
+                $("#contactperson").val(data[2][0].name),
+                $("#relationship option").filter(function() {
+                    return $(this).val() == data[0][0].relationship;
+                }).attr('selected', true);
+                $("#contactnumber").val(data[2][0].contactnumber);
+
+                $("#region1 option").filter(function() {
+                    return $(this).val() == data[2][0].region_no;
+                }).attr('selected', true);
+
+                $("#province1").prepend("<option selected='selected' value = "+data[2][0].province_no+">"+data[2][0].province+"</option>");
+                $("#city1").prepend("<option selected='selected' value = "+data[2][0].city_no+">"+data[2][0].city+"</option>");
+                $("#barangay1").prepend("<option selected='selected' value = "+data[2][0].barangay_no+">"+data[2][0].barangay+"</option>");
+                $("#modal_form").modal({
+                    'backdrop': 'static',
+                    'keyboard': false
+                })
+            },
+            error: function()
+            {
+                alert("System cannot process request.")
+            }
+        })
+    })
     function show_allServices()
     {
         $.ajax({
@@ -616,7 +686,6 @@
     }
     $("#cemetery_form").on('submit', function(e){
         e.preventDefault();
-
         var data = $(this).serialize();
         var region_text = $("#region option:selected").text();
         var province_text = $("#province option:selected").text();
@@ -679,6 +748,8 @@
                 success: function(response){
                     if(response.status == 1)
                     {
+                        show_allBlocks();
+                        show_allData();
                         $("input[type='text']").removeClass('is-invalid');
                         $("input[type='radio']").removeClass('is-invalid');
                         $("input[type='checkbox']").removeClass('is-invalid');

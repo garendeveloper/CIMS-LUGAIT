@@ -165,7 +165,7 @@
                 {
                     for(var i = 0; i<data.length; i++)
                     {
-                        if(data[i].service_name == "NEW ARRIVAL")
+                        if(data[i].service_name == "BURIAL")
                         {
                             row += '<tr data-id = '+data[i].id+' class = "disabled" style = "background-color: darkgray; text-transform: uppercase">';
                             row += '<td data-column_name  = "service_name" data-id = '+data[i].id+'>'+data[i].service_name+'</td>';

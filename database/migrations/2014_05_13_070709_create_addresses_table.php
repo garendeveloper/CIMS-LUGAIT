@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('province');
             $table->bigInteger('city_no');
             $table->string('city');
-            $table->bigInteger('barangay_no');
-            $table->string('barangay');
+            $table->bigInteger('barangay_no')->nullable();
+            $table->string('barangay')->nullable();
             $table->timestamps();
         });
     }

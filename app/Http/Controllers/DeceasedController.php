@@ -51,9 +51,7 @@ class DeceasedController extends Controller
                     'region' => 'required',
                     'province' => 'required',
                     'city' => 'required',
-                    'barangay' => 'required',
                     'causeofdeath' => 'required',
-                    // 'service_id' => 'required',
                     'contactperson' => 'required',
                     'relationship' => 'required',
                     'contactnumber' => 'required|min:11|max:11',
@@ -76,13 +74,10 @@ class DeceasedController extends Controller
                     'region' => 'required',
                     'province' => 'required',
                     'city' => 'required',
-                    'barangay' => 'required',
                     'region1' => 'required',
                     'province1' => 'required',
                     'city1' => 'required',
-                    'barangay1' => 'required',
                     'causeofdeath' => 'required',
-                    // 'service_id' => 'required',
                     'contactperson' => 'required',
                     'relationship' => 'required',
                     'contactnumber' => 'required|min:11|max:11',
@@ -99,64 +94,45 @@ class DeceasedController extends Controller
             else
             {
                 //Address
-                $address = 1;
-                $contactperson = 1;
-                if($request->sameaddress == 1)
+
+                $address = Address::where([
+                    'region_no' => $request->region,
+                    'region' => strtoupper($request->region_text),
+                    'province_no' => $request->province,
+                    'province' => strtoupper($request->province_text),
+                    'city_no' => $request->city,
+                    'city' => strtoupper($request->city_text),
+                    'barangay_no' => $request->barangay,
+                    'barangay' => strtoupper($request->barangay_text)
+                ])->first();
+
+                if($address !== null)
                 {
-                    $address = Address::where([
-                        'region_no' => $request->region,
-                        'region' => strtoupper($request->region_text),
-                        'province_no' => $request->province,
-                        'province' => strtoupper($request->province_text),
-                        'city_no' => $request->city,
-                        'city' => strtoupper($request->city_text),
-                        'barangay_no' => $request->barangay,
-                        'barangay' => strtoupper($request->barangay_text)
-                    ])->first();
-
-                    if($address !== null)
-                    {
-                        $address = $address->id;
-                    }
-                    else
-                    {
-                        $address = new Address;
-                        $address->region_no = $request->region;
-                        $address->region = strtoupper($request->region_text);
-                        $address->province_no = $request->province;
-                        $address->province =  strtoupper($request->province_text);
-                        $address->city_no = $request->city;
-                        $address->city = strtoupper($request->city_text);
-                        $address->barangay_no = $request->barangay;
-                        $address->barangay = strtoupper($request->barangay_text);
-                        $address->save();
-                        $address = $address->id;
-                    }
-
-                    $contactperson = User::where([
-                        'role' => 3,
-                        'address_id' => $address,
-                        'name' => strtoupper($request->contactperson),
-                    ])->first();
-    
-                    if($contactperson !== null)
-                    {
-                        $contactperson = $contactperson->id;
-                    }
-                    else
-                    {
-                        $contactperson = new User();
-                        $contactperson->role = 3;
-                        $contactperson->name = strtoupper($request->contactperson);
-                        $contactperson->contactnumber = $request->contactnumber;
-                        $contactperson->address_id = $address;
-                        $contactperson->save();
-                        $contactperson = $contactperson->id;
-                    }
+                    $address = $address->id;
                 }
                 else
                 {
-                    $address = Address::where([
+                    $address = new Address;
+                    $address->region_no = $request->region;
+                    $address->region = strtoupper($request->region_text);
+                    $address->province_no = $request->province;
+                    $address->province =  strtoupper($request->province_text);
+                    $address->city_no = $request->city;
+                    $address->city = strtoupper($request->city_text);
+                    $address->barangay_no = $request->barangay;
+                    $address->barangay = strtoupper($request->barangay_text);
+                    $address->save();
+                    $address = $address->id;
+                }
+                
+                $conperson_add;
+                if($request->sameaddress == 1) 
+                {
+                    $conperson_add = $address;
+                }
+                else
+                {
+                    $conperson_add = Address::where([
                         'region_no' => $request->region1,
                         'region' => strtoupper($request->region_text1),
                         'province_no' => $request->province1,
@@ -166,46 +142,48 @@ class DeceasedController extends Controller
                         'barangay_no' => $request->barangay1,
                         'barangay' => strtoupper($request->barangay_text1)
                     ])->first();
-
-                    if($address !== null)
-                    {
-                        $address = $address->id;
-                    }
-                    else
-                    {
-                        $address = new Address;
-                        $address->region_no = $request->region1;
-                        $address->region = strtoupper($request->region_text1);
-                        $address->province_no = $request->province1;
-                        $address->province =  strtoupper($request->province_text1);
-                        $address->city_no = $request->city1;
-                        $address->city = strtoupper($request->city_text1);
-                        $address->barangay_no = $request->barangay1;
-                        $address->barangay = strtoupper($request->barangay_text1);
-                        $address->save();
-                        $address = $address->id;
-                    }
-
-                    $contactperson = User::where([
-                        'role' => 3,
-                        'address_id' => $address,
-                        'name' => strtoupper($request->contactperson),
-                    ])->first();
     
-                    if($contactperson !== null)
+                    if($conperson_add !== null)
                     {
-                        $contactperson = $contactperson->id;
+                        $conperson_add = $conperson_add->id;
                     }
                     else
                     {
-                        $contactperson = new user();
-                        $contactperson->role = 3;
-                        $contactperson->name = strtoupper($request->contactperson);
-                        $contactperson->contactnumber = $request->contactnumber;
-                        $contactperson->address_id = $address;
-                        $contactperson->save();
-                        $contactperson = $contactperson->id;
+                        $conperson_add = new Address;
+                        $conperson_add->region_no = $request->region1;
+                        $conperson_add->region = strtoupper($request->region_text1);
+                        $conperson_add->province_no = $request->province1;
+                        $conperson_add->province =  strtoupper($request->province_text1);
+                        $conperson_add->city_no = $request->city1;
+                        $conperson_add->city = strtoupper($request->city_text1);
+                        $conperson_add->barangay_no = $request->barangay1;
+                        $conperson_add->barangay = strtoupper($request->barangay_text1);
+                        $conperson_add->save();
+                        $conperson_add = $conperson_add->id;
                     }
+    
+                }
+
+                $contactperson = User::where([
+                    'role' => 3,
+                    'address_id' => $conperson_add,
+                    'name' => strtoupper($request->contactperson),
+                ])->first();
+
+                if($contactperson !== null)
+                {
+                    $contactperson = $contactperson->id;
+                }
+                else
+                {
+                    $contactperson = new User();
+                    $contactperson->role = 3;
+                    $contactperson->name = strtoupper($request->contactperson);
+                    $contactperson->contactnumber = $request->contactnumber;
+                    $contactperson->relationshipthdeceased = $request->relationship;
+                    $contactperson->address_id = $conperson_add;
+                    $contactperson->save();
+                    $contactperson = $contactperson->id;
                 }
 
                 //Add Deceased
@@ -271,12 +249,29 @@ class DeceasedController extends Controller
                             and users.id = deceaseds.contactperson_id');
         return response()->json($data);
     }
-    /**
-     * Display the specified resource.
-     */
-    public function show(deceased $deceased)
+
+    public function show($deceased_id)
     {
-        //
+        $deceased_info = DB::select('select addresses.*, services.*,  deceaseds.*, deceaseds.id as deceased_id
+        from addresses, deceaseds, services
+        where addresses.id = deceaseds.address_id
+        and services.id = deceaseds.service_id
+        and deceaseds.id = '.$deceased_id.'');
+
+        $deceased_asssigment =  DB::select('select blocks.*, deceaseds.id as deceased_id, deceaseds.*, coffinplots.*
+        from blocks, deceaseds, coffinplots
+        where blocks.id = coffinplots.block_id
+        and deceaseds.id = coffinplots.deceased_id
+        and deceaseds.id = '.$deceased_id.'');
+
+        $contactperson =  DB::select('SELECT users.*, deceaseds.id as deceased_id, addresses.*
+                                        FROM users, deceaseds, addresses
+                                        where users.id = deceaseds.contactperson_id
+                                        and addresses.id = users.address_id
+                                        and deceaseds.id = '.$deceased_id.'');
+
+        $data = [ $deceased_info, $deceased_asssigment, $contactperson];
+        return response()->json($data);
     }
 
     /**
