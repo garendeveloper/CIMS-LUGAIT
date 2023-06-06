@@ -10,7 +10,10 @@
   <!-- <div class="preloader flex-column justify-content-center align-items-center">
     <img class="animation__wobble" src="dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
   </div> -->
-
+  <div class="preloader flex-column justify-content-center align-items-center" >
+    <img class="animation__shake" src="{{ asset('dist/img/loader.gif')}}" alt="AdminLTELogo" height="60" width="60">
+    <p>Please wait ... </p>
+  </div>
   <!-- Navbar -->
   @include('layouts.header')
   <!-- /.navbar -->

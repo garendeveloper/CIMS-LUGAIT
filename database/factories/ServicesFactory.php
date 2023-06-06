@@ -17,7 +17,7 @@ class ServicesFactory extends Factory
     public function definition(): array
     {
         return [
-            'service_name' => 'NEW ARRIVAL',
+            'service_name' => 'BURIAL',
         ];
     }
 }

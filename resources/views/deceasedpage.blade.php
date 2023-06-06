@@ -10,6 +10,11 @@
   <!-- <div class="preloader flex-column justify-content-center align-items-center">
     <img class="animation__wobble" src="dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
   </div> -->
+   <!-- Preloader -->
+   <div id = "pageloader" class="preloader flex-column justify-content-center align-items-center" style = "display: none">
+    <img class="animation__shake" src="{{ asset('dist/img/loader.gif')}}" alt="AdminLTELogo" height="60" width="60">
+    <p>Please wait ... </p>
+  </div>
 
   <!-- Navbar -->
   @include('layouts.header')
@@ -20,6 +25,11 @@
   <style>
     select,option,input{
         text-transform: uppercase;
+    }
+    .modal{
+        background: url("/dist/img/cemetery.jpg") no-repeat center fixed;
+        background-size: cover;
+      
     }
   </style>
  <!-- Content Wrapper. Contains page content -->
@@ -106,7 +116,7 @@
   </div>
   <!-- /.content-wrapper -->
 
-  <div class="modal fade" id="modal_form">
+  <div class="modal"  id="modal_form">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header" style = "background-color: #170036; color: white">
@@ -121,7 +131,7 @@
                 {{ csrf_field() }}
                 <input type="hidden" name="cemetery_id" id = "cemetery_id" value = "">
                 <div class="modal-body">
-                    <h5 style = "color: red"><b>Deceased Information</b> </h5><p></p>
+                    <h5 style = "color: red;"><b>Deceased Information</b> </h5><p></p>
                     <div class="row" >
                         <div class="col-md-3" >
                             <label for="">Last Name</label>
@@ -261,7 +271,7 @@
                             <span style = "color: red" class = "span" id = "sp_dateofdeath"></span>
                         </div>
                         <div class="col-md-4">
-                            <label for="">Civil Status</label>
+                            <label for="">Marital Status</label>
                             <div class="form-group clearfix">
                                 <div class="icheck-primary d-inline">
                                     <input type="radio" id="radioPrimary1" value = "S" id = "civilstatus" name="civilstatus">
@@ -318,16 +328,16 @@
                             <span style = "color: red" class = "span" id = "sp_relationship"></span>
                         </div>
                         <div class="col-md-4" >
-                            <label for="">Contact Number</label>
+                            <label for="">Contact Number (<i>Ex. 9303087678</i>)</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                                <span class="input-group-text"><i class="fas fa-phone"></i>&nbsp; +63</span>
                                 </div>
-                                <input type="number"  id = "contactnumber" name = "contactnumber" class="form-control form-control-border" >
+                                <input type="tel" maxlength = "10" pattern = "^(9|\+639)\d{9}$" id = "contactnumber" name = "contactnumber" class="form-control form-control-border" >
                             </div>
                             <span style = "color: red" class = "span" id = "sp_contactnumber"></span>
                         </div>
-                    </div>
+                    </div>  
                     <p></p>
                     <div class="row">
                         <div class="col-sm-6">
@@ -369,10 +379,100 @@
                         </div>
                     </div>
                     <p></p>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group clearfix">
+                                <div class="icheck-primary d-inline">
+                                    <input type="checkbox" id="checkboxPrimary25" value = "1" name = "add_contactperson">
+                                        <label for="checkboxPrimary25" style = "color: darkviolet; font-size: 15px">Check to add other contact person.
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12" id = "other_contactperson" style = "display: none">
+                        <h5 style = "color: green"><b>Other Contact Person </b> </h5><p></p>
+                        <div class="row" >
+                            <div class="col-md-4" >
+                                <label for="">Contact Person</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                    </div>
+                                    <input type="text" autocomplete = "off" onkeydown="return /[a-zA-Z ]/i.test(event.key)" name="contactperson1" id="contactperson1" class="form-control form-control-border">
+                                </div>
+                                <span style = "color: red" class = "span" id = "sp_contactperson1"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="">Relationship to the Deceased</label>
+                                <select  class="form-control form-control-border select2-primary"  data-dropdown-css-class="select2-primary" id = "relationship1" name = "relationship1" style="width: 100%;">
+                                    <option value="">-- Please select here</option>
+                                    <option value="1">SIBLING</option>
+                                    <option value="2">COUSIN</option>
+                                    <option value="3">PARENT</option>
+                                    <option value="4">CHILDREN</option>
+                                    <option value="5">SPOUSE</option>
+                                    <option value="6">OTHER</option>
+                                </select>
+                                <span style = "color: red" class = "span" id = "sp_relationship1"></span>
+                            </div>
+                            <div class="col-md-4" >
+                                <label for="">Contact Number (<i>Ex. 9303087678</i>)</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-phone"></i>&nbsp; +63</span>
+                                    </div>
+                                    <input type="tel" maxlength = "10" pattern = "^(9|\+639)\d{9}$" id = "contactnumber1" name = "contactnumber1" class="form-control form-control-border" >
+                                </div>
+                                <span style = "color: red" class = "span" id = "sp_contactnumber1"></span>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="form-group clearfix">
+                                    <div class="icheck-primary d-inline">
+                                        <input type="checkbox" id="checkboxPrimary23" value = "1" name = "sameaddress1">
+                                            <label for="checkboxPrimary23">Same as deceased address ?
+                                        </label>
+                                        <input type="hidden" id = "check_sameaddress1" name = "check_sameaddress1" value = "0">
+                                    </div>
+                                </div>
+                            </div>
+                            <p></p>
+                            <div class="row" id= "contactperson_address1">
+                                <div class="col-md-3">
+                                    <label for="">Region</label>
+                                    <select class="form-control form-control-border select2-primary" data-dropdown-css-class="select2-primary" id = "region2" name = "region2" style="width: 100%;">
+                                    </select>
+                                    <span style = "color: red" class = "span" id = "sp_region2"></span>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="">Province</label>
+                                    <select class="form-control form-control-border select2-primary" data-dropdown-css-class="select2-primary" id = "province2" name = "province2" style="width: 100%;">
+                                    </select>
+                                    <span style = "color: red" class = "span" id = "sp_province2"></span>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="">City</label>
+                                    <select class="form-control form-control-border select2-primary" data-dropdown-css-class="select2-primary" id = "city2" name = "city2" style="width: 100%;">
+                                    </select>
+                                    <span style = "color: red" class = "span" id = "sp_city2"></span>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="">Barangay</label>
+                                    <select class="form-control form-control-border select2-primary" data-dropdown-css-class="select2-primary" id = "barangay2" name = "barangay2" style="width: 100%;">
+                                    </select>
+                                    <span style = "color: red" class = "span" id = "sp_barangay2"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" id = "btn_save" class="btn btn-primary">Save changes</button>
+                <button type="submit" id = "btn_save" class="btn btn-primary btn-block"><i class = "fas fa fa-save"></i> Save changes</button>
+                    <button type="button" class="btn btn-default btn-block" data-dismiss="modal">Close</button>
                 </div>
             </form>
         </div>
@@ -497,6 +597,7 @@
         theme: 'bootstrap4'
     })
     var haschecked = 0;
+    var haschecked1 = 0;
     $("input[name='sameaddress']").on('click', function(){
        
         if($(this).prop('checked') == true)
@@ -511,6 +612,33 @@
         }
         $("#check_sameaddress").val(haschecked);
     })
+    $("input[name='sameaddress1']").on('click', function(){
+       
+       if($(this).prop('checked') == true)
+       {
+           haschecked1  = 1;
+          $("#contactperson_address1").hide();
+       }
+       else
+       {
+          haschecked1 = 0;
+           $("#contactperson_address1").show();
+       }
+       $("#check_sameaddress1").val(haschecked1);
+   })
+   var addcontact_person = 0;
+   $("input[name='add_contactperson']").on('click', function(){
+        if($(this).prop('checked') == true)
+        {
+            $("#other_contactperson").show();
+            addcontactperson = 1;
+        }
+        else
+        {
+            $("#other_contactperson").hide();
+            addcontactperson = 0;
+        }
+   })
     show_allServices();
     show_allBlocks();
     $("#btn_add").on('click', function(){
@@ -686,6 +814,7 @@
     }
     $("#cemetery_form").on('submit', function(e){
         e.preventDefault();
+        $("#pageloader").show();
         var data = $(this).serialize();
         var region_text = $("#region option:selected").text();
         var province_text = $("#province option:selected").text();
@@ -696,6 +825,11 @@
         var province_text1 = $("#province1 option:selected").text();
         var city_text1 = $("#city1 option:selected").text();
         var barangay_text1 = $("#barangay1 option:selected").text();
+
+        var region_text2 = $("#region2 option:selected").text();
+        var province_text2 = $("#province2 option:selected").text();
+        var city_text2 = $("#city2 option:selected").text();
+        var barangay_text2 = $("#barangay2 option:selected").text();
         
         var sameaddress = "";
         $("input[type='text']").removeClass('is-invalid');
@@ -743,6 +877,20 @@
                     city_text1: city_text1,
                     barangay_text1: barangay_text1,
                     sameaddress: haschecked,
+
+                    contactperson1: $("#contactperson1").val(),
+                    relationship1: $("#relationship1").val(),
+                    contactnumber1: $("#contactnumber1").val(),
+                    region2: $("#region2").val(),
+                    province2: $("#province2").val(),
+                    city2: $("#city2").val(),
+                    barangay2: $("#barangay2").val(),
+                    region_text2: region_text2,
+                    province_text2: province_text2,
+                    city_text2: city_text2,
+                    barangay_text2: barangay_text2,
+                    sameaddress1: haschecked1,
+                    addcontactperson: addcontact_person,
                 },
                 dataType: 'json',
                 success: function(response){
@@ -885,6 +1033,42 @@
                                 $("#sp_barangay1").text(value);
                                 $("#barangay1").addClass('is-invalid');
                             }
+
+                            else if(key == "contactperson1")
+                            {
+                                $("#sp_contactperson1").text(value);
+                                $("#contactperson1").addClass('is-invalid');
+                            }
+                            else if(key == "contactnumber1")
+                            {
+                                $("#sp_contactnumbe1r").text(value);
+                                $("#contactnumber1").addClass('is-invalid');
+                            }
+                            else if(key == "relationship1")
+                            {
+                                $("#sp_relationship1").text(value);
+                                $("#relationship1").addClass('is-invalid');
+                            }
+                            else if(key == "region2")
+                            {
+                                $("#sp_region2").text(value);
+                                $("#region2").addClass('is-invalid');
+                            }
+                            else if(key == "province2")
+                            {
+                                $("#sp_province2").text(value);
+                                $("#province2").addClass('is-invalid');
+                            }
+                            else if(key == "city2")
+                            {
+                                $("#sp_city2").text(value);
+                                $("#city2").addClass('is-invalid');
+                            }
+                            else if(key == "barangay2")
+                            {
+                                $("#sp_barangay2").text(value);
+                                $("#barangay2").addClass('is-invalid');
+                            }
                             else
                             {
                                 
@@ -895,6 +1079,9 @@
                     {
                         alert(response.message);
                     }
+                },
+                complete: function(response){
+                    $("#preloader").hide();
                 },
                 error: function(response)
                 {

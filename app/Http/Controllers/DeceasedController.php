@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Address;
 use App\Models\User;
+use App\Models\ContactPerson;
 use DB;
 class DeceasedController extends Controller
 {
@@ -35,6 +36,7 @@ class DeceasedController extends Controller
         if($request->ajax())
         {
             $validator = Validator::make($request->all(), []);
+        
             if($request->sameaddress == 1)
             {
                 $validator = Validator::make($request->all(), [
@@ -54,11 +56,11 @@ class DeceasedController extends Controller
                     'causeofdeath' => 'required',
                     'contactperson' => 'required',
                     'relationship' => 'required',
-                    'contactnumber' => 'required|min:11|max:11',
+                    'contactnumber' => 'required|min:10|max:10',
                     'sameaddress' => 'required',
                 ]);
             }
-            else
+            else 
             {
                 $validator = Validator::make($request->all(), [
                     'lastname' => 'required',
@@ -80,7 +82,7 @@ class DeceasedController extends Controller
                     'causeofdeath' => 'required',
                     'contactperson' => 'required',
                     'relationship' => 'required',
-                    'contactnumber' => 'required|min:11|max:11',
+                    'contactnumber' => 'required|min:10|max:10',
                     'sameaddress' => 'required',
                 ]);
             }
@@ -190,7 +192,7 @@ class DeceasedController extends Controller
                 $deceased = Deceased::where([
                     'service_id' => 1,
                     'address_id' => $address,
-                    'contactperson_id' => $contactperson,
+                    // 'contactperson_id' => $contactperson,
                     'causeofdeath' => $request->causeofdeath,
                     'lastname' => strtoupper($request->lastname),
                     'middlename' => strtoupper($request->middlename),
@@ -214,7 +216,7 @@ class DeceasedController extends Controller
                     $deceased = new Deceased;
                     $deceased->service_id = 1;
                     $deceased->address_id = $address;
-                    $deceased->contactperson_id = $contactperson;
+                    // $deceased->contactperson_id = $contactperson;
                     $deceased->causeofdeath = $request->causeofdeath;
                     $deceased->lastname = strtoupper($request->lastname);
                     $deceased->middlename = strtoupper($request->middlename);
@@ -227,6 +229,12 @@ class DeceasedController extends Controller
                     $deceased->burial_time = $request->burial_time;
                     $deceased->dateofbirth = $request->dateofbirth;
                     $deceased->save();
+
+
+                    $dbcontactperson = new ContactPerson;
+                    $dbcontactperson->user_id = $contactperson;
+                    $dbcontactperson->deceased_id = $deceased->id;
+                    $dbcontactperson->save();
 
                     $status = 1;
                     $message = "Deceased has been successfully registered.";
@@ -242,11 +250,10 @@ class DeceasedController extends Controller
 
     public function get_allData()
     {
-        $data = DB::select('select addresses.*, services.*, users.*, deceaseds.*, deceaseds.id as deceased_id
-                            from addresses, users, deceaseds, services
+        $data = DB::select('select addresses.*, services.*, deceaseds.*, deceaseds.id as deceased_id
+                            from addresses, deceaseds, services
                             where addresses.id = deceaseds.address_id
-                            and services.id = deceaseds.service_id
-                            and users.id = deceaseds.contactperson_id');
+                            and services.id = deceaseds.service_id');
         return response()->json($data);
     }
 
@@ -265,9 +272,10 @@ class DeceasedController extends Controller
         and deceaseds.id = '.$deceased_id.'');
 
         $contactperson =  DB::select('SELECT users.*, deceaseds.id as deceased_id, addresses.*
-                                        FROM users, deceaseds, addresses
-                                        where users.id = deceaseds.contactperson_id
-                                        and addresses.id = users.address_id
+                                        FROM users, deceaseds, addresses, contactpeople
+                                        where addresses.id = users.address_id
+                                        and contactpeople.id = users.id
+                                        and deceaseds.id = contactpeople.deceased_id
                                         and deceaseds.id = '.$deceased_id.'');
 
         $data = [ $deceased_info, $deceased_asssigment, $contactperson];
