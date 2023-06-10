@@ -4,13 +4,16 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="info">
-          <h1 href="#" class="d-block" style = "color: white; text-align: center; font-family: Gabriola"><b>LUGAIT CIMS</b></h1>
+          <!-- <h1 href="#" class="d-block" style = "color: white; text-align: center; font-family: Gabriola"><b>LUGAIT CIMS</b></h1> -->
            <!-- <img src="{{ asset('assets/img/logos/Lugait.png') }}" alt="CIMS LOGO" style = "width: 200px; height: 200px"> -->
+          <!-- <h1 href="#" class="d-block" style = "color: white; text-align: center; font-family: Gabriola"><b>LUGAIT CIMS</b></h1> -->
+           <img src="{{ asset('assets/img/logos/Lugait.png') }}" alt="CIMS LOGO" style = "width: 200px; height: 200px">
+
         </div>
       </div>
 
       <!-- Sidebar Menu -->
-      <nav class="mt-2">
+      <nav class="mt-2" style = "font-size: 16px">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->

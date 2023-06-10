@@ -90,7 +90,7 @@
                   <thead style = "background-color: #170036; color: white">
                     <tr>
                         <th>Full Name (L,M,F)</th>
-                        <th>Address</th>
+                        <th>Address (Barangay, City/Municipality)</th>
                         <th>Date of Burial</th>
                         <th>Sex</th>
                         <th>Status</th>
@@ -120,15 +120,29 @@
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header" style = "background-color: #170036; color: white">
-                <h4 class="modal-title"> 
-                <img src="{{ asset('assets/img/logos/Lugait.png') }}" style = "width: 50px; height: 50px" alt="">    
-                Lugait Public Cemetery Form</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
+         
+                    <div class="col-md-5" style = "font-size: 26px; font-family: Algerian">
+                        <img src="{{ asset('assets/img/logos/Lugait.png') }}" style = "width: 100px; height: 100px" alt="">    
+                        CEMETERY FORM
+                    </div>
+                    <div class="col-md-6" style = "text-align: right">
+                        Republic of the Philipines <br>
+                        <b>MUNICIPAL ECONOMIC ENTERPRISE AND DEVELOPMENT OFFICE</b> <br>
+                        LUGAIT CEMETERY ENTERPRISE <br>
+                        9025 Lugait, Misamis Oriental <br>
+                        Tel. No. (+63) 225-6170 <br>
+                    </div>
+                    <div class = "col-md-1">
+                        <button type="button" style = "color: white" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" style = "color: white">&times;</span>
+                        </button>
+                    </div>
+              
             </div>
             <form action="" id = "cemetery_form" method="post">
                 {{ csrf_field() }}
+                <input type="hidden" name="contactperson_id" id = "contactperson_id" value = "">
+                <input type="hidden" name="contactperson_id1" id = "contactperson_id1" value = "">
                 <input type="hidden" name="cemetery_id" id = "cemetery_id" value = "">
                 <div class="modal-body">
                     <h5 style = "color: red;"><b>Deceased Information</b> </h5><p></p>
@@ -140,7 +154,7 @@
                                 <span class="input-group-text"><i class="fas fa-user"></i></span>
                                 </div>
                                 <input type="text" autocomplete = "off" 
-                                onkeydown="return /[a-zA-Z ]/i.test(event.key)"
+                                onkeydown="return /[a-zA-Z ]/i.test(event.key)" oninput="return $('#sp_lastname').html(''), $(this).removeClass('is-invalid')"
                                 name="lastname" id="lastname" class="form-control form-control-border">
                             </div>
                             <span style = "color: red" class = "span" id = "sp_lastname"></span>
@@ -151,7 +165,9 @@
                                 <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-user"></i></span>
                                 </div>
-                                <input type="text" autocomplete = "off" onkeydown="return /[a-zA-Z ]/i.test(event.key)" name="middlename" id="middlename" class="form-control form-control-border">
+                                <input type="text" autocomplete = "off" 
+                                onkeydown="return /[a-zA-Z ]/i.test(event.key)" oninput="return $('#sp_middlename').html(''), $(this).removeClass('is-invalid')"
+                                name="middlename" id="middlename" class="form-control form-control-border">
                             </div>
                             <span style = "color: red" class = "span" id = "sp_middlename"></span>
                         </div>
@@ -161,13 +177,13 @@
                                 <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-user"></i></span>
                                 </div>
-                                <input type="text" autocomplete = "off" onkeydown="return /[a-zA-Z ]/i.test(event.key)" name="firstname" id="firstname" class="form-control form-control-border">
+                                <input type="text" autocomplete = "off" oninput="return $('#sp_firstname').html(''), $(this).removeClass('is-invalid')" onkeydown="return /[a-zA-Z ]/i.test(event.key)" name="firstname" id="firstname" class="form-control form-control-border">
                             </div>
                             <span style = "color: red" class = "span" id = "sp_firstname"></span>
                         </div>
                         <div class="col-md-3">
                             <label for="">Suffix</label>
-                            <select class="form-control form-control-border select2-primary" data-dropdown-css-class="select2-primary" id = "suffix" name = "suffix" style="width: 100%;">
+                            <select class="form-control form-control-border select2-primary" onchange="return $('#sp_suffix').html(''), $(this).removeClass('is-invalid')" data-dropdown-css-class="select2-primary" id = "suffix" name = "suffix" style="width: 100%;">
                                 <option value="">-- Please select here</option>
                                 <option value="N">NONE</option>
                                 <option value="SR">SR</option>
@@ -190,17 +206,17 @@
                     <div class="row">
                         <div class="col-md-3">
                             <label for="">Date of Birth</label>
-                            <input type="date" name="dateofbirth" id="dateofbirth" class="form-control form-control-border">
+                            <input type="date" name="dateofbirth" oninput="return $('#sp_dateofbirth').html(''), $(this).removeClass('is-invalid')" id="dateofbirth" class="form-control form-control-border">
                             <span style = "color: red" class = "span" id = "sp_dateofbirth"></span>
                         </div>
                         <div class="col-md-3">
                             <label for="">Date of Burial</label>
-                            <input type="date" name="dateof_burial" id="dateof_burial" class="form-control form-control-border">
+                            <input type="date" name="dateof_burial" id="dateof_burial" oninput="return $('#sp_dateofburial').html(''), $(this).removeClass('is-invalid')" class="form-control form-control-border">
                             <span style = "color: red" class = "span" id = "sp_dateofburial"></span>
                         </div>
                         <div class="col-md-3">
                             <label for="">Time</label>
-                            <input type="time" name="burial_time" id="burial_time" class ="form-control form-control-border">
+                            <input type="time" name="burial_time" id="burial_time" oninput="return $('#sp_burialtime').html(''), $(this).removeClass('is-invalid')" class ="form-control form-control-border">
                             <span style = "color: red" class = "span" id = "sp_burialtime"></span>
                         </div>
                         <div class="col-md-3">
@@ -224,37 +240,9 @@
                     </div>
                     <p></p>
                     <div class="row">
-                        <div class="col-md-3">
-                            <label for="">Region</label>
-                            <select class="form-control form-control-border select2-primary" data-dropdown-css-class="select2-primary" id = "region" name = "region" style="width: 100%;">
-                                
-                            </select>
-                            <span style = "color: red" class = "span" id = "sp_region"></span>
-                        </div>
-                        <div class="col-md-3">
-                            <label for="">Province</label>
-                            <select class="form-control form-control-border select2-primary" data-dropdown-css-class="select2-primary" id = "province" name = "province" style="width: 100%;">
-                            </select>
-                            <span style = "color: red" class = "span" id = "sp_province"></span>
-                        </div>
-                        <div class="col-md-3">
-                            <label for="">City / Municipality</label>
-                            <select class="form-control form-control-border select2-primary" data-dropdown-css-class="select2-primary" id = "city" name = "city" style="width: 100%;">
-                            </select>
-                            <span style = "color: red" class = "span" id = "sp_city"></span>
-                        </div>
-                        <div class="col-md-3">
-                            <label for="">Barangay</label>
-                            <select class="form-control form-control-border select2-primary" data-dropdown-css-class="select2-primary" id = "barangay" name = "barangay" style="width: 100%;">
-                            </select>
-                            <span style = "color: red" class = "span" id = "sp_barangay"></span>
-                        </div>
-                    </div>
-                    <p></p>
-                    <div class="row">
                         <div class="col-md-4">
                             <label for=""><u>Cause of Death</u></label>
-                            <select class="form-control form-control-border select2-primary" data-dropdown-css-class="select2-primary" id = "causeofdeath" name = "causeofdeath" style="width: 100%;">
+                            <select class="form-control form-control-border select2-primary" onchange="return $('#sp_causeofdeath').html(''), $(this).removeClass('is-invalid')" data-dropdown-css-class="select2-primary" id = "causeofdeath" name = "causeofdeath" style="width: 100%;">
                                 <option value="">-- Please select here</option>
                                 <option value="N">NATURAL</option>
                                 <option value="A">ACCIDENT</option>
@@ -267,7 +255,7 @@
                         </div>
                         <div class="col-md-4">
                             <label for="">Date of Death</label>
-                            <input type="date" name="dateof_death" id="dateof_death" class="form-control form-control-border">
+                            <input type="date" name="dateof_death" oninput="return $('#sp_dateofdeath').html(''), $(this).removeClass('is-invalid')" id="dateof_death" class="form-control form-control-border">
                             <span style = "color: red" class = "span" id = "sp_dateofdeath"></span>
                         </div>
                         <div class="col-md-4">
@@ -302,6 +290,34 @@
                         </div>
                     </div>
                     <p></p>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="">Region</label>
+                            <select class="form-control form-control-border select2-primary" onchange="return $('#sp_region').html(''), $(this).removeClass('is-invalid')" data-dropdown-css-class="select2-primary" id = "region" name = "region" style="width: 100%;">
+                                
+                            </select>
+                            <span style = "color: red" class = "span" id = "sp_region"></span>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">Province</label>
+                            <select class="form-control form-control-border select2-primary" onchange="return $('#sp_province').html(''), $(this).removeClass('is-invalid')"data-dropdown-css-class="select2-primary" id = "province" name = "province" style="width: 100%;">
+                            </select>
+                            <span style = "color: red" class = "span" id = "sp_province"></span>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">City / Municipality</label>
+                            <select class="form-control form-control-border select2-primary" onchange="return $('#sp_city').html(''), $(this).removeClass('is-invalid')" data-dropdown-css-class="select2-primary" id = "city" name = "city" style="width: 100%;">
+                            </select>
+                            <span style = "color: red" class = "span" id = "sp_city"></span>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">Barangay</label>
+                            <select class="form-control form-control-border select2-primary" onchange="return $('#sp_barangay').html(''), $(this).removeClass('is-invalid')" data-dropdown-css-class="select2-primary" id = "barangay" name = "barangay" style="width: 100%;">
+                            </select>
+                            <span style = "color: red" class = "span" id = "sp_barangay"></span>
+                        </div>
+                    </div>
+                    <p></p>
                     <h5 style = "color: green"><b>Contact Person Information</b> </h5><p></p>
                     <div class="row" >
                         <div class="col-md-4" >
@@ -310,13 +326,13 @@
                                 <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-user"></i></span>
                                 </div>
-                                <input type="text" autocomplete = "off" onkeydown="return /[a-zA-Z, ]/i.test(event.key)" name="contactperson" id="contactperson" class="form-control form-control-border">
+                                <input type="text" autocomplete = "off" onkeydown="return /[a-zA-Z, ]/i.test(event.key)" oninput="return $('#sp_contactperson').html(''), $(this).removeClass('is-invalid')" name="contactperson" id="contactperson" class="form-control form-control-border">
                             </div>
                             <span style = "color: red" class = "span" id = "sp_contactperson"></span>
                         </div>
                         <div class="col-md-4">
                             <label for="">Relationship to the Deceased</label>
-                            <select  class="form-control form-control-border select2-primary"  data-dropdown-css-class="select2-primary" id = "relationship" name = "relationship" style="width: 100%;">
+                            <select  class="form-control form-control-border select2-primary"  data-dropdown-css-class="select2-primary" onchange="return $('#sp_relationship').html(''), $(this).removeClass('is-invalid')" id = "relationship" name = "relationship" style="width: 100%;">
                                 <option value="">-- Please select here</option>
                                 <option value="1">SIBLING</option>
                                 <option value="2">COUSIN</option>
@@ -333,7 +349,7 @@
                                 <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-phone"></i>&nbsp; +63</span>
                                 </div>
-                                <input type="tel" maxlength = "10" pattern = "^(9|\+639)\d{9}$" id = "contactnumber" name = "contactnumber" class="form-control form-control-border" >
+                                <input type="tel" maxlength = "10" pattern = "^(9|\+639)\d{9}$" id = "contactnumber" oninput="return $('#sp_contactnumber').html(''), $(this).removeClass('is-invalid')" name = "contactnumber" class="form-control form-control-border" >
                             </div>
                             <span style = "color: red" class = "span" id = "sp_contactnumber"></span>
                         </div>
@@ -355,25 +371,25 @@
                     <div class="row" id= "contactperson_address">
                         <div class="col-md-3">
                             <label for="">Region</label>
-                            <select class="form-control form-control-border select2-primary" data-dropdown-css-class="select2-primary" id = "region1" name = "region1" style="width: 100%;">
+                            <select class="form-control form-control-border select2-primary"  onchange="return $('#sp_region1').html(''), $(this).removeClass('is-invalid')" data-dropdown-css-class="select2-primary" id = "region1" name = "region1" style="width: 100%;">
                             </select>
                             <span style = "color: red" class = "span" id = "sp_region1"></span>
                         </div>
                         <div class="col-md-3">
                             <label for="">Province</label>
-                            <select class="form-control form-control-border select2-primary" data-dropdown-css-class="select2-primary" id = "province1" name = "province1" style="width: 100%;">
+                            <select class="form-control form-control-border select2-primary" onchange="return $('#sp_province1').html(''), $(this).removeClass('is-invalid')" data-dropdown-css-class="select2-primary" id = "province1" name = "province1" style="width: 100%;">
                             </select>
                             <span style = "color: red" class = "span" id = "sp_province1"></span>
                         </div>
                         <div class="col-md-3">
                             <label for="">City</label>
-                            <select class="form-control form-control-border select2-primary" data-dropdown-css-class="select2-primary" id = "city1" name = "city1" style="width: 100%;">
+                            <select class="form-control form-control-border select2-primary" onchange="return $('#sp_city1').html(''), $(this).removeClass('is-invalid')" data-dropdown-css-class="select2-primary" id = "city1" name = "city1" style="width: 100%;">
                             </select>
                             <span style = "color: red" class = "span" id = "sp_city1"></span>
                         </div>
                         <div class="col-md-3">
                             <label for="">Barangay</label>
-                            <select class="form-control form-control-border select2-primary" data-dropdown-css-class="select2-primary" id = "barangay1" name = "barangay1" style="width: 100%;">
+                            <select class="form-control form-control-border select2-primary" onchange="return $('#sp_barangay1').html(''), $(this).removeClass('is-invalid')" data-dropdown-css-class="select2-primary" id = "barangay1" name = "barangay1" style="width: 100%;">
                             </select>
                             <span style = "color: red" class = "span" id = "sp_barangay1"></span>
                         </div>
@@ -400,13 +416,13 @@
                                     <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-user"></i></span>
                                     </div>
-                                    <input type="text" autocomplete = "off" onkeydown="return /[a-zA-Z ]/i.test(event.key)" name="contactperson1" id="contactperson1" class="form-control form-control-border">
+                                    <input type="text" autocomplete = "off" oninput="return $('#sp_contactperson1').html(''), $(this).removeClass('is-invalid')" onkeydown="return /[a-zA-Z ]/i.test(event.key)" name="contactperson1" id="contactperson1" class="form-control form-control-border">
                                 </div>
                                 <span style = "color: red" class = "span" id = "sp_contactperson1"></span>
                             </div>
                             <div class="col-md-4">
                                 <label for="">Relationship to the Deceased</label>
-                                <select  class="form-control form-control-border select2-primary"  data-dropdown-css-class="select2-primary" id = "relationship1" name = "relationship1" style="width: 100%;">
+                                <select  class="form-control form-control-border select2-primary" onchange="return $('#sp_relationship1').html(''), $(this).removeClass('is-invalid')" data-dropdown-css-class="select2-primary" id = "relationship1" name = "relationship1" style="width: 100%;">
                                     <option value="">-- Please select here</option>
                                     <option value="1">SIBLING</option>
                                     <option value="2">COUSIN</option>
@@ -423,7 +439,7 @@
                                     <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-phone"></i>&nbsp; +63</span>
                                     </div>
-                                    <input type="tel" maxlength = "10" pattern = "^(9|\+639)\d{9}$" id = "contactnumber1" name = "contactnumber1" class="form-control form-control-border" >
+                                    <input type="tel" maxlength = "10" pattern = "^(9|\+639)\d{9}$" oninput="return $('#sp_contactnumber1').html(''), $(this).removeClass('is-invalid')" id = "contactnumber1" name = "contactnumber1" class="form-control form-control-border" >
                                 </div>
                                 <span style = "color: red" class = "span" id = "sp_contactnumber1"></span>
                             </div>
@@ -444,25 +460,25 @@
                             <div class="row" id= "contactperson_address1">
                                 <div class="col-md-3">
                                     <label for="">Region</label>
-                                    <select class="form-control form-control-border select2-primary" data-dropdown-css-class="select2-primary" id = "region2" name = "region2" style="width: 100%;">
+                                    <select class="form-control form-control-border select2-primary" onchange="return $('#sp_region2').html(''), $(this).removeClass('is-invalid')" data-dropdown-css-class="select2-primary" id = "region2" name = "region2" style="width: 100%;">
                                     </select>
                                     <span style = "color: red" class = "span" id = "sp_region2"></span>
                                 </div>
                                 <div class="col-md-3">
                                     <label for="">Province</label>
-                                    <select class="form-control form-control-border select2-primary" data-dropdown-css-class="select2-primary" id = "province2" name = "province2" style="width: 100%;">
+                                    <select class="form-control form-control-border select2-primary" onchange="return $('#sp_province2').html(''), $(this).removeClass('is-invalid')" data-dropdown-css-class="select2-primary" id = "province2" name = "province2" style="width: 100%;">
                                     </select>
                                     <span style = "color: red" class = "span" id = "sp_province2"></span>
                                 </div>
                                 <div class="col-md-3">
                                     <label for="">City</label>
-                                    <select class="form-control form-control-border select2-primary" data-dropdown-css-class="select2-primary" id = "city2" name = "city2" style="width: 100%;">
+                                    <select class="form-control form-control-border select2-primary" onchange="return $('#sp_city2').html(''), $(this).removeClass('is-invalid')" data-dropdown-css-class="select2-primary" id = "city2" name = "city2" style="width: 100%;">
                                     </select>
                                     <span style = "color: red" class = "span" id = "sp_city2"></span>
                                 </div>
                                 <div class="col-md-3">
                                     <label for="">Barangay</label>
-                                    <select class="form-control form-control-border select2-primary" data-dropdown-css-class="select2-primary" id = "barangay2" name = "barangay2" style="width: 100%;">
+                                    <select class="form-control form-control-border select2-primary" onchange="return $('#sp_barangay2').html(''), $(this).removeClass('is-invalid')" data-dropdown-css-class="select2-primary" id = "barangay2" name = "barangay2" style="width: 100%;">
                                     </select>
                                     <span style = "color: red" class = "span" id = "sp_barangay2"></span>
                                 </div>
@@ -496,6 +512,25 @@
 
 <!-- REQUIRED SCRIPTS -->
 @include('references.scripts')
+
+<script type = "text/javascript">
+    $(function(){
+    var dtToday = new Date();
+
+    var month = dtToday.getMonth() + 1;
+    var day = dtToday.getDate();
+    var year = dtToday.getFullYear();
+
+    if(month < 10)
+        month = '0' + month.toString();
+    if(day < 10)
+        day = '0' + day.toString();
+
+    var maxDate = year + '-' + month + '-' + day;    
+    $('#dateofbirth').attr('max', maxDate);
+    $('#dateof_death').attr('max', maxDate);
+});
+</script>
 <script type="text/javascript" src="https://f001.backblazeb2.com/file/buonzz-assets/jquery.ph-locations.js"></script>
 <script type="text/javascript">
             
@@ -545,6 +580,29 @@
         }
     };
 
+    var my_handlers2 = {
+
+        fill_provinces:  function(){
+            $("#city2").html("");
+            $("#barangay2").html("");
+            var region_code = $(this).val();
+            $('#province2').ph_locations('fetch_list', [{"region_code": region_code}]);
+            
+        },
+
+        fill_cities: function(){
+            $("#barangay2").html("");
+            var province_code = $(this).val();
+            $('#city2').ph_locations( 'fetch_list', [{"province_code": province_code}]);
+        },
+
+
+        fill_barangays: function(){
+            var city_code = $(this).val();
+            $('#barangay2').ph_locations('fetch_list', [{"city_code": city_code}]);
+        }
+    };
+
     $(function(){
         $('#region').on('change', my_handlers.fill_provinces);
         $('#province').on('change', my_handlers.fill_cities);
@@ -555,7 +613,7 @@
         $('#city').ph_locations({'location_type': 'cities'});
         $('#barangay').ph_locations({'location_type': 'barangays'});
 
-        $('#region').ph_locations('fetch_list');
+       
 
         // Contact person address
         $('#region1').on('change', my_handlers1.fill_provinces);
@@ -567,7 +625,21 @@
         $('#city1').ph_locations({'location_type': 'cities'});
         $('#barangay1').ph_locations({'location_type': 'barangays'});
 
+        
+
+        //other contact person
+        $('#region2').on('change', my_handlers2.fill_provinces);
+        $('#province2').on('change', my_handlers2.fill_cities);
+        $('#city2').on('change', my_handlers2.fill_barangays);
+
+        $('#region2').ph_locations({'location_type': 'regions'});
+        $('#province2').ph_locations({'location_type': 'provinces'});
+        $('#city2').ph_locations({'location_type': 'cities'});
+        $('#barangay2').ph_locations({'location_type': 'barangays'});
+
+        $('#region').ph_locations('fetch_list');
         $('#region1').ph_locations('fetch_list');
+        $('#region2').ph_locations('fetch_list');
     });
 </script>
 <script>
@@ -631,12 +703,12 @@
         if($(this).prop('checked') == true)
         {
             $("#other_contactperson").show();
-            addcontactperson = 1;
+            addcontact_person = 1;
         }
         else
         {
             $("#other_contactperson").hide();
-            addcontactperson = 0;
+            addcontact_person = 0;
         }
    })
     show_allServices();
@@ -645,9 +717,11 @@
         $("#cemetery_form").trigger('reset');
         $("#cemetery_id").val("");
         $('input[type="radio"]').prop('checked', false);
-        $("select").val("");
+        $('input[type="checkbox"]').prop('checked', false);
         $('#region').ph_locations('fetch_list');
         $('#region1').ph_locations('fetch_list');
+        $('#region2').ph_locations('fetch_list'); 
+        $("select").val("");
         $("#modal_form").modal({backdrop:'static', keyboard: false});
     })
     function show_allData()
@@ -666,7 +740,7 @@
                 {
                     row += '<tr data-id = '+data[i].deceased_id+' style = "text-transform: uppercase">';
                     row += '<td>'+data[i].lastname+", "+data[i].middlename+", "+data[i].firstname+'</td>';
-                    row += '<td>'+data[i].barangay+", "+data[i].city+", "+data[i].province+" "+data[i].region+'</td>';
+                    row += '<td>'+data[i].barangay+", "+data[i].city+'</td>';
                     row += '<td>'+data[i].dateof_burial+'</td>';
                     row += '<td>'+data[i].sex+'</td>';
                     row += '<td><span class = "badge badge-danger right"> '+data[i].service_name+'</span></td>';
@@ -708,6 +782,7 @@
             success:function(data)
             {
                 $("#cemetery_id").val(id);
+                $("#contactperson_id").val(data[2][0].contactperson_id);
                 $("#lastname").val(data[0][0].lastname)
                 $("#middlename").val(data[0][0].middlename)
                 $("#firstname").val(data[0][0].firstname)
@@ -728,23 +803,44 @@
                 $("#province").prepend("<option selected='selected' value = "+data[0][0].province_no+">"+data[0][0].province+"</option>");
                 $("#city").prepend("<option selected='selected' value = "+data[0][0].city_no+">"+data[0][0].city+"</option>");
                 $("#barangay").prepend("<option selected='selected' value = "+data[0][0].barangay_no+">"+data[0][0].barangay+"</option>");
-             
+                
                 $("#causeofdeath option").filter(function() {
                     return $(this).val() == data[0][0].causeofdeath;
                 }).attr('selected', true);
+
                 $("#contactperson").val(data[2][0].name),
                 $("#relationship option").filter(function() {
-                    return $(this).val() == data[0][0].relationship;
+                    return $(this).val() == data[2][0].relationshipthdeceased;
                 }).attr('selected', true);
                 $("#contactnumber").val(data[2][0].contactnumber);
 
-                $("#region1 option").filter(function() {
-                    return $(this).val() == data[2][0].region_no;
-                }).attr('selected', true);
+                
+                
+                if(data[2][1] != null)
+                {
+                    $("#contactperson_id1").val(data[2][1].contactperson_id);
+                    $("#contactperson1").val(data[2][1].name),
+                    $("#relationship1 option").filter(function() {
+                        return $(this).val() == data[2][1].relationshipthdeceased;
+                    }).attr('selected', true);
+                    $("#contactnumber1").val(data[2][1].contactnumber);
 
-                $("#province1").prepend("<option selected='selected' value = "+data[2][0].province_no+">"+data[2][0].province+"</option>");
-                $("#city1").prepend("<option selected='selected' value = "+data[2][0].city_no+">"+data[2][0].city+"</option>");
-                $("#barangay1").prepend("<option selected='selected' value = "+data[2][0].barangay_no+">"+data[2][0].barangay+"</option>");
+                    $("#region1 option").filter(function() {
+                        return $(this).val() == data[2][0].region_no;
+                    }).attr('selected', true);
+                    $("#province1").prepend("<option selected='selected' value = "+data[2][0].province_no+">"+data[2][0].province+"</option>");
+                    $("#city1").prepend("<option selected='selected' value = "+data[2][0].city_no+">"+data[2][0].city+"</option>");
+                    $("#barangay1").prepend("<option selected='selected' value = "+data[2][0].barangay_no+">"+data[2][0].barangay+"</option>");
+                    $("input[name='add_contactperson']").prop('checked', true);
+                    $("#other_contactperson").show();
+                    $("#region2 option").filter(function() {
+                        return $(this).val() == data[2][1].region_no;
+                    }).attr('selected', true);
+                    $("#province2").prepend("<option selected='selected' value = "+data[2][1].province_no+">"+data[2][1].province+"</option>");
+                    $("#city2").prepend("<option selected='selected' value = "+data[2][1].city_no+">"+data[2][1].city+"</option>");
+                    $("#barangay2").prepend("<option selected='selected' value = "+data[2][1].barangay_no+">"+data[2][1].barangay+"</option>");
+                }
+              
                 $("#modal_form").modal({
                     'backdrop': 'static',
                     'keyboard': false
@@ -814,7 +910,8 @@
     }
     $("#cemetery_form").on('submit', function(e){
         e.preventDefault();
-        $("#pageloader").show();
+        // $("#pageloader").show();
+        var cem_id = $("#cemetery_id").val();
         var data = $(this).serialize();
         var region_text = $("#region option:selected").text();
         var province_text = $("#province option:selected").text();
@@ -841,6 +938,8 @@
         $(".select2-info").removeClass('is-invalid');
         $(".span").html("");
 
+        if(cem_id === "")
+        {
             $.ajax({
                 type: 'post',
                 url: '{{ route("deceaseds.store") }}',
@@ -860,7 +959,6 @@
                     city: $("#city").val(),
                     barangay: $("#barangay").val(),
                     causeofdeath: $("#causeofdeath").val(),
-                    // service_id: $("#service_id").val(),
                     contactperson: $("#contactperson").val(),
                     relationship: $("#relationship").val(),
                     contactnumber: $("#contactnumber").val(),
@@ -877,7 +975,6 @@
                     city_text1: city_text1,
                     barangay_text1: barangay_text1,
                     sameaddress: haschecked,
-
                     contactperson1: $("#contactperson1").val(),
                     relationship1: $("#relationship1").val(),
                     contactnumber1: $("#contactnumber1").val(),
@@ -1088,6 +1185,258 @@
                     alert("Sorry for inconvenient cannot process the request.");
                 }
             });
+        }
+        else
+        {
+            $.ajax({
+                type: 'put',
+                url: "deceaseds/update/"+cem_id,
+                data: {
+                    cem_id: cem_id,
+                    contactperson_id: $("#contactperson_id").val(),
+                    contactperson_id1: $("#contactperson_id1").val(),
+                    lastname: $("#lastname").val(),
+                    middlename: $("#middlename").val(),
+                    firstname: $("#firstname").val(),
+                    suffix: $("#suffix").val(),
+                    dateof_death: $("#dateof_death").val(),
+                    dateofbirth: $("#dateofbirth").val(),
+                    civilstatus: $("input[name='civilstatus']:checked").val(),
+                    dateof_burial: $("#dateof_burial").val(),
+                    burial_time: $("#burial_time").val(),
+                    sex: $("input[name='sex']:checked").val(),
+                    region: $("#region").val(),
+                    province: $("#province").val(),
+                    city: $("#city").val(),
+                    barangay: $("#barangay").val(),
+                    causeofdeath: $("#causeofdeath").val(),
+                    contactperson: $("#contactperson").val(),
+                    relationship: $("#relationship").val(),
+                    contactnumber: $("#contactnumber").val(),
+                    region1: $("#region1").val(),
+                    province1: $("#province1").val(),
+                    city1: $("#city1").val(),
+                    barangay1: $("#barangay1").val(),
+                    region_text: region_text,
+                    province_text: province_text,
+                    city_text: city_text,
+                    barangay_text: barangay_text,
+                    region_text1: region_text1,
+                    province_text1: province_text1,
+                    city_text1: city_text1,
+                    barangay_text1: barangay_text1,
+                    sameaddress: haschecked,
+                    contactperson1: $("#contactperson1").val(),
+                    relationship1: $("#relationship1").val(),
+                    contactnumber1: $("#contactnumber1").val(),
+                    region2: $("#region2").val(),
+                    province2: $("#province2").val(),
+                    city2: $("#city2").val(),
+                    barangay2: $("#barangay2").val(),
+                    region_text2: region_text2,
+                    province_text2: province_text2,
+                    city_text2: city_text2,
+                    barangay_text2: barangay_text2,
+                    sameaddress1: haschecked1,
+                    addcontactperson: addcontact_person,
+                },
+                dataType: 'json',
+                success: function(response){
+                    if(response.status == 1)
+                    {
+                        show_allBlocks();
+                        show_allData();
+                        $("input[type='text']").removeClass('is-invalid');
+                        $("input[type='radio']").removeClass('is-invalid');
+                        $("input[type='checkbox']").removeClass('is-invalid');
+                        $("input[type='date']").removeClass('is-invalid');
+                        $("input[type='number']").removeClass('is-invalid');
+                        $(".select2-primary").removeClass('is-invalid');
+                        $(".select2-info").removeClass('is-invalid');
+                        $(".span").html("");
+                        $("#modal_form").modal('hide');
+                        $(document).Toasts('create', {
+                            class: 'bg-success',
+                            title: 'Responses',
+                            autohide: true,
+                            delay: 3000,
+                            body: response.message,
+                        })
+                    }
+                    else if(response.status == 2)
+                    {
+                         $.each(response.message, function(key, value){
+                            if(key == "lastname")
+                            {
+                                $("#sp_lastname").text(value);
+                                $("#lastname").addClass('is-invalid');
+                            }
+                            else  if(key == "firstname")
+                            {
+                                $("#sp_firstname").text(value);
+                                $("#firstname").addClass('is-invalid');
+                            }
+                            else if(key == "middlename")
+                            {
+                                $("#sp_middlename").text(value);
+                                $("#middlename").addClass('is-invalid');
+                            }
+                            else if(key == "suffix")
+                            {
+                                $("#sp_suffix").text(value);
+                                $("#suffix").addClass('is-invalid');
+                            }
+                            else if(key == "dateof_death")
+                            {
+                                $("#sp_dateofdeath").text(value);
+                                $("#dateof_death").addClass('is-invalid');
+                            }
+                            else if(key == "dateofbirth")
+                            {
+                                $("#sp_dateofbirth").text(value);
+                                $("#dateofbirth").addClass('is-invalid');
+                            }
+                            else if(key == "civilstatus")
+                            {
+                                $("#sp_civilstatus").text(value);
+                                $("#civilstatus").addClass('is-invalid');
+                            }
+                            else if(key == "dateof_burial")
+                            {
+                                $("#sp_dateofburial").text(value);
+                                $("#dateof_burial").addClass('is-invalid');
+                            }
+                            else if(key == "burial_time")
+                            {
+                                $("#sp_burialtime").text(value);
+                                $("#burial_time").addClass('is-invalid');
+                            }
+                            else if(key == "sex")
+                            {
+                                $("#sp_sex").text(value);
+                                $("#sex").addClass('is-invalid');
+                            }
+                            else if(key == "region")
+                            {
+                                $("#sp_region").text(value);
+                                $("#region").addClass('is-invalid');
+                            }
+                            else if(key == "province")
+                            {
+                                $("#sp_province").text(value);
+                                $("#province").addClass('is-invalid');
+                            }
+                            else if(key == "city")
+                            {
+                                $("#sp_city").text(value);
+                                $("#city").addClass('is-invalid');
+                            }
+                            else if(key == "barangay")
+                            {
+                                $("#sp_barangay").text(value);
+                                $("#barangay").addClass('is-invalid');
+                            }
+                            else if(key == "causeofdeath")
+                            {
+                                $("#sp_causeofdeath").text(value);
+                                $("#causeofdeath").addClass('is-invalid');
+                            }
+                            else if(key == "service_id")
+                            {
+                                $("#sp_service").text(value);
+                                $("#service_id").addClass('is-invalid');
+                            }
+                            else if(key == "contactperson")
+                            {
+                                $("#sp_contactperson").text(value);
+                                $("#contactperson").addClass('is-invalid');
+                            }
+                            else if(key == "contactnumber")
+                            {
+                                $("#sp_contactnumber").text(value);
+                                $("#contactnumber").addClass('is-invalid');
+                            }
+                            else if(key == "relationship")
+                            {
+                                $("#sp_relationship").text(value);
+                                $("#relationship").addClass('is-invalid');
+                            }
+                            else if(key == "region1")
+                            {
+                                $("#sp_region1").text(value);
+                                $("#region1").addClass('is-invalid');
+                            }
+                            else if(key == "province1")
+                            {
+                                $("#sp_province1").text(value);
+                                $("#province1").addClass('is-invalid');
+                            }
+                            else if(key == "city1")
+                            {
+                                $("#sp_city1").text(value);
+                                $("#city1").addClass('is-invalid');
+                            }
+                            else if(key == "barangay1")
+                            {
+                                $("#sp_barangay1").text(value);
+                                $("#barangay1").addClass('is-invalid');
+                            }
+
+                            else if(key == "contactperson1")
+                            {
+                                $("#sp_contactperson1").text(value);
+                                $("#contactperson1").addClass('is-invalid');
+                            }
+                            else if(key == "contactnumber1")
+                            {
+                                $("#sp_contactnumbe1r").text(value);
+                                $("#contactnumber1").addClass('is-invalid');
+                            }
+                            else if(key == "relationship1")
+                            {
+                                $("#sp_relationship1").text(value);
+                                $("#relationship1").addClass('is-invalid');
+                            }
+                            else if(key == "region2")
+                            {
+                                $("#sp_region2").text(value);
+                                $("#region2").addClass('is-invalid');
+                            }
+                            else if(key == "province2")
+                            {
+                                $("#sp_province2").text(value);
+                                $("#province2").addClass('is-invalid');
+                            }
+                            else if(key == "city2")
+                            {
+                                $("#sp_city2").text(value);
+                                $("#city2").addClass('is-invalid');
+                            }
+                            else if(key == "barangay2")
+                            {
+                                $("#sp_barangay2").text(value);
+                                $("#barangay2").addClass('is-invalid');
+                            }
+                            else
+                            {
+                                
+                            }
+                    });
+                    }
+                    else
+                    {
+                        alert(response.message);
+                    }
+                },
+                complete: function(response){
+                    $("#preloader").hide();
+                },
+                error: function(response)
+                {
+                    alert("Sorry for inconvenient cannot process the request.");
+                }
+            });
+        }
       
     });
   })
