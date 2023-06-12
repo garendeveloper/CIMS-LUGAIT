@@ -49,6 +49,10 @@
 
 <!-- Number Format -->
 <script src="{{ asset('numberformat/jquery.number.js') }}"></script>
+<!-- Ekko Lightbox -->
+<script src="{{ asset('plugins/ekko-lightbox/ekko-lightbox.min.js') }}"></script>
+<!-- Filterizr-->
+<script src="{{ asset('plugins/filterizr/jquery.filterizr.min.js') }}"></script>
 
 <!-- PAGE PLUGINS -->
 <!-- jQuery Mapael -->

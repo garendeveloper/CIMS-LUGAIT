@@ -71,9 +71,15 @@
                     </div>
                 </div>
               </div>
+              <style>
+                table, td, th{
+                    border: 1px solid #170036;
+                   
+                }
+              </style>
               <!-- /.card-header -->
               <div class="card-body">
-                <table id="tbl_spaceAreas" class="table table-bordered table-striped">
+                <table id="tbl_spaceAreas" class="table responsive">
                   <thead style = "background-color: #170036; color: white">
                   <tr>
                     <th>Section Name</th>
@@ -83,7 +89,7 @@
                   </tr>
                   </thead>
                   <tbody >
-                 
+                    
                   </tfoot>
                 </table>
               </div>

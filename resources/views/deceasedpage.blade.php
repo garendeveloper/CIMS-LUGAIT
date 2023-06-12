@@ -86,7 +86,7 @@
               </style>
               <!-- /.card-header -->
               <div class="card-body">
-                <table id="tbl_deceaseds"  class="table table-stripped table-bordered">
+                <table id="tbl_deceaseds"  class="table table-stripped table-hovered">
                   <thead style = "background-color: #170036; color: white">
                     <tr>
                         <th>Full Name (L,M,F)</th>
@@ -116,28 +116,113 @@
   </div>
   <!-- /.content-wrapper -->
 
+  <!-- Coffin plot, block assignment of deceased -->
+  <div class="modal"  id="assignment">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header" style = "background-color: #170036; color: white">
+                <div class="col-md-5" style = "font-size: 26px; font-family: Algerian">
+                    <img src="{{ asset('assets/img/logos/Lugait.png') }}" style = "width: 100px; height: 100px" alt="">    
+                    DECEASED INFORMATION
+                </div>
+                <div class="col-md-6" style = "text-align: right">
+                    Republic of the Philipines <br>
+                    <b>MUNICIPAL ECONOMIC ENTERPRISE AND DEVELOPMENT OFFICE</b> <br>
+                    LUGAIT CEMETERY ENTERPRISE <br>
+                    9025 Lugait, Misamis Oriental <br>
+                    Tel. No. (+63) 225-6170 <br>
+                </div>
+                <div class = "col-md-1">
+                    <button type="button" style = "color: white" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" style = "color: white">&times;</span>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <form action="" id = "assignment_form">
+                        <div class = "row">
+                            <table class="table table-responsive table-stripped" id = "spaceareas"></table>
+                        </div>
+                    </form>
+                    <button type="button" class="btn btn-danger btn-block" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <!-- Deceased Information -->
+  <div class="modal"  id="deceased_info">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header" style = "background-color: #170036; color: white">
+                <div class="col-md-5" style = "font-size: 26px; font-family: Algerian">
+                    <img src="{{ asset('assets/img/logos/Lugait.png') }}" style = "width: 100px; height: 100px" alt="">    
+                    DECEASED INFORMATION
+                </div>
+                <div class="col-md-6" style = "text-align: right">
+                    Republic of the Philipines <br>
+                    <b>MUNICIPAL ECONOMIC ENTERPRISE AND DEVELOPMENT OFFICE</b> <br>
+                    LUGAIT CEMETERY ENTERPRISE <br>
+                    9025 Lugait, Misamis Oriental <br>
+                    Tel. No. (+63) 225-6170 <br>
+                </div>
+                <div class = "col-md-1">
+                    <button type="button" style = "color: white" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" style = "color: white">&times;</span>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <table class = "table table-stripped table-hovered" id = "tbl_years">
+                            
+                        </table>
+                        <br>
+                        <div align="center">
+                            <img src="" class = "img-fluid" style = "width: 300px; height: 300px; align: center" alt="" id="img_rip">
+                        </div>
+                        <br>
+                        <table class = "table table-stripped table-hovered" id = "tbl_contactinfo">
+                            
+                        </table>
+                    </div>
+                    <div class="col-md-6">
+                        <table class = "table table-stripped table-hovered" id = "tbl_deceasedinfo">
+                            
+                        </table>
+                    </div>
+                    <button type="button" class="btn btn-danger btn-block" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  
+
+  <!-- Deceased CRUD FORM -->
   <div class="modal"  id="modal_form">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header" style = "background-color: #170036; color: white">
-         
-                    <div class="col-md-5" style = "font-size: 26px; font-family: Algerian">
-                        <img src="{{ asset('assets/img/logos/Lugait.png') }}" style = "width: 100px; height: 100px" alt="">    
-                        CEMETERY FORM
-                    </div>
-                    <div class="col-md-6" style = "text-align: right">
-                        Republic of the Philipines <br>
-                        <b>MUNICIPAL ECONOMIC ENTERPRISE AND DEVELOPMENT OFFICE</b> <br>
-                        LUGAIT CEMETERY ENTERPRISE <br>
-                        9025 Lugait, Misamis Oriental <br>
-                        Tel. No. (+63) 225-6170 <br>
-                    </div>
-                    <div class = "col-md-1">
-                        <button type="button" style = "color: white" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true" style = "color: white">&times;</span>
-                        </button>
-                    </div>
-              
+                <div class="col-md-5" style = "font-size: 26px; font-family: Algerian">
+                    <img src="{{ asset('assets/img/logos/Lugait.png') }}" style = "width: 100px; height: 100px" alt="">    
+                    CEMETERY FORM
+                </div>
+                <div class="col-md-6" style = "text-align: right">
+                    Republic of the Philipines <br>
+                    <b>MUNICIPAL ECONOMIC ENTERPRISE AND DEVELOPMENT OFFICE</b> <br>
+                    LUGAIT CEMETERY ENTERPRISE <br>
+                    9025 Lugait, Misamis Oriental <br>
+                    Tel. No. (+63) 225-6170 <br>
+                </div>
+                <div class = "col-md-1">
+                    <button type="button" style = "color: white" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" style = "color: white">&times;</span>
+                    </button>
+                </div>
             </div>
             <form action="" id = "cemetery_form" method="post">
                 {{ csrf_field() }}
@@ -320,6 +405,7 @@
                     <p></p>
                     <h5 style = "color: green"><b>Contact Person Information</b> </h5><p></p>
                     <div class="row" >
+                      
                         <div class="col-md-4" >
                             <label for="">Contact Person</label>
                             <div class="input-group">
@@ -487,8 +573,8 @@
                     </div>
                 </div>
                 <div class="modal-footer justify-content-between">
-                <button type="submit" id = "btn_save" class="btn btn-primary btn-block"><i class = "fas fa fa-save"></i> Save changes</button>
-                    <button type="button" class="btn btn-default btn-block" data-dismiss="modal">Close</button>
+                    <button type="submit" id = "btn_save" class="btn btn-primary btn-block"><i class = "fas fa fa-save"></i> Save changes</button>
+                    <button type="button" class="btn btn-danger btn-block" data-dismiss="modal">Close</button>
                 </div>
             </form>
         </div>
@@ -533,114 +619,112 @@
 </script>
 <script type="text/javascript" src="https://f001.backblazeb2.com/file/buonzz-assets/jquery.ph-locations.js"></script>
 <script type="text/javascript">
-            
+
     var my_handlers = {
 
-        fill_provinces:  function(){
-            $("#city").html("");
-            $("#barangay").html("");
-            var region_code = $(this).val();
-            $('#province').ph_locations('fetch_list', [{"region_code": region_code}]);
-            
-        },
+            fill_provinces:  function(){
+                $("#city").html("");
+                $("#barangay").html("");
+                var region_code = $(this).val();
+                $('#province').ph_locations('fetch_list', [{"region_code": region_code}]);
+                
+            },
 
-        fill_cities: function(){
-            $("#barangay").html("");
-            var province_code = $(this).val();
-            $('#city').ph_locations( 'fetch_list', [{"province_code": province_code}]);
-        },
-
-
-        fill_barangays: function(){
-            var city_code = $(this).val();
-            $('#barangay').ph_locations('fetch_list', [{"city_code": city_code}]);
-        }
-    };
-
-    var my_handlers1 = {
-
-        fill_provinces:  function(){
-            $("#city1").html("");
-            $("#barangay1").html("");
-            var region_code = $(this).val();
-            $('#province1').ph_locations('fetch_list', [{"region_code": region_code}]);
-            
-        },
-
-        fill_cities: function(){
-            $("#barangay1").html("");
-            var province_code = $(this).val();
-            $('#city1').ph_locations( 'fetch_list', [{"province_code": province_code}]);
-        },
+            fill_cities: function(){
+                $("#barangay").html("");
+                var province_code = $(this).val();
+                $('#city').ph_locations( 'fetch_list', [{"province_code": province_code}]);
+            },
 
 
-        fill_barangays: function(){
-            var city_code = $(this).val();
-            $('#barangay1').ph_locations('fetch_list', [{"city_code": city_code}]);
-        }
-    };
+            fill_barangays: function(){
+                var city_code = $(this).val();
+                $('#barangay').ph_locations('fetch_list', [{"city_code": city_code}]);
+            }
+            };
 
-    var my_handlers2 = {
+        var my_handlers1 = {
 
-        fill_provinces:  function(){
-            $("#city2").html("");
-            $("#barangay2").html("");
-            var region_code = $(this).val();
-            $('#province2').ph_locations('fetch_list', [{"region_code": region_code}]);
-            
-        },
+            fill_provinces:  function(){
+                $("#city1").html("");
+                $("#barangay1").html("");
+                var region_code = $(this).val();
+                $('#province1').ph_locations('fetch_list', [{"region_code": region_code}]);
+                
+            },
 
-        fill_cities: function(){
-            $("#barangay2").html("");
-            var province_code = $(this).val();
-            $('#city2').ph_locations( 'fetch_list', [{"province_code": province_code}]);
-        },
+            fill_cities: function(){
+                $("#barangay1").html("");
+                var province_code = $(this).val();
+                $('#city1').ph_locations( 'fetch_list', [{"province_code": province_code}]);
+            },
 
 
-        fill_barangays: function(){
-            var city_code = $(this).val();
-            $('#barangay2').ph_locations('fetch_list', [{"city_code": city_code}]);
-        }
-    };
+            fill_barangays: function(){
+                var city_code = $(this).val();
+                $('#barangay1').ph_locations('fetch_list', [{"city_code": city_code}]);
+            }
+            };
 
-    $(function(){
-        $('#region').on('change', my_handlers.fill_provinces);
-        $('#province').on('change', my_handlers.fill_cities);
-        $('#city').on('change', my_handlers.fill_barangays);
+        var my_handlers2 = {
 
-        $('#region').ph_locations({'location_type': 'regions'});
-        $('#province').ph_locations({'location_type': 'provinces'});
-        $('#city').ph_locations({'location_type': 'cities'});
-        $('#barangay').ph_locations({'location_type': 'barangays'});
+            fill_provinces:  function(){
+                $("#city2").html("");
+                $("#barangay2").html("");
+                var region_code = $(this).val();
+                $('#province2').ph_locations('fetch_list', [{"region_code": region_code}]);
+                
+            },
 
-       
+            fill_cities: function(){
+                $("#barangay2").html("");
+                var province_code = $(this).val();
+                $('#city2').ph_locations( 'fetch_list', [{"province_code": province_code}]);
+            },
 
+
+            fill_barangays: function(){
+                var city_code = $(this).val();
+                $('#barangay2').ph_locations('fetch_list', [{"city_code": city_code}]);
+            }
+        };
+
+
+        $(function(){
+            $('#region').on('change', my_handlers.fill_provinces);
+            $('#province').on('change', my_handlers.fill_cities);
+            $('#city').on('change', my_handlers.fill_barangays);
+
+            $('#region').ph_locations({'location_type': 'regions'});
+            $('#province').ph_locations({'location_type': 'provinces'});
+            $('#city').ph_locations({'location_type': 'cities'});
+            $('#barangay').ph_locations({'location_type': 'barangays'});
+            $('#region').ph_locations('fetch_list');
         // Contact person address
-        $('#region1').on('change', my_handlers1.fill_provinces);
-        $('#province1').on('change', my_handlers1.fill_cities);
-        $('#city1').on('change', my_handlers1.fill_barangays);
+            $('#region1').on('change', my_handlers1.fill_provinces);
+            $('#province1').on('change', my_handlers1.fill_cities);
+            $('#city1').on('change', my_handlers1.fill_barangays);
 
-        $('#region1').ph_locations({'location_type': 'regions'});
-        $('#province1').ph_locations({'location_type': 'provinces'});
-        $('#city1').ph_locations({'location_type': 'cities'});
-        $('#barangay1').ph_locations({'location_type': 'barangays'});
+            $('#region1').ph_locations({'location_type': 'regions'});
+            $('#province1').ph_locations({'location_type': 'provinces'});
+            $('#city1').ph_locations({'location_type': 'cities'});
+            $('#barangay1').ph_locations({'location_type': 'barangays'});
 
-        
+            $('#region1').ph_locations('fetch_list');
+            $('#region2').on('change', my_handlers2.fill_provinces);
+            $('#province2').on('change', my_handlers2.fill_cities);
+            $('#city2').on('change', my_handlers2.fill_barangays);
 
-        //other contact person
-        $('#region2').on('change', my_handlers2.fill_provinces);
-        $('#province2').on('change', my_handlers2.fill_cities);
-        $('#city2').on('change', my_handlers2.fill_barangays);
+            $('#region2').ph_locations({'location_type': 'regions'});
+            $('#province2').ph_locations({'location_type': 'provinces'});
+            $('#city2').ph_locations({'location_type': 'cities'});
+            $('#barangay2').ph_locations({'location_type': 'barangays'});
+            $('#region2').ph_locations('fetch_list');
+        });
 
-        $('#region2').ph_locations({'location_type': 'regions'});
-        $('#province2').ph_locations({'location_type': 'provinces'});
-        $('#city2').ph_locations({'location_type': 'cities'});
-        $('#barangay2').ph_locations({'location_type': 'barangays'});
+    
 
-        $('#region').ph_locations('fetch_list');
-        $('#region1').ph_locations('fetch_list');
-        $('#region2').ph_locations('fetch_list');
-    });
+    
 </script>
 <script>
   $(document).ready(function(){
@@ -716,12 +800,20 @@
     $("#btn_add").on('click', function(){
         $("#cemetery_form").trigger('reset');
         $("#cemetery_id").val("");
+        $("#contactperson_id").val("");
+        $("#contactperson_id1").val("");
         $('input[type="radio"]').prop('checked', false);
         $('input[type="checkbox"]').prop('checked', false);
+        $("#contactperson_address").show();
+        $("#contactperson_address1").hide();
         $('#region').ph_locations('fetch_list');
         $('#region1').ph_locations('fetch_list');
         $('#region2').ph_locations('fetch_list'); 
+        $("#other_contactperson").hide();
         $("select").val("");
+        addcontact_person = 0;
+        haschecked = 0;
+        haschecked1 = 0;
         $("#modal_form").modal({backdrop:'static', keyboard: false});
     })
     function show_allData()
@@ -741,7 +833,7 @@
                     row += '<tr data-id = '+data[i].deceased_id+' style = "text-transform: uppercase">';
                     row += '<td>'+data[i].lastname+", "+data[i].middlename+", "+data[i].firstname+'</td>';
                     row += '<td>'+data[i].barangay+", "+data[i].city+'</td>';
-                    row += '<td>'+data[i].dateof_burial+'</td>';
+                    row += '<td>'+formatDate(data[i].dateof_burial)+'</td>';
                     row += '<td>'+data[i].sex+'</td>';
                     row += '<td><span class = "badge badge-danger right"> '+data[i].service_name+'</span></td>';
                     row += '<td align = "center">';
@@ -772,15 +864,298 @@
         }
         })
     }
+    function calculateCoffinYears(dateofburial, )
+    {
+        dob = new Date(dateofburial);
+        var today = new Date();
+        var age = Math.floor((today-dob) / (365.25 * 24 * 60 * 60 * 1000));
+        return age + " YEARS";
+    }
+    function calculateAge(birthdate, dateofdeath)
+    {
+        dob = new Date(birthdate);
+        var today = new Date(dateofdeath);
+        var age = Math.floor((today-dob) / (365.25 * 24 * 60 * 60 * 1000));
+        if(age > 0) return age + " YEARS OLD";
+        else return "MONTHS OLD";
+    }
+    function formatDate(userdate)
+    {
+        var month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+        var date    = new Date(userdate);
+        return month[date.getMonth()] + " "+date.getDate() + ", "+date.getFullYear();
+    }
+
+    // Space Areas Block
+    $("#tbl_deceaseds tbody").on('click', '#btn_assign', function(e){
+        e.preventDefault();
+        var id = $(this).data('id');
+        $("#assignment").modal({
+            'backdrop': 'static',
+            'keyboard': false
+        });
+        show_allSpaceAreas();
+    })
+    function show_allSpaceAreas()
+    {
+        $.ajax({
+            type: 'get',
+            url: "{{ route('spaceareas.get_allBlocks') }}",
+            dataType: 'json',
+            success:function(data)
+            {
+                var row = "";
+                if(data.length > 0)
+                {
+                    for(var i = 0; i<data.length; i++)
+                    {
+                        row += "<tr>";
+
+                        row += "<div class = 'col-md-12'> "
+                        row += "<td>";
+                        row += "<img src= '{{ asset('dist/img/rip.jpg') }}' class = 'img-responsive' style = 'width: 100px; height: 100px'></img><br>";
+                        row += data[i].section_name;
+                        row += '<button data-id = '+data[i].id+' id = "btn_de" type="button" class="btn btn-block btn-danger btn-sm btn-flat">';
+                        row += '<i class = "fas fa fa-lock"></i> Assign Here';
+                        row += '</button>';
+                        row += "</td>";
+                        row += '</div>';
+                        
+                        row += "</tr>";
+
+                        
+                    }
+                    $("#spaceareas").html(row);
+                }
+                else
+                {
+                    row += '<tr style = "text-transform: uppercase"><td colspan = "4">No data available</td></tr>';
+                }
+                $("#tbl_spaceAreas tbody").html(row);
+            },
+            error: function()
+            {
+                alert("System cannot process request.")
+            }
+        })
+    }
+
+    $("#tbl_deceaseds tbody").on('click', "#btn_info", function(e){
+        e.preventDefault();
+        var deceased_id = $(this).data('id');
+      
+        $.ajax({
+            type: 'get',
+            url: "/deceaseds/show/"+deceased_id,
+            dataType: 'json',
+            success:function(data)
+            {
+                $("#deceased_info").modal({
+                    'backdrop': 'static',
+                    'keyboard': false
+                });
+                $("#img_rip").attr('src', '{{ asset("dist/img/rip.jpg") }}');  
+                var tbl_years = "<tbody>";
+                tbl_years += "<tr style = 'background-color: darkred; color: white'>";
+                tbl_years += "<th>YEARS FROM BURIAL</th>";
+                tbl_years += "<th>"+calculateCoffinYears(data[0][0].dateof_death)+"</th>";
+                tbl_years += "</tr>";
+                tbl_years += "</tbody>";
+                $("#tbl_years").html(tbl_years);
+
+                var table = "<tbody>";
+                table += "<tr style = 'background-color: darkred; color: white'>";
+                table += "<th colspan ='2' style = 'text-align:center'>DECEASED INFORMATION</th>";
+                table += "</tr>";
+
+                table += "<tr style = 'background-color: darkred; color: white'>";
+                table += "<th colspan ='2'>PERSONAL INFO</th>";
+                table += "</tr>";
+
+                table += "<tr>";
+                table += "<th>LAST NAME</th>";
+                table += "<th style = 'font-size: 16px'>"+data[0][0].lastname+"</th?>";
+                table += "</tr>";
+
+                table += "<tr>";
+                table += "<th>MIDDLE NAME</th>";
+                table += "<th style = 'font-size: 16px'>"+data[0][0].middlename+"</th>";
+                table += "</tr>";
+
+                table += "<tr>";
+                table += "<th>FIRST NAME</th>";
+                table += "<th style = 'font-size: 16px'>"+data[0][0].firstname+"</th>";
+                table += "</tr>";
+
+                table += "<tr>";
+                table += "<th>EXTENSION NAME</th>";
+                table += "<td>"+data[0][0].suffix +"</td>";
+                table += "</tr>";
+
+                table += "<tr>";
+                table += "<th>SEX</th>";
+                table += "<td>"+data[0][0].sex+"</td>";
+                table += "</tr>";
+
+                var maritalstatus = "";
+
+                if(data[0][0].civilstatus == "S") maritalstatus = "SINGLE";
+                if(data[0][0].civilstatus == "M") maritalstatus = "MARRIED";
+                if(data[0][0].civilstatus == "W") maritalstatus = "WIDOWED";
+                if(data[0][0].civilstatus == "D") maritalstatus = "DIVORCED";
+
+                table += "<tr>";
+                table += "<th>MARITAL STATUS</th>";
+                table += "<td>"+maritalstatus+"</td>";
+                table += "</tr>";
+
+                var causeofdeath = "";
+                
+                if(data[0][0].causeofdeath == "N") causeofdeath = "NATURAL";
+                if(data[0][0].causeofdeath == "A") causeofdeath = "ACCIDENT";
+                if(data[0][0].causeofdeath == "H") causeofdeath = "HOMICIDE";
+                if(data[0][0].causeofdeath == "S") causeofdeath = "SUICIDE";
+                if(data[0][0].causeofdeath == "U") causeofdeath = "UNDETERMINED";
+                if(data[0][0].causeofdeath == "O") causeofdeath = "OTHER";
+
+                table += "<tr>";
+                table += "<th>CAUSE OF DEATH</th>";
+                table += "<td><span class = 'badge badge-danger'>"+causeofdeath+"</span></td>";
+                table += "</tr>";
+
+                table += "<tr>";
+                table += "<th>AGE DIED</th>";
+                table += "<td>"+calculateAge(data[0][0].dateofbirth, data[0][0].dateof_death)+"</td>";
+                table += "</tr>";
+
+                table += "<tr>";
+                table += "<th>DATE OF BIRTH</th>";
+                table += "<td>"+formatDate(data[0][0].dateofbirth)+"</td>";
+                table += "</tr>";
+
+                table += "<tr style = 'background-color: darkred; color: white'>";
+                table += "<th colspan ='2'>ADDRESS</th>";
+                table += "</tr>";
+
+                table += "<tr>";
+                table += "<th>BARANGAY</th>";
+                table += "<td>"+data[0][0].barangay+"</td>";
+                table += "</tr>";
+
+                table += "<tr>";
+                table += "<th>CITY/MUNICIPALITY</th>";
+                table += "<td>"+data[0][0].city+"</td>";
+                table += "</tr>";
+
+                table += "<tr>";
+                table += "<th>PROVINCE</th>";
+                table += "<td>"+data[0][0].province+"</td>";
+                table += "</tr>";
+
+                table += "<tr>";
+                table += "<th>REGION</th>";
+                table += "<td>"+data[0][0].region+"</td>";
+                table += "</tr>";
+
+                table += "<tr style = 'background-color: darkred; color: white'>";
+                table += "<th colspan ='2'>BURIAL INFO</th>";
+                table += "</tr>";
+
+                table += "<tr>";
+                table += "<th>DATE OF DEATH</th>";
+                table += "<td>"+formatDate(data[0][0].dateof_death)+"</td>";
+                table += "</tr>";
+
+                table += "<tr>";
+                table += "<th>DATE OF BURIAL</th>";
+                table += "<td>"+formatDate(data[0][0].dateof_burial)+"</td>";
+                table += "</tr>";
+
+                table += "<tr>";
+                table += "<th>BURIAL TIME</th>";
+                table += "<td>"+data[0][0].burial_time+"</td>";
+                table += "</tr>";
+
+                table += "</tbody>";
+
+                var row = "";
+                var no = 1;
+                row += "<tr style = 'background-color: darkred; color: white'>";
+                row += "<th colspan ='2' style = 'text-align:center'>CONTACT PEOPLE INFORMATION</th>";
+                row += "</tr>";
+                for(var i = 0; i<data[2].length; i++)
+                {
+                    row += "<tr style = 'background-color: #170036; color: white'>";
+                    row += "<th>CONTACT NAME NO. "+no+"</th>";
+                    row += "<th style = 'font-size: 16px'>"+data[2][i].name+"</th>";
+                    row += "</tr>";
+
+                    if(data[2][i].barangay != null)
+                    {
+                        row += "<tr>";
+                        row += "<th>BARANGAY</th>";
+                        row += "<td>"+data[2][i].barangay+"</td>";
+                        row += "</tr>";
+                    }
+                    
+                    row += "<tr>";
+                    row += "<th>PHONE NUMBER (+63)</th>";
+                    row += "<td><span class = 'badge badge-primary' style = 'font-size: 15px'>"+data[2][i].contactnumber+"</span></td>";
+                    row += "</tr>";
+                    
+                    var relationship = "";
+                    if(data[2][i].relationshipthdeceased == "1") relationship = "SIBLING";
+                    if(data[2][i].relationshipthdeceased == "2") relationship = "COUSIN";
+                    if(data[2][i].relationshipthdeceased == "3") relationship = "PARENT";
+                    if(data[2][i].relationshipthdeceased == "4") relationship = "CHILDREN";
+                    if(data[2][i].relationshipthdeceased == "5") relationship = "SPOUSE";
+                    if(data[2][i].relationshipthdeceased == "6") relationship = "OTHER";
+
+                    row += "<tr>";
+                    row += "<th>RELATIONSHIP</th>";
+                    row += "<td><span class = 'badge badge-success'>"+relationship+"</span> </td>";
+                    row += "</tr>";
+
+                    row += "<tr>";
+                    row += "<th>CITY/MUNICIPALITY</th>";
+                    row += "<td>"+data[2][i].city+"</td>";
+                    row += "</tr>";
+
+                    row += "<tr>";
+                    row += "<th>PROVINCE</th>";
+                    row += "<td>"+data[2][i].province+"</td>";
+                    row += "</tr>";
+
+                    row += "<tr>";
+                    row += "<th>REGION</th>";
+                    row += "<td>"+data[2][i].region+"</td>";
+                    row += "</tr>";
+                    no = no + 1;
+                }
+                $("#tbl_deceasedinfo").html(table);
+                $("#tbl_contactinfo").html(row);
+            },
+            error: function()
+            {
+                alert("System cannot process request.")
+            }
+        })
+    })
     $("#tbl_deceaseds tbody").on('click', '#btn_edit', function(e){
         e.preventDefault();
         var id = $(this).data('id');
+        haschecked = 0;
+        haschecked1 = 0;
+        $('input[type="radio"]').attr('checked', false);
+        $('input[type="checkbox"]').attr('checked', false);
         $.ajax({
             type: 'get',
             url: "/deceaseds/show/"+id,
             dataType: 'json',
             success:function(data)
             {
+                $("#contactperson_address").show();
+                $("#contactperson_address1").show();
                 $("#cemetery_id").val(id);
                 $("#contactperson_id").val(data[2][0].contactperson_id);
                 $("#lastname").val(data[0][0].lastname)
@@ -795,11 +1170,10 @@
                 $("input[name='sex'][value="+data[0][0].sex+"]").attr('checked', true)
                 
                 //PINAHIRAPAN MO AKO
-            
+                $("#address_id").val(data[0][0].a_address_id)
                 $("#region option").filter(function() {
                     return $(this).val() == data[0][0].region_no;
                 }).attr('selected', true);
-
                 $("#province").prepend("<option selected='selected' value = "+data[0][0].province_no+">"+data[0][0].province+"</option>");
                 $("#city").prepend("<option selected='selected' value = "+data[0][0].city_no+">"+data[0][0].city+"</option>");
                 $("#barangay").prepend("<option selected='selected' value = "+data[0][0].barangay_no+">"+data[0][0].barangay+"</option>");
@@ -814,10 +1188,24 @@
                 }).attr('selected', true);
                 $("#contactnumber").val(data[2][0].contactnumber);
 
-                
-                
-                if(data[2][1] != null)
+                $("#region1 option").filter(function() {
+                    return $(this).val() == data[2][0].region_no;
+                }).attr('selected', true);
+                $("input[name='add_contactperson']").prop('checked', false);
+                $("#province1").prepend("<option selected='selected' value = "+data[2][0].province_no+">"+data[2][0].province+"</option>");
+                $("#city1").prepend("<option selected='selected' value = "+data[2][0].city_no+">"+data[2][0].city+"</option>");
+                if(data[2][0].barangay != null)
                 {
+                    $("#barangay1").prepend("<option selected='selected' value = "+data[2][0].barangay_no+">"+data[2][0].barangay+"</option>");
+                }
+                $("#address_id1").val(data[2][0].address_id);
+                addcontact_person = 0;
+                $("#other_contactperson").hide();
+                if(data[2].length > 1)
+                {
+                    $("input[name='add_contactperson']").prop('checked', true);
+                    addcontact_person = 1;
+                    $("#address_id2").val(data[2][1].address_id);
                     $("#contactperson_id1").val(data[2][1].contactperson_id);
                     $("#contactperson1").val(data[2][1].name),
                     $("#relationship1 option").filter(function() {
@@ -825,20 +1213,16 @@
                     }).attr('selected', true);
                     $("#contactnumber1").val(data[2][1].contactnumber);
 
-                    $("#region1 option").filter(function() {
-                        return $(this).val() == data[2][0].region_no;
-                    }).attr('selected', true);
-                    $("#province1").prepend("<option selected='selected' value = "+data[2][0].province_no+">"+data[2][0].province+"</option>");
-                    $("#city1").prepend("<option selected='selected' value = "+data[2][0].city_no+">"+data[2][0].city+"</option>");
-                    $("#barangay1").prepend("<option selected='selected' value = "+data[2][0].barangay_no+">"+data[2][0].barangay+"</option>");
-                    $("input[name='add_contactperson']").prop('checked', true);
                     $("#other_contactperson").show();
                     $("#region2 option").filter(function() {
                         return $(this).val() == data[2][1].region_no;
                     }).attr('selected', true);
                     $("#province2").prepend("<option selected='selected' value = "+data[2][1].province_no+">"+data[2][1].province+"</option>");
                     $("#city2").prepend("<option selected='selected' value = "+data[2][1].city_no+">"+data[2][1].city+"</option>");
-                    $("#barangay2").prepend("<option selected='selected' value = "+data[2][1].barangay_no+">"+data[2][1].barangay+"</option>");
+                    if(data[2][1].barangay != null)
+                    {
+                        $("#barangay2").prepend("<option selected='selected' value = "+data[2][1].barangay_no+">"+data[2][1].barangay+"</option>");
+                    }
                 }
               
                 $("#modal_form").modal({
@@ -1188,254 +1572,257 @@
         }
         else
         {
-            $.ajax({
-                type: 'put',
-                url: "deceaseds/update/"+cem_id,
-                data: {
-                    cem_id: cem_id,
-                    contactperson_id: $("#contactperson_id").val(),
-                    contactperson_id1: $("#contactperson_id1").val(),
-                    lastname: $("#lastname").val(),
-                    middlename: $("#middlename").val(),
-                    firstname: $("#firstname").val(),
-                    suffix: $("#suffix").val(),
-                    dateof_death: $("#dateof_death").val(),
-                    dateofbirth: $("#dateofbirth").val(),
-                    civilstatus: $("input[name='civilstatus']:checked").val(),
-                    dateof_burial: $("#dateof_burial").val(),
-                    burial_time: $("#burial_time").val(),
-                    sex: $("input[name='sex']:checked").val(),
-                    region: $("#region").val(),
-                    province: $("#province").val(),
-                    city: $("#city").val(),
-                    barangay: $("#barangay").val(),
-                    causeofdeath: $("#causeofdeath").val(),
-                    contactperson: $("#contactperson").val(),
-                    relationship: $("#relationship").val(),
-                    contactnumber: $("#contactnumber").val(),
-                    region1: $("#region1").val(),
-                    province1: $("#province1").val(),
-                    city1: $("#city1").val(),
-                    barangay1: $("#barangay1").val(),
-                    region_text: region_text,
-                    province_text: province_text,
-                    city_text: city_text,
-                    barangay_text: barangay_text,
-                    region_text1: region_text1,
-                    province_text1: province_text1,
-                    city_text1: city_text1,
-                    barangay_text1: barangay_text1,
-                    sameaddress: haschecked,
-                    contactperson1: $("#contactperson1").val(),
-                    relationship1: $("#relationship1").val(),
-                    contactnumber1: $("#contactnumber1").val(),
-                    region2: $("#region2").val(),
-                    province2: $("#province2").val(),
-                    city2: $("#city2").val(),
-                    barangay2: $("#barangay2").val(),
-                    region_text2: region_text2,
-                    province_text2: province_text2,
-                    city_text2: city_text2,
-                    barangay_text2: barangay_text2,
-                    sameaddress1: haschecked1,
-                    addcontactperson: addcontact_person,
-                },
-                dataType: 'json',
-                success: function(response){
-                    if(response.status == 1)
-                    {
-                        show_allBlocks();
-                        show_allData();
-                        $("input[type='text']").removeClass('is-invalid');
-                        $("input[type='radio']").removeClass('is-invalid');
-                        $("input[type='checkbox']").removeClass('is-invalid');
-                        $("input[type='date']").removeClass('is-invalid');
-                        $("input[type='number']").removeClass('is-invalid');
-                        $(".select2-primary").removeClass('is-invalid');
-                        $(".select2-info").removeClass('is-invalid');
-                        $(".span").html("");
-                        $("#modal_form").modal('hide');
-                        $(document).Toasts('create', {
-                            class: 'bg-success',
-                            title: 'Responses',
-                            autohide: true,
-                            delay: 3000,
-                            body: response.message,
-                        })
-                    }
-                    else if(response.status == 2)
-                    {
-                         $.each(response.message, function(key, value){
-                            if(key == "lastname")
-                            {
-                                $("#sp_lastname").text(value);
-                                $("#lastname").addClass('is-invalid');
-                            }
-                            else  if(key == "firstname")
-                            {
-                                $("#sp_firstname").text(value);
-                                $("#firstname").addClass('is-invalid');
-                            }
-                            else if(key == "middlename")
-                            {
-                                $("#sp_middlename").text(value);
-                                $("#middlename").addClass('is-invalid');
-                            }
-                            else if(key == "suffix")
-                            {
-                                $("#sp_suffix").text(value);
-                                $("#suffix").addClass('is-invalid');
-                            }
-                            else if(key == "dateof_death")
-                            {
-                                $("#sp_dateofdeath").text(value);
-                                $("#dateof_death").addClass('is-invalid');
-                            }
-                            else if(key == "dateofbirth")
-                            {
-                                $("#sp_dateofbirth").text(value);
-                                $("#dateofbirth").addClass('is-invalid');
-                            }
-                            else if(key == "civilstatus")
-                            {
-                                $("#sp_civilstatus").text(value);
-                                $("#civilstatus").addClass('is-invalid');
-                            }
-                            else if(key == "dateof_burial")
-                            {
-                                $("#sp_dateofburial").text(value);
-                                $("#dateof_burial").addClass('is-invalid');
-                            }
-                            else if(key == "burial_time")
-                            {
-                                $("#sp_burialtime").text(value);
-                                $("#burial_time").addClass('is-invalid');
-                            }
-                            else if(key == "sex")
-                            {
-                                $("#sp_sex").text(value);
-                                $("#sex").addClass('is-invalid');
-                            }
-                            else if(key == "region")
-                            {
-                                $("#sp_region").text(value);
-                                $("#region").addClass('is-invalid');
-                            }
-                            else if(key == "province")
-                            {
-                                $("#sp_province").text(value);
-                                $("#province").addClass('is-invalid');
-                            }
-                            else if(key == "city")
-                            {
-                                $("#sp_city").text(value);
-                                $("#city").addClass('is-invalid');
-                            }
-                            else if(key == "barangay")
-                            {
-                                $("#sp_barangay").text(value);
-                                $("#barangay").addClass('is-invalid');
-                            }
-                            else if(key == "causeofdeath")
-                            {
-                                $("#sp_causeofdeath").text(value);
-                                $("#causeofdeath").addClass('is-invalid');
-                            }
-                            else if(key == "service_id")
-                            {
-                                $("#sp_service").text(value);
-                                $("#service_id").addClass('is-invalid');
-                            }
-                            else if(key == "contactperson")
-                            {
-                                $("#sp_contactperson").text(value);
-                                $("#contactperson").addClass('is-invalid');
-                            }
-                            else if(key == "contactnumber")
-                            {
-                                $("#sp_contactnumber").text(value);
-                                $("#contactnumber").addClass('is-invalid');
-                            }
-                            else if(key == "relationship")
-                            {
-                                $("#sp_relationship").text(value);
-                                $("#relationship").addClass('is-invalid');
-                            }
-                            else if(key == "region1")
-                            {
-                                $("#sp_region1").text(value);
-                                $("#region1").addClass('is-invalid');
-                            }
-                            else if(key == "province1")
-                            {
-                                $("#sp_province1").text(value);
-                                $("#province1").addClass('is-invalid');
-                            }
-                            else if(key == "city1")
-                            {
-                                $("#sp_city1").text(value);
-                                $("#city1").addClass('is-invalid');
-                            }
-                            else if(key == "barangay1")
-                            {
-                                $("#sp_barangay1").text(value);
-                                $("#barangay1").addClass('is-invalid');
-                            }
+            if(confirm("Are you sure you want to update the information of the deceased?"))
+            {
+                $.ajax({
+                    type: 'put',
+                    url: "/deceaseds/update/"+cem_id,
+                    data: {
+                        cem_id: cem_id,
+                        contactperson_id: $("#contactperson_id").val(),
+                        contactperson_id1: $("#contactperson_id1").val(),
+                        lastname: $("#lastname").val(),
+                        middlename: $("#middlename").val(),
+                        firstname: $("#firstname").val(),
+                        suffix: $("#suffix").val(),
+                        dateof_death: $("#dateof_death").val(),
+                        dateofbirth: $("#dateofbirth").val(),
+                        civilstatus: $("input[name='civilstatus']:checked").val(),
+                        dateof_burial: $("#dateof_burial").val(),
+                        burial_time: $("#burial_time").val(),
+                        sex: $("input[name='sex']:checked").val(),
+                        region: $("#region").val(),
+                        province: $("#province").val(),
+                        city: $("#city").val(),
+                        barangay: $("#barangay").val(),
+                        causeofdeath: $("#causeofdeath").val(),
+                        contactperson: $("#contactperson").val(),
+                        relationship: $("#relationship").val(),
+                        contactnumber: $("#contactnumber").val(),
+                        region1: $("#region1").val(),
+                        province1: $("#province1").val(),
+                        city1: $("#city1").val(),
+                        barangay1: $("#barangay1").val(),
+                        region_text: region_text,
+                        province_text: province_text,
+                        city_text: city_text,
+                        barangay_text: barangay_text,
+                        region_text1: region_text1,
+                        province_text1: province_text1,
+                        city_text1: city_text1,
+                        barangay_text1: barangay_text1,
+                        sameaddress: haschecked,
+                        contactperson1: $("#contactperson1").val(),
+                        relationship1: $("#relationship1").val(),
+                        contactnumber1: $("#contactnumber1").val(),
+                        region2: $("#region2").val(),
+                        province2: $("#province2").val(),
+                        city2: $("#city2").val(),
+                        barangay2: $("#barangay2").val(),
+                        region_text2: region_text2,
+                        province_text2: province_text2,
+                        city_text2: city_text2,
+                        barangay_text2: barangay_text2,
+                        sameaddress1: haschecked1,
+                        addcontactperson: addcontact_person,
+                    },
+                    dataType: 'json',
+                    success: function(response){
+                        if(response.status == 1)
+                        {
+                            show_allBlocks();
+                            show_allData();
+                            $("input[type='text']").removeClass('is-invalid');
+                            $("input[type='radio']").removeClass('is-invalid');
+                            $("input[type='checkbox']").removeClass('is-invalid');
+                            $("input[type='date']").removeClass('is-invalid');
+                            $("input[type='number']").removeClass('is-invalid');
+                            $(".select2-primary").removeClass('is-invalid');
+                            $(".select2-info").removeClass('is-invalid');
+                            $(".span").html("");
+                            $("#modal_form").modal('hide');
+                            $(document).Toasts('create', {
+                                class: 'bg-success',
+                                title: 'Responses',
+                                autohide: true,
+                                delay: 3000,
+                                body: response.message,
+                            })
+                        }
+                        else if(response.status == 2)
+                        {
+                            $.each(response.message, function(key, value){
+                                if(key == "lastname")
+                                {
+                                    $("#sp_lastname").text(value);
+                                    $("#lastname").addClass('is-invalid');
+                                }
+                                else  if(key == "firstname")
+                                {
+                                    $("#sp_firstname").text(value);
+                                    $("#firstname").addClass('is-invalid');
+                                }
+                                else if(key == "middlename")
+                                {
+                                    $("#sp_middlename").text(value);
+                                    $("#middlename").addClass('is-invalid');
+                                }
+                                else if(key == "suffix")
+                                {
+                                    $("#sp_suffix").text(value);
+                                    $("#suffix").addClass('is-invalid');
+                                }
+                                else if(key == "dateof_death")
+                                {
+                                    $("#sp_dateofdeath").text(value);
+                                    $("#dateof_death").addClass('is-invalid');
+                                }
+                                else if(key == "dateofbirth")
+                                {
+                                    $("#sp_dateofbirth").text(value);
+                                    $("#dateofbirth").addClass('is-invalid');
+                                }
+                                else if(key == "civilstatus")
+                                {
+                                    $("#sp_civilstatus").text(value);
+                                    $("#civilstatus").addClass('is-invalid');
+                                }
+                                else if(key == "dateof_burial")
+                                {
+                                    $("#sp_dateofburial").text(value);
+                                    $("#dateof_burial").addClass('is-invalid');
+                                }
+                                else if(key == "burial_time")
+                                {
+                                    $("#sp_burialtime").text(value);
+                                    $("#burial_time").addClass('is-invalid');
+                                }
+                                else if(key == "sex")
+                                {
+                                    $("#sp_sex").text(value);
+                                    $("#sex").addClass('is-invalid');
+                                }
+                                else if(key == "region")
+                                {
+                                    $("#sp_region").text(value);
+                                    $("#region").addClass('is-invalid');
+                                }
+                                else if(key == "province")
+                                {
+                                    $("#sp_province").text(value);
+                                    $("#province").addClass('is-invalid');
+                                }
+                                else if(key == "city")
+                                {
+                                    $("#sp_city").text(value);
+                                    $("#city").addClass('is-invalid');
+                                }
+                                else if(key == "barangay")
+                                {
+                                    $("#sp_barangay").text(value);
+                                    $("#barangay").addClass('is-invalid');
+                                }
+                                else if(key == "causeofdeath")
+                                {
+                                    $("#sp_causeofdeath").text(value);
+                                    $("#causeofdeath").addClass('is-invalid');
+                                }
+                                else if(key == "service_id")
+                                {
+                                    $("#sp_service").text(value);
+                                    $("#service_id").addClass('is-invalid');
+                                }
+                                else if(key == "contactperson")
+                                {
+                                    $("#sp_contactperson").text(value);
+                                    $("#contactperson").addClass('is-invalid');
+                                }
+                                else if(key == "contactnumber")
+                                {
+                                    $("#sp_contactnumber").text(value);
+                                    $("#contactnumber").addClass('is-invalid');
+                                }
+                                else if(key == "relationship")
+                                {
+                                    $("#sp_relationship").text(value);
+                                    $("#relationship").addClass('is-invalid');
+                                }
+                                else if(key == "region1")
+                                {
+                                    $("#sp_region1").text(value);
+                                    $("#region1").addClass('is-invalid');
+                                }
+                                else if(key == "province1")
+                                {
+                                    $("#sp_province1").text(value);
+                                    $("#province1").addClass('is-invalid');
+                                }
+                                else if(key == "city1")
+                                {
+                                    $("#sp_city1").text(value);
+                                    $("#city1").addClass('is-invalid');
+                                }
+                                else if(key == "barangay1")
+                                {
+                                    $("#sp_barangay1").text(value);
+                                    $("#barangay1").addClass('is-invalid');
+                                }
 
-                            else if(key == "contactperson1")
-                            {
-                                $("#sp_contactperson1").text(value);
-                                $("#contactperson1").addClass('is-invalid');
-                            }
-                            else if(key == "contactnumber1")
-                            {
-                                $("#sp_contactnumbe1r").text(value);
-                                $("#contactnumber1").addClass('is-invalid');
-                            }
-                            else if(key == "relationship1")
-                            {
-                                $("#sp_relationship1").text(value);
-                                $("#relationship1").addClass('is-invalid');
-                            }
-                            else if(key == "region2")
-                            {
-                                $("#sp_region2").text(value);
-                                $("#region2").addClass('is-invalid');
-                            }
-                            else if(key == "province2")
-                            {
-                                $("#sp_province2").text(value);
-                                $("#province2").addClass('is-invalid');
-                            }
-                            else if(key == "city2")
-                            {
-                                $("#sp_city2").text(value);
-                                $("#city2").addClass('is-invalid');
-                            }
-                            else if(key == "barangay2")
-                            {
-                                $("#sp_barangay2").text(value);
-                                $("#barangay2").addClass('is-invalid');
-                            }
-                            else
-                            {
-                                
-                            }
-                    });
-                    }
-                    else
+                                else if(key == "contactperson1")
+                                {
+                                    $("#sp_contactperson1").text(value);
+                                    $("#contactperson1").addClass('is-invalid');
+                                }
+                                else if(key == "contactnumber1")
+                                {
+                                    $("#sp_contactnumbe1r").text(value);
+                                    $("#contactnumber1").addClass('is-invalid');
+                                }
+                                else if(key == "relationship1")
+                                {
+                                    $("#sp_relationship1").text(value);
+                                    $("#relationship1").addClass('is-invalid');
+                                }
+                                else if(key == "region2")
+                                {
+                                    $("#sp_region2").text(value);
+                                    $("#region2").addClass('is-invalid');
+                                }
+                                else if(key == "province2")
+                                {
+                                    $("#sp_province2").text(value);
+                                    $("#province2").addClass('is-invalid');
+                                }
+                                else if(key == "city2")
+                                {
+                                    $("#sp_city2").text(value);
+                                    $("#city2").addClass('is-invalid');
+                                }
+                                else if(key == "barangay2")
+                                {
+                                    $("#sp_barangay2").text(value);
+                                    $("#barangay2").addClass('is-invalid');
+                                }
+                                else
+                                {
+                                    
+                                }
+                        });
+                        }
+                        else
+                        {
+                            alert(response.message);
+                        }
+                    },
+                    complete: function(response){
+                        $("#preloader").hide();
+                    },
+                    error: function(response)
                     {
-                        alert(response.message);
+                        alert("Sorry for inconvenient cannot process the request.");
                     }
-                },
-                complete: function(response){
-                    $("#preloader").hide();
-                },
-                error: function(response)
-                {
-                    alert("Sorry for inconvenient cannot process the request.");
-                }
-            });
+                });
+            }
         }
       
     });

@@ -17,6 +17,10 @@
 <!-- Toastr -->
 <link rel="stylesheet" href="{{ asset('plugins/toastr/toastr.min.css') }}">
 
+<!-- re -->
+<!-- Ekko Lightbox -->
+<link rel="stylesheet" href="{{ asset('plugins/ekko-lightbox/ekko-lightbox.css') }}">
+
 <!-- daterange picker -->
 <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css') }}">
 <!-- iCheck for checkboxes and radio inputs -->

@@ -73,7 +73,7 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <table id="tbl_services" class="table table-bordered table-striped">
+                <table id="tbl_services" class="table  table-striped table-hovered">
                   <thead style = "background-color: #170036; color: white">
                   <tr>
                     <th>Service Name</th>

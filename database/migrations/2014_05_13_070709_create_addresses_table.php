@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('province');
             $table->bigInteger('city_no');
             $table->string('city');
-            $table->bigInteger('barangay_no')->nullable();
+            $table->string('barangay_no')->nullable();
             $table->string('barangay')->nullable();
             $table->timestamps();
         });
