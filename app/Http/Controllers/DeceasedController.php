@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Address;
 use App\Models\User;
 use App\Models\ContactPerson;
+use App\Models\CoffinPlot;
+use App\Models\Block;
 use DB;
 class DeceasedController extends Controller
 {
@@ -728,17 +730,7 @@ class DeceasedController extends Controller
 
                 }
 
-                $contactperson = User::where([
-                    'role' => 3,
-                    'address_id' => $conperson_add,
-                    'name' => strtoupper($request->contactperson),
-                ])->first();
-
-                if($contactperson !== null)
-                {
-                    $contactperson = $contactperson->id;
-                }
-                else
+                if($request->contactperson_id !== null)
                 {
                     $contactperson = User::find($request->contactperson_id);
                     $contactperson->role = 3;
@@ -791,17 +783,8 @@ class DeceasedController extends Controller
                         }
         
                     }
-                    $contactperson1 = User::where([
-                        'role' => 3,
-                        'address_id' => $conperson_add1,
-                        'name' => strtoupper($request->contactperson1),
-                    ])->first();
-    
-                    if($contactperson1 !== null)
-                    {
-                        $contactperson1 = $contactperson1->id;
-                    }
-                    else
+
+                    if($request->contactperson_id1 !== null)
                     {
                         $contactperson1 = User::find($request->contactperson_id1);
                         $contactperson1->role = 3;
@@ -814,12 +797,9 @@ class DeceasedController extends Controller
                     }
                 }
 
-             
-
                 $deceased = Deceased::find($request->cem_id);
                 $deceased->service_id = 1;
                 $deceased->address_id = $address;
-                // $deceased->contactperson_id = $contactperson;
                 $deceased->causeofdeath = $request->causeofdeath;
                 $deceased->lastname = strtoupper($request->lastname);
                 $deceased->middlename = strtoupper($request->middlename);
@@ -862,7 +842,7 @@ class DeceasedController extends Controller
                         $dbcontactperson1->save();
                     }
                 }
-                $status = 1;
+                $status = 1;    
                 $message = "Deceased has been successfully updated.";
                
             }
@@ -877,8 +857,28 @@ class DeceasedController extends Controller
     /**
      * Remove the specified resource from storage.
      */
+    public function assign_block($deceased_id, $space_id)
+    {
+        $coffinplot = new CoffinPlot();
+        $coffinplot->deceased_id = $deceased_id;
+        $coffinplot->block_id = $space_id;
+        $coffinplot->plot_number = 0001;
+        $coffinplot->status = 1;
+        $coffinplot->save();
+
+        //Decrement blocks once coffinplot is occupied.
+        $block = Block::find($space_id);
+        $block->slot = $block->slot-1;
+        $block->update();
+
+        return response()->json([
+            'status' => 1,
+            'message' => 'Deceased has been successfully plotted.'
+        ]);
+    }
     public function destroy(deceased $deceased)
     {
         //
     }
+    
 }

@@ -36,6 +36,7 @@ Route::group(['middleware' => ['adminAccess']], function(){
     Route::put('deceaseds/update/{id}', [DeceasedController::class, 'update_deceased']);
     Route::get('/deceaseds/show/{id}', [DeceasedController::class, 'show']);
     Route::get('/get/deceaseds/records', [DeceasedController::class, 'get_allData'])->name('deceaseds.get_allData');
+    Route::get('/deceaseds/assign_block/{id1}/{id2}', [DeceasedController::class, 'assign_block']);
     //Space areas
     Route::resource('spaceareas', BlockController::class);
     Route::get('/spaceAreas/show/{id}', [BlockController::class, 'show']);

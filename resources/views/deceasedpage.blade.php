@@ -31,6 +31,55 @@
         background-size: cover;
       
     }
+    
+  </style>
+  <style>
+        /* .grid-container {
+            display: grid;
+            grid-template-columns: auto auto auto auto auto;
+            background-color: #2196F3;
+            padding: 10px;
+            }
+                .grid-item {
+                background-color: rgba(255, 255, 255, 0.8);
+                border: 1px solid rgba(0, 0, 0, 0.8);
+                padding: 20px;
+                font-size: 30px;
+                text-align: center;
+            } */
+    /* #spaceareas {
+        grid-gap: 20px;
+        padding: 25px
+    } */
+    /* .grid-item {
+        font-size: 30px;
+        padding: 2em;
+        border: 2px solid #dc3545; */
+        /* background: #3d9970; */
+        /* text-align: center;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(130px, 2fr));
+    
+    } */
+</style>
+  <style>
+    input[type=text]:focus {
+        border: 3px solid #17a2b8;
+        color: black;
+    }
+    select:focus {
+        border: 3px solid #17a2b8;
+        color: black;
+    }
+    input[type=number]:focus {
+        border: 3px solid #17a2b8;
+    }
+    input[type=text]{
+        border-color: 3px solid #17a2b8;
+    }
+    input[type=date]{
+        font-family: 'Segoe UI' 
+    }
   </style>
  <!-- Content Wrapper. Contains page content -->
  <div class="content-wrapper">
@@ -67,7 +116,7 @@
                             <div class="input-group-prepend">
                             <span class="input-group-text" ><i class="fas fa-search"></i></span>
                             </div>
-                            <input type="text" class = "form-control" style ="text-transform: uppercase" placeholder = "Search Record Here" id = "search">
+                            <input type="text" class = "form-control is-primary" style ="text-transform: uppercase" placeholder = "Search Record Here" id = "search">
                         </div>
                     </div>
                 </div>
@@ -121,9 +170,9 @@
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header" style = "background-color: #170036; color: white">
-                <div class="col-md-5" style = "font-size: 26px; font-family: Algerian">
+                <div class="col-md-5" style = "font-size: 23px; font-family: Algerian">
                     <img src="{{ asset('assets/img/logos/Lugait.png') }}" style = "width: 100px; height: 100px" alt="">    
-                    DECEASED INFORMATION
+                    DECEASED BLOCK ASSIGNMENT
                 </div>
                 <div class="col-md-6" style = "text-align: right">
                     Republic of the Philipines <br>
@@ -140,11 +189,18 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <form action="" id = "assignment_form">
-                        <div class = "row">
-                            <table class="table table-responsive table-stripped" id = "spaceareas"></table>
-                        </div>
-                    </form>
+                    <table class = "table table-stripped" id="spaceareas">
+                        <thead style = "background-color: darkred; color: white; text-align: center; font-size: 20px">
+                            <tr>
+                                <th>Image</th>
+                                <th>Block Name</th>
+                                <th>Assignment</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
                     <button type="button" class="btn btn-danger btn-block" data-dismiss="modal">Close</button>
                 </div>
             </div>
@@ -175,26 +231,28 @@
                 </div>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <table class = "table table-stripped table-hovered" id = "tbl_years">
-                            
-                        </table>
-                        <br>
-                        <div align="center">
-                            <img src="" class = "img-fluid" style = "width: 300px; height: 300px; align: center" alt="" id="img_rip">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <table class = "table table-stripped table-hovered" id = "tbl_years">
+                                
+                            </table>
+                            <br>
+                            <div align="center">
+                                <img src="" class = "img-fluid" style = "width: 300px; height: 300px; align: center" alt="" id="img_rip">
+                            </div>
+                            <br>
+                            <table class = "table table-stripped table-hovered" id = "tbl_contactinfo">
+                                
+                            </table>
                         </div>
-                        <br>
-                        <table class = "table table-stripped table-hovered" id = "tbl_contactinfo">
-                            
-                        </table>
+                        <div class="col-md-6">
+                            <table class = "table table-stripped table-hovered" id = "tbl_deceasedinfo">
+                                
+                            </table>
+                        </div>
+                        <button type="button" class="btn btn-danger btn-block" data-dismiss="modal">Close</button>
                     </div>
-                    <div class="col-md-6">
-                        <table class = "table table-stripped table-hovered" id = "tbl_deceasedinfo">
-                            
-                        </table>
-                    </div>
-                    <button type="button" class="btn btn-danger btn-block" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -734,6 +792,7 @@
             'X-CSRF-Token':$("input[name=_token").val()
         }
     }) 
+    $("#search").addClass('active');
     show_allData();
     $("#search").on("keyup", function() {
         var value = $(this).val().toLowerCase();
@@ -845,10 +904,10 @@
                     row += '</button>';
                     row += '<button data-id = '+data[i].deceased_id+' id = "btn_info" type="button" class="btn btn-primary btn-sm btn-flat">';
                     row += '<i class = "fa fa-info"></i>';
-                    row += '</button>';
-                    row += '<button data-id = '+data[i].deceased_id+' id = "btn_remove" type="button" class="btn btn-danger btn-sm btn-flat">';
-                    row += '<i class = "fas fa fa-trash"></i>';
                     row += '</button></td>';
+                    // row += '<button data-id = '+data[i].deceased_id+' id = "btn_remove" type="button" class="btn btn-danger btn-sm btn-flat">';
+                    // row += '<i class = "fas fa fa-trash"></i>';
+                    // row += '</button></td>';
                     row += '</tr>';
                 }
             }
@@ -890,13 +949,14 @@
     $("#tbl_deceaseds tbody").on('click', '#btn_assign', function(e){
         e.preventDefault();
         var id = $(this).data('id');
+        $("#assign_id").val(id);
         $("#assignment").modal({
             'backdrop': 'static',
             'keyboard': false
         });
-        show_allSpaceAreas();
+        show_allSpaceAreas(id);
     })
-    function show_allSpaceAreas()
+    function show_allSpaceAreas(assign_id)
     {
         $.ajax({
             type: 'get',
@@ -909,29 +969,19 @@
                 {
                     for(var i = 0; i<data.length; i++)
                     {
-                        row += "<tr>";
-
-                        row += "<div class = 'col-md-12'> "
-                        row += "<td>";
-                        row += "<img src= '{{ asset('dist/img/rip.jpg') }}' class = 'img-responsive' style = 'width: 100px; height: 100px'></img><br>";
-                        row += data[i].section_name;
-                        row += '<button data-id = '+data[i].id+' id = "btn_de" type="button" class="btn btn-block btn-danger btn-sm btn-flat">';
-                        row += '<i class = "fas fa fa-lock"></i> Assign Here';
-                        row += '</button>';
-                        row += "</td>";
-                        row += '</div>';
-                        
-                        row += "</tr>";
-
-                        
+                        row += '<tr data-id = '+data[i].id+' style = "text-transform: uppercase">'
+                        row += '<td data-id = '+data[i].id+'><img src= "{{ asset("dist/img/rip.jpg") }}" class = "img-responsive" style = "width: 150px; height: 150px"></td>';    
+                        row += '<td data-id = '+data[i].id+' style = "font-size: 25px; text-align: center; font-family: Times New Roman; font-weight: bold; color: red">'+data[i].section_name+'<p> SLOT = '+data[i].slot+'</p></td>';
+                        row += '<td>';
+                        row += '<button data-id = '+data[i].id+' data-deceased_id = '+assign_id+' id = "btn_assign" style = "display: inline-block; width: 150px; height: 150px" type="button" class="btn btn-primary btn-lg btn-flat">';
+                        row += '<i class = "fa fa-plus"></i>&nbsp; ASSIGN';
+                        row += "</button></td>"
+                        row += "</td>"
+                        row += '</tr>';
                     }
-                    $("#spaceareas").html(row);
+                    $("#spaceareas tbody").html(row);
                 }
-                else
-                {
-                    row += '<tr style = "text-transform: uppercase"><td colspan = "4">No data available</td></tr>';
-                }
-                $("#tbl_spaceAreas tbody").html(row);
+           
             },
             error: function()
             {
@@ -939,7 +989,46 @@
             }
         })
     }
-
+    $("#spaceareas tbody").on('click', "#btn_assign", function(e){
+        var space_id = $(this).data('id');
+        var deceased_id = $(this).data('deceased_id');
+        var name = "";
+        // $.ajax({
+        //     type: 'get',
+        //     url: "/deceaseds/show/"+deceased_id,
+        //     dataType: 'json',
+        //     success:function(data)
+        //     {
+        //         name = data[0][0].firstname+" "+data[0][0].middlename+ " "+data[0][0].lastname;
+                
+        //     },
+        // });
+        if(confirm("Are you sure you want to assign the deceased in this block?"))
+        {
+            $.ajax({
+                type: 'get',
+                url: '/deceaseds/assign_block/'+deceased_id+'/'+space_id,
+                dataType:'json',
+                success: function(response){
+                    if(response.status == 1)
+                    {
+                        $("#assignment").modal('hide');
+                        $(document).Toasts('create', {
+                            class: 'bg-success',
+                            title: 'Responses',
+                            autohide: true,
+                            delay: 3000,
+                            body: response.message,
+                        })
+                    }
+                    else
+                    {
+                        alert("Something went wrong cannot processs");
+                    }
+                }
+            })
+        }
+    })
     $("#tbl_deceaseds tbody").on('click', "#btn_info", function(e){
         e.preventDefault();
         var deceased_id = $(this).data('id');
@@ -1185,7 +1274,7 @@
                 $("#contactperson").val(data[2][0].name),
                 $("#relationship option").filter(function() {
                     return $(this).val() == data[2][0].relationshipthdeceased;
-                }).attr('selected', true);
+                }).prop('selected', true);
                 $("#contactnumber").val(data[2][0].contactnumber);
 
                 $("#region1 option").filter(function() {
@@ -1210,7 +1299,7 @@
                     $("#contactperson1").val(data[2][1].name),
                     $("#relationship1 option").filter(function() {
                         return $(this).val() == data[2][1].relationshipthdeceased;
-                    }).attr('selected', true);
+                    }).prop('selected', true);
                     $("#contactnumber1").val(data[2][1].contactnumber);
 
                     $("#other_contactperson").show();

@@ -25,6 +25,15 @@
               </p>
             </a>
           </li>
+         
+          <li class="nav-item" >  
+            <a href="{{ route('deceaseds.index') }}" id = "s_deceaseds" class="nav-link">
+              <i class="nav-icon fas fa-user-injured"></i>
+              <p>
+                Manage Deceased
+              </p>
+            </a>
+          </li>
           <li class="nav-item">
             <a href="{{ route('services') }}" id = "s_services" class="nav-link">
               <i class="nav-icon fas fa-universal-access"></i>
@@ -38,14 +47,6 @@
               <i class="nav-icon fas fa-church"></i>
               <p>
                 Manage Space Area
-              </p>
-            </a>
-          </li>
-          <li class="nav-item" >  
-            <a href="{{ route('deceaseds.index') }}" id = "s_deceaseds" class="nav-link">
-              <i class="nav-icon fas fa-user-injured"></i>
-              <p>
-                Manage Deceased
               </p>
             </a>
           </li>

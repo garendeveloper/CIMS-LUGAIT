@@ -23,7 +23,7 @@
     <div class="card-body login-card-body">
       <div class="login-logo" >
         <!-- <img src="{{ asset('/assets/img/logos/calvarylogo.png') }}" style = "width: 120px; height: 120px" alt=""> -->
-        <img src="{{ asset('/assets/img/logos/Lugait.png') }}" style = "width: 120px; height: 120px" alt="">
+        <img src="{{ asset('/assets/img/logos/Lugait.png') }}" style = " background-size: cover; " alt="">
       </div>
       <h5 class="login-box-msg">MEEDO USER LOGIN</h5>
 
