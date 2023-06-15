@@ -34,35 +34,6 @@
     
   </style>
   <style>
-        /* .grid-container {
-            display: grid;
-            grid-template-columns: auto auto auto auto auto;
-            background-color: #2196F3;
-            padding: 10px;
-            }
-                .grid-item {
-                background-color: rgba(255, 255, 255, 0.8);
-                border: 1px solid rgba(0, 0, 0, 0.8);
-                padding: 20px;
-                font-size: 30px;
-                text-align: center;
-            } */
-    /* #spaceareas {
-        grid-gap: 20px;
-        padding: 25px
-    } */
-    /* .grid-item {
-        font-size: 30px;
-        padding: 2em;
-        border: 2px solid #dc3545; */
-        /* background: #3d9970; */
-        /* text-align: center;
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(130px, 2fr));
-    
-    } */
-</style>
-  <style>
     input[type=text]:focus {
         border: 3px solid #17a2b8;
         color: black;
@@ -125,13 +96,6 @@
                 table, td, th{
                     border: 1px solid #170036;
                 }
-                /* table{
-                    border-collapse: collapse;
-                    width: 100%;
-                }
-                th{
-                    height: 30px;
-                } */
               </style>
               <!-- /.card-header -->
               <div class="card-body">
@@ -188,6 +152,22 @@
                 </div>
             </div>
             <div class="modal-body">
+                <div class="row">
+                    <input type="text" style = "display: none" id = "coffin_id" value = "">
+                    <div class="col-md-6" style = "background-color: #170036; color: white">
+                        <h6>CHOOSE A BLOCK TO ASSIGN THE DECEASED NAMED BELOW: </h6>
+                        <h5 id = "_deceasedName" style = "text-transform: uppercase; color: red; font-weight: 1px solid bold"></h5>
+                    </div>
+                    <div class="col-md-6">
+                        <h6></h6>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                            <span class="input-group-text" ><i class="fas fa-search"></i></span>
+                            </div>
+                            <input type="text" class = "form-control is-primary" style ="text-transform: uppercase" placeholder = "Search Block Here.." id = "search_block">
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <table class = "table table-stripped" id="spaceareas">
                         <thead style = "background-color: darkred; color: white; text-align: center; font-size: 20px">
@@ -800,6 +780,12 @@
             $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
         });
     });
+    $("#search_block").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#spaceareas tbody tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+    });
     var _token = $('input[name="_token"]').val();
         //Money Euro
     $('[data-mask]').inputmask()
@@ -960,28 +946,54 @@
     {
         $.ajax({
             type: 'get',
-            url: "{{ route('spaceareas.get_allBlocks') }}",
+            url: "/deceaseds/show/"+assign_id,
+            dataType: 'json',
+            success:function(data)
+            {
+                var name = data[0][0].firstname+" "+data[0][0].middlename+ " "+data[0][0].lastname;
+                $("#_deceasedName").text(name);
+            },
+        });
+        $.ajax({
+            type: 'get',
+            url: "/get/classifiedBlocks/"+assign_id,
             dataType: 'json',
             success:function(data)
             {
                 var row = "";
-                if(data.length > 0)
+                if(data.cb.length > 0)
                 {
-                    for(var i = 0; i<data.length; i++)
+                    for(var i = 0; i<data.cb.length; i++)
                     {
-                        row += '<tr data-id = '+data[i].id+' style = "text-transform: uppercase">'
-                        row += '<td data-id = '+data[i].id+'><img src= "{{ asset("dist/img/rip.jpg") }}" class = "img-responsive" style = "width: 150px; height: 150px"></td>';    
-                        row += '<td data-id = '+data[i].id+' style = "font-size: 25px; text-align: center; font-family: Times New Roman; font-weight: bold; color: red">'+data[i].section_name+'<p> SLOT = '+data[i].slot+'</p></td>';
-                        row += '<td>';
-                        row += '<button data-id = '+data[i].id+' data-deceased_id = '+assign_id+' id = "btn_assign" style = "display: inline-block; width: 150px; height: 150px" type="button" class="btn btn-primary btn-lg btn-flat">';
-                        row += '<i class = "fa fa-plus"></i>&nbsp; ASSIGN';
-                        row += "</button></td>"
+                        row += '<tr data-id = '+data.cb[i].id+' style = "text-transform: uppercase">'
+                        row += '<td data-id = '+data.cb[i].id+'><img src= "{{ asset("dist/img/rip.jpg") }}" class = "img-responsive" style = "width: 150px; height: 150px"></td>';    
+                        row += '<td data-id = '+data.cb[i].id+' style = "font-size: 25px; text-align: center; font-family: Segoe UI; font-weight: bold; color: red">'+data.cb[i].section_name+'<p> SLOT = '+data.cb[i].slot+'</p></td>';
+                        row += '<td align="center">';
+                        if(data.cb[i].status == 1)
+                        {
+                            $("#coffin_id").val(data.cb[i].coffin_id);
+                            row += "<span class = 'badge badge-success' style = 'font-size: 20px'><i class = 'fa fas fa-map-marked-alt'></i>&nbsp; Plotted Here </span> <br>";
+                        }
+                        else
+                        {
+                            if(data.status == 1)
+                            {
+                                row += '<button data-id = '+data.cb[i].id+'  data-deceased_id = '+assign_id+' id = "btn_move" style = "" type="button" class="btn btn-danger btn-lg btn-flat">';
+                                row += '<i class = "fa fas fa-map-marked-alt"></i>&nbsp; MOVE HERE';
+                                row += "</button> <br>";
+                            }
+                            else
+                            {
+                                row += '<button data-id = '+data.cb[i].id+' data-deceased_id = '+assign_id+' id = "btn_assign" style = "" type="button" class="btn btn-primary btn-lg btn-flat">';
+                                row += '<i class = "fa fas fa-map-marked-alt"></i>&nbsp; ASSIGN HERE';
+                                row += "</button> <br>";
+                            }
+                        }
                         row += "</td>"
                         row += '</tr>';
                     }
                     $("#spaceareas tbody").html(row);
                 }
-           
             },
             error: function()
             {
@@ -993,26 +1005,21 @@
         var space_id = $(this).data('id');
         var deceased_id = $(this).data('deceased_id');
         var name = "";
-        // $.ajax({
-        //     type: 'get',
-        //     url: "/deceaseds/show/"+deceased_id,
-        //     dataType: 'json',
-        //     success:function(data)
-        //     {
-        //         name = data[0][0].firstname+" "+data[0][0].middlename+ " "+data[0][0].lastname;
-                
-        //     },
-        // });
-        if(confirm("Are you sure you want to assign the deceased in this block?"))
+        if(confirm("Are you sure you want to ASSIGN the deceased in this block?"))
         {
             $.ajax({
-                type: 'get',
+                type: 'put',
                 url: '/deceaseds/assign_block/'+deceased_id+'/'+space_id,
+                data: {
+                    status: 'assign',
+                },
                 dataType:'json',
                 success: function(response){
                     if(response.status == 1)
                     {
-                        $("#assignment").modal('hide');
+                        show_allSpaceAreas(deceased_id);
+                        show_allData();
+                        // $("#assignment").modal('hide');
                         $(document).Toasts('create', {
                             class: 'bg-success',
                             title: 'Responses',
@@ -1024,6 +1031,48 @@
                     else
                     {
                         alert("Something went wrong cannot processs");
+                    }
+                }
+            })
+        }
+    })
+    $("#spaceareas tbody").on('click', "#btn_move", function(e){
+        var space_id = $(this).data('id');
+        var deceased_id = $(this).data('deceased_id');
+        var coffin_id = $('#coffin_id').val();
+        var name = "";
+        if(confirm("Are you sure you want to MOVE the deceased in this block?"))
+        {
+            var password;
+            do{
+                password =  prompt("Please enter your password: ");
+            }while(password.length < 4);
+            $.ajax({
+                type: 'put',
+                url: '/deceaseds/assign_block/'+deceased_id+'/'+space_id,
+                data: {
+                  status: 'move',  
+                  coffin_id: coffin_id,
+                  password: password,
+                },
+                dataType:'json',
+                success: function(response){
+                    if(response.status == 1)
+                    {
+                        show_allSpaceAreas(deceased_id);
+                        show_allData(); 
+                        // $("#assignment").modal('hide');
+                        $(document).Toasts('create', {
+                            class: 'bg-success',
+                            title: 'Responses',
+                            autohide: true,
+                            delay: 3000,
+                            body: response.message,
+                        })
+                    }
+                    else
+                    {
+                        alert(response.message);
                     }
                 }
             })
@@ -1232,6 +1281,8 @@
     })
     $("#tbl_deceaseds tbody").on('click', '#btn_edit', function(e){
         e.preventDefault();
+        $("#cemetery_form").trigger('reset');
+        $("select").val("");
         var id = $(this).data('id');
         haschecked = 0;
         haschecked1 = 0;

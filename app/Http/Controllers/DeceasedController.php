@@ -11,7 +11,9 @@ use App\Models\User;
 use App\Models\ContactPerson;
 use App\Models\CoffinPlot;
 use App\Models\Block;
+use Illuminate\Support\Facades\Hash;
 use DB;
+use Auth;
 class DeceasedController extends Controller
 {
     /**
@@ -795,6 +797,24 @@ class DeceasedController extends Controller
                         $contactperson1->update();
                         $contactperson1 = $request->contactperson_id1;
                     }
+                    else 
+                    {
+                        $exist_contactpeople = ContactPerson::where([
+                            'deceased_id' => $request->deceased_id,
+                            'user_id' => $request->contactperson_id1
+                        ])->exists();
+                        if(!$exist_contactpeople)
+                        {
+                            $contactperson1 = new User;
+                            $contactperson1->role = 3;
+                            $contactperson1->name = strtoupper($request->contactperson1);
+                            $contactperson1->contactnumber = $request->contactnumber1;
+                            $contactperson1->relationshipthdeceased = $request->relationship1;
+                            $contactperson1->address_id = $conperson_add1;
+                            $contactperson1->save();
+                            $contactperson1 = $contactperson1->id;
+                        }
+                    }
                 }
 
                 $deceased = Deceased::find($request->cem_id);
@@ -857,23 +877,61 @@ class DeceasedController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function assign_block($deceased_id, $space_id)
+    //THIS IS THE MAIN PROBLEM SOLVING OF THE SYSTEM.
+    public function assign_block(Request $request, $deceased_id, $space_id)
     {
-        $coffinplot = new CoffinPlot();
-        $coffinplot->deceased_id = $deceased_id;
-        $coffinplot->block_id = $space_id;
-        $coffinplot->plot_number = 0001;
-        $coffinplot->status = 1;
-        $coffinplot->save();
+        $status = 0;
+        if($request->status == "assign")
+        {
+            $coffinplot = new CoffinPlot();
+            $coffinplot->deceased_id = $deceased_id;
+            $coffinplot->block_id = $space_id;
+            $coffinplot->plot_number = 0001;
+            $coffinplot->status = 1;
+            $coffinplot->save();
+    
+            //Decrement blocks once coffinplot is occupied.
+            $block = Block::find($space_id);
+            $block->slot = $block->slot-1;
+            $block->update();
+            $status = 1;
+            $message = 'The deceased has been plotted successfully.';
+        }
+        if($request->status == "move")
+        {
+            if(Hash::check($request->password, Auth::user()->password))
+            {
+                //Return info 
+                $coffinplot = CoffinPlot::find($request->coffin_id);
+                $block_id = $coffinplot->block_id;
+                //Increment blocks once coffinplot is occupied.
+                $block = Block::find($block_id);
+                $block->slot = $block->slot+1;
+                $block->update();
 
-        //Decrement blocks once coffinplot is occupied.
-        $block = Block::find($space_id);
-        $block->slot = $block->slot-1;
-        $block->update();
+                //update new
+                $coffinplot = CoffinPlot::find($request->coffin_id);
+                $coffinplot->deceased_id = $deceased_id;
+                $coffinplot->block_id = $space_id;
+                $coffinplot->plot_number = 0001;
+                $coffinplot->status = 1;
+                $coffinplot->update();
 
+                //Decrement blocks once coffinplot is occupied.
+                $block = Block::find($space_id);
+                $block->slot = $block->slot-1;
+                $block->update();
+                $status = 1;
+                $message = 'The deceased has been plotted successfully.';
+            }
+            else{
+                $status = 0;
+                $message = "Invalid Password!";
+            }
+        }
         return response()->json([
-            'status' => 1,
-            'message' => 'Deceased has been successfully plotted.'
+            'status' => $status,
+            'message' => $message,
         ]);
     }
     public function destroy(deceased $deceased)

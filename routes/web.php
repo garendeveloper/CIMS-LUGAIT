@@ -36,12 +36,13 @@ Route::group(['middleware' => ['adminAccess']], function(){
     Route::put('deceaseds/update/{id}', [DeceasedController::class, 'update_deceased']);
     Route::get('/deceaseds/show/{id}', [DeceasedController::class, 'show']);
     Route::get('/get/deceaseds/records', [DeceasedController::class, 'get_allData'])->name('deceaseds.get_allData');
-    Route::get('/deceaseds/assign_block/{id1}/{id2}', [DeceasedController::class, 'assign_block']);
+    Route::put('/deceaseds/assign_block/{id1}/{id2}', [DeceasedController::class, 'assign_block']);
     //Space areas
     Route::resource('spaceareas', BlockController::class);
     Route::get('/spaceAreas/show/{id}', [BlockController::class, 'show']);
     Route::get('/spaceAreas/delete/{id}', [BlockController::class, 'destroy']);
     Route::get('/get/blocks', [BlockController::class, 'get_allBlocks'])->name('spaceareas.get_allBlocks');
+    Route::get('/get/classifiedBlocks/{id1}', [BlockController::class, 'get_classifiedBlocks']);
 
     Route::get('/logout', [LoginController::class, 'logout'])->name('system.logout');
 });

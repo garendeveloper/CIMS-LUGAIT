@@ -6,6 +6,7 @@ use App\Models\block;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Models\CoffinPlot;
 
 class BlockController extends Controller
 {
@@ -22,7 +23,49 @@ class BlockController extends Controller
         $data = Block::all();
         return response()->json($data);
     }
+    public function get_classifiedBlocks($deceased_id)
+    {
+        $classifiedBlocks = [];
+        $blocks = Block::all();
+        $status = 0;
+        foreach($blocks as $b)
+        {
+            $exist_coffinplot = CoffinPlot::where([
+                'deceased_id' => $deceased_id,
+                'block_id' => $b->id,
+            ])->first();
 
+            if($exist_coffinplot  !== null)
+            {
+                $status = 1;
+                $classifiedBlocks[] = [
+                    'id' => $b->id,
+                    'img' => null,
+                    'section_name' => $b->section_name,
+                    'slot' => $b->slot,
+                    'block_cost' => $b->block_cost,
+                    'status' => 1,
+                    'coffin_id' => $exist_coffinplot->id,
+                ];
+            }
+            else
+            {
+                $classifiedBlocks[] = [
+                    'id' => $b->id,
+                    'img' => null,
+                    'section_name' => $b->section_name,
+                    'slot' => $b->slot,
+                    'block_cost' => $b->block_cost,
+                    'status' => 0, 
+                    'coffin_id' => null,
+                ];
+            }
+        }
+        return response()->json([
+            'cb'=>$classifiedBlocks,
+            'status' => $status,
+        ]);
+    }
     /**
      * Store a newly created resource in storage.
      */
