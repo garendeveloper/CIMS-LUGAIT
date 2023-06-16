@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
 {
@@ -26,8 +27,9 @@ class LoginController extends Controller
     }
     public function logout()
     {
+        Session::flush();
         Auth::logout();
-        return view('login');
+        return redirect('/');
     }
     public function login(Request $request)
     {

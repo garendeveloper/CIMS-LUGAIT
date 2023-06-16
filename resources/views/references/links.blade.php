@@ -50,7 +50,12 @@
         min-height: 100%;
         position: absolute;
         top: 0;
+        color: white;
         background-color: #170036;
         /* background-color: #332600; */
     }
+    /* .sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active, .sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active {
+        background-color: #dc3545;
+        color: #fff;
+    } */
 </style>

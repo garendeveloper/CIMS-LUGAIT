@@ -54,17 +54,23 @@
     @media screen {
         #printSection {
             display: none;
-       
         }
     }
 
     @media print {
         .noPrint{
             display: none;
-            overflow: hidden;
         }
         body * {
             visibility:hidden;
+            -webkit-print-color-adjust: exact;
+        }
+        #tbl_deceasedinfo tbody tr{
+            color: 'black';
+        }
+        #tbl_contactinfo tr{
+            color: 'black';
+            print-color-adjust: exact; 
         }
         .modal-dialog {
             max-width: 100%;
@@ -83,6 +89,7 @@
             position:absolute;
             left:0;
             top:0;
+            -webkit-print-color-adjust: exact;
         }
     }
   </style>
@@ -135,6 +142,14 @@
               <div class="card-body">
                 <table id="tbl_deceaseds"  class="table table-stripped table-hovered">
                   <thead style = "background-color: #170036; color: white">
+                    <tr style = "background-color: darkred;">
+                        <th>DEFINITION OF ACTION ICONS </th>
+                        <th style = "background-color: darkblue;"><i class = "fas fa-map-marked-alt"></i>&nbsp;&nbsp;Plotting of Deceased</th>
+                        <th style = "background-color: darkgreen;"><i class = "fas fa fa-edit"></i>&nbsp;&nbsp;Edit Deceased Details</th>
+                        <th style = "background-color: darkblue;"><i class = "fas fa fa-info"></i>&nbsp;&nbsp;Information of Deceased</th>
+                        <th style = "background-color: darkgreen;"><i class = "fas fa fa-print"></i>&nbsp;&nbsp;View Print Page</th>
+                        <th style = "background-color: darkblue;"><i class = "fas fa fa-route"></i>&nbsp;&nbsp;Assignment</th>
+                    </tr>
                     <tr>
                         <th>Full Name (L,M,F)</th>
                         <th>Address (Barangay, City/Municipality)</th>
@@ -170,7 +185,7 @@
             <div class="modal-header" style = "background-color: #170036; color: white">
                 <div class="col-md-5" style = "font-size: 23px; font-family: Algerian">
                     <img src="{{ asset('assets/img/logos/Lugait.png') }}" style = "width: 100px; height: 100px" alt="">    
-                    DECEASED BLOCK ASSIGNMENT
+                    DECEASED BLOCK PLOTTING
                 </div>
                 <div class="col-md-6" style = "text-align: right">
                     Republic of the Philipines <br>
@@ -189,7 +204,7 @@
                 <div class="row">
                     <input type="text" style = "display: none" id = "coffin_id" value = "">
                     <div class="col-md-6" style = "background-color: #170036; color: white">
-                        <h6>CHOOSE A BLOCK TO ASSIGN THE DECEASED NAMED BELOW: </h6>
+                        <h6>CHOOSE A BLOCK TO PLOT THE DECEASED NAMED BELOW: </h6>
                         <h5 id = "_deceasedName" style = "text-transform: uppercase; color: red; font-weight: 1px solid bold"></h5>
                     </div>
                     <div class="col-md-6">
@@ -228,7 +243,7 @@
     <div class="modal-dialog modal-xl" id="printThis" >
         <div class="modal-content" >
             <div class="modal-header" style = "background-color: #170036; color: white">
-                <div class="col-md-5" style = "font-size: 26px; font-family: Algerian">
+                <div class="col-md-5" style = "font-size: 24px; font-family: Algerian">
                     <img src="{{ asset('assets/img/logos/Lugait.png') }}" style = "width: 100px; height: 100px" alt="">    
                     DECEASED INFORMATION
                 </div>
@@ -267,8 +282,8 @@
                             </table>
                         </div>
                         <!-- <div class="noPrint"> -->
-                            <button type="button"  id = "print" class="btn btn-primary btn-block" >Print</button>
-                            <button type="button" class="btn btn-danger btn-block" data-dismiss="modal">Close</button>
+                            <!-- <button type="button"  id = "print" class="btn btn-primary btn-block" >Print</button> -->
+                            <button type="button" class="btn btn-danger btn-block" data-dismiss="modal"><i class = "fas fa fa-close"></i> Close</button>
                         <!-- </div> -->
                         
                     </div>
@@ -693,6 +708,15 @@
         window.print();
     }
     $("#print").on('click', function(){
+        // $("#tbl_years tbody tr").css({
+        //     'color': 'black',
+        // });
+        // $("#tbl_deceasedinfo tbody tr").css({
+        //     'color': 'black',
+        // });
+        // $("#tbl_contactinfo tr").css({
+        //     'color': 'black',
+        // });
         printElement(document.getElementById("printThis"));
     });
 </script>
@@ -915,6 +939,16 @@
         $('#region2').ph_locations('fetch_list'); 
         $("#other_contactperson").hide();
         $("select").val("");
+
+        $("input").removeClass('is-invalid');
+        $("input[type='text']").removeClass('is-invalid');
+        $("input[type='radio']").removeClass('is-invalid');
+        $("input[type='checkbox']").removeClass('is-invalid');
+        $("input[type='date']").removeClass('is-invalid');
+        $("input[type='number']").removeClass('is-invalid');
+        $(".select2-primary").removeClass('is-invalid');
+        $(".select2-info").removeClass('is-invalid');
+        $(".span").html("");
         addcontact_person = 0;
         haschecked = 0;
         haschecked1 = 0;
@@ -942,17 +976,21 @@
                     row += '<td><span class = "badge badge-danger right"> '+data[i].service_name+'</span></td>';
                     row += '<td align = "center">';
                     row += '<button data-id = '+data[i].deceased_id+' id = "btn_assign" type="button" class="btn btn-primary btn-sm btn-flat">';
-                    row += '<i class = "fa fa-building"></i>';
+                    row += '<i class = "fa fas fa-map-marked-alt"></i>';
                     row += '</button>';
                     row += '<button data-id = '+data[i].deceased_id+' id = "btn_edit" type="button" class="btn btn-success btn-sm btn-flat">';
                     row += '<i class = "fa fa-edit"></i>';
                     row += '</button>';
                     row += '<button data-id = '+data[i].deceased_id+' id = "btn_info" type="button" class="btn btn-primary btn-sm btn-flat">';
                     row += '<i class = "fa fa-info"></i>';
-                    row += '</button></td>';
-                    // row += '<button data-id = '+data[i].deceased_id+' id = "btn_remove" type="button" class="btn btn-danger btn-sm btn-flat">';
-                    // row += '<i class = "fas fa fa-trash"></i>';
-                    // row += '</button></td>';
+                    row += '</button>';
+                    row += '<button data-id = '+data[i].deceased_id+' id = "btn_viewprint" type="button" class="btn btn-success btn-sm btn-flat">';
+                    row += '<i class = "fas fa fa-print"></i>';
+                    row += '</button>';
+                    row += '<button data-id = '+data[i].deceased_id+' id = "btn_assignment" type="button" class="btn btn-primary btn-sm btn-flat">';
+                    row += '<i class = "fas fa fa-route"></i>';
+                    row += '</button>';
+                    row += "</td>";
                     row += '</tr>';
                 }
             }
@@ -1153,7 +1191,7 @@
                 });
                 $("#img_rip").attr('src', '{{ asset("dist/img/rip.jpg") }}');  
                 var tbl_years = "<tbody>";
-                tbl_years += "<tr style = 'background-color: darkred; color: white' id = '_tbl_years'>";
+                tbl_years += "<tr style = 'background-color: darkred; color: white' class = 'tbl_burialyears'>";
                 tbl_years += "<th>YEARS FROM BURIAL</th>";
                 tbl_years += "<th>"+calculateCoffinYears(data[0][0].dateof_death)+"</th>";
                 tbl_years += "</tr>";
