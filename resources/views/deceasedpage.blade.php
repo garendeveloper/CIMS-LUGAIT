@@ -51,6 +51,40 @@
     input[type=date]{
         font-family: 'Segoe UI' 
     }
+    @media screen {
+        #printSection {
+            display: none;
+       
+        }
+    }
+
+    @media print {
+        .noPrint{
+            display: none;
+            overflow: hidden;
+        }
+        body * {
+            visibility:hidden;
+        }
+        .modal-dialog {
+            max-width: 100%;
+            width: 100%;
+        }
+        .modal-header{
+            color: black;
+        }
+        .modal-body {
+            overflow: visible !important;
+        }
+        #printSection, #printSection * {
+            visibility:visible;
+        }
+        #printSection {
+            position:absolute;
+            left:0;
+            top:0;
+        }
+    }
   </style>
  <!-- Content Wrapper. Contains page content -->
  <div class="content-wrapper">
@@ -189,9 +223,10 @@
   </div>
 
   <!-- Deceased Information -->
-  <div class="modal"  id="deceased_info">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
+  <div >
+  <div class="modal fade"  id="deceased_info"  tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" id="printThis" >
+        <div class="modal-content" >
             <div class="modal-header" style = "background-color: #170036; color: white">
                 <div class="col-md-5" style = "font-size: 26px; font-family: Algerian">
                     <img src="{{ asset('assets/img/logos/Lugait.png') }}" style = "width: 100px; height: 100px" alt="">    
@@ -231,12 +266,17 @@
                                 
                             </table>
                         </div>
-                        <button type="button" class="btn btn-danger btn-block" data-dismiss="modal">Close</button>
+                        <!-- <div class="noPrint"> -->
+                            <button type="button"  id = "print" class="btn btn-primary btn-block" >Print</button>
+                            <button type="button" class="btn btn-danger btn-block" data-dismiss="modal">Close</button>
+                        <!-- </div> -->
+                        
                     </div>
                 </div>
             </div>
         </div>
     </div>
+  </div>
   </div>
   
 
@@ -636,7 +676,26 @@
 
 <!-- REQUIRED SCRIPTS -->
 @include('references.scripts')
+<script type = "text/javascript">
+    function printElement(elem) {
+        var domClone = elem.cloneNode(true);
 
+        var $printSection = document.getElementById("printSection");
+
+        if (!$printSection) {
+            var $printSection = document.createElement("div");
+            $printSection.id = "printSection";
+            document.body.appendChild($printSection);
+        }
+
+        $printSection.innerHTML = "";
+        $printSection.appendChild(domClone);
+        window.print();
+    }
+    $("#print").on('click', function(){
+        printElement(document.getElementById("printThis"));
+    });
+</script>
 <script type = "text/javascript">
     $(function(){
     var dtToday = new Date();
@@ -1094,7 +1153,7 @@
                 });
                 $("#img_rip").attr('src', '{{ asset("dist/img/rip.jpg") }}');  
                 var tbl_years = "<tbody>";
-                tbl_years += "<tr style = 'background-color: darkred; color: white'>";
+                tbl_years += "<tr style = 'background-color: darkred; color: white' id = '_tbl_years'>";
                 tbl_years += "<th>YEARS FROM BURIAL</th>";
                 tbl_years += "<th>"+calculateCoffinYears(data[0][0].dateof_death)+"</th>";
                 tbl_years += "</tr>";
