@@ -33,6 +33,7 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
         Route::get('/services', [ServicesController::class, 'index'])->name('services');
         Route::get('/get/records', [ServicesController::class, 'get_allRecords'])->name('get_allServices');
         Route::get('/services/show/{id}', [ServicesController::class, 'show']);
+        Route::get('/services/classified/{id}', [ServicesController::class, 'classified']);
         Route::get('/services/delete/{id}', [ServicesController::class, 'destroy']);
 
         //deceaseds
@@ -41,6 +42,8 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
         Route::get('/deceaseds/show/{id}', [DeceasedController::class, 'show']);
         Route::get('/get/deceaseds/records', [DeceasedController::class, 'get_allData'])->name('deceaseds.get_allData');
         Route::put('/deceaseds/assign_block/{id1}/{id2}', [DeceasedController::class, 'assign_block']);
+        Route::put('/deceaseds/designation/{id1}/{id2}', [DeceasedController::class, 'designation']);
+        
         //Space areas
         Route::resource('spaceareas', BlockController::class);
         Route::get('/spaceAreas/show/{id}', [BlockController::class, 'show']);

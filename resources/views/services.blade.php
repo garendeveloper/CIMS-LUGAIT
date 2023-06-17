@@ -173,9 +173,7 @@
                             row += '<button data-id = '+data[i].id+'  type="button" class="btn btn-success btn-sm btn-flat disabled">';
                             row += '<i class = "fa fa-edit disabled"></i>';
                             row += '</button>';
-                            row += '<button data-id = '+data[i].id+'  type="button" class="btn btn-danger btn-sm btn-flat disabled">';
-                            row += '<i class = "fas fa fa-trash disabled"></i>';
-                            row += '</button></td>';
+                            row += '</td>';
                             row += '</tr>';
                         }
                         else
@@ -186,9 +184,9 @@
                             row += '<button data-id = '+data[i].id+' id = "btn_edit" type="button" class="btn btn-success btn-sm btn-flat">';
                             row += '<i class = "fa fa-edit"></i>';
                             row += '</button>';
-                            row += '<button data-id = '+data[i].id+' id = "btn_remove" type="button" class="btn btn-danger btn-sm btn-flat">';
-                            row += '<i class = "fas fa fa-trash"></i>';
-                            row += '</button></td>';
+                            // row += '<button data-id = '+data[i].id+' id = "btn_remove" type="button" class="btn btn-danger btn-sm btn-flat">';
+                            // row += '<i class = "fas fa fa-trash"></i>';
+                            row += '</td>';
                             row += '</tr>';
                         }
                     }

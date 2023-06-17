@@ -938,5 +938,33 @@ class DeceasedController extends Controller
     {
         //
     }
-    
+
+    public function designation(Request $request, $deceased_id, $service_id)
+    {
+        $status = 0;
+        $msg = "";
+        if($request->ajax())
+        {
+            if(Hash::check($request->password, Auth::user()->password))
+            {
+                if($request->status == "designation")
+                {
+                    $deceased = Deceased::find($deceased_id);
+                    $deceased->service_id = $service_id;
+                    $deceased->update();
+                    $status = 1;
+                    $msg = "Deceased has been successfully processed!";
+                }
+            }
+            else
+            {
+                $status = 0;
+                $msg = "Cannot proceed. Invalid Password";
+            }
+        }
+        return response()->json([
+            'status' => $status, 
+            'message' => $msg
+        ]);
+    }
 }

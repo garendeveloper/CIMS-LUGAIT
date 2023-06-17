@@ -150,13 +150,13 @@
                         <th style = "background-color: darkgreen;"><i class = "fas fa fa-print"></i>&nbsp;&nbsp;View Print Page</th>
                         <th style = "background-color: darkblue;"><i class = "fas fa fa-route"></i>&nbsp;&nbsp;Assignment</th>
                     </tr>
-                    <tr>
+                    <tr style = "text-align: center">
                         <th>Full Name (L,M,F)</th>
                         <th>Address (Barangay, City/Municipality)</th>
                         <th>Date of Burial</th>
                         <th>Sex</th>
                         <th>Status</th>
-                        <th>Action</th>
+                        <th>Action Buttons</th>
                     </tr>
                   </thead>
                   <tbody >
@@ -224,6 +224,64 @@
                                 <th>Image</th>
                                 <th>Block Name</th>
                                 <th>Assignment</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                    <button type="button" class="btn btn-danger btn-block" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <!-- Designation of deceased after validation -->
+  <div class="modal"  id="assignment_modal">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header" style = "background-color: #170036; color: white">
+                <div class="col-md-5" style = "font-size: 23px; font-family: Algerian">
+                    <img src="{{ asset('assets/img/logos/Lugait.png') }}" style = "width: 100px; height: 100px" alt="">    
+                    DECEASED ASSIGNMENT
+                </div>
+                <div class="col-md-6" style = "text-align: right">
+                    Republic of the Philipines <br>
+                    <b>MUNICIPAL ECONOMIC ENTERPRISE AND DEVELOPMENT OFFICE</b> <br>
+                    LUGAIT CEMETERY ENTERPRISE <br>
+                    9025 Lugait, Misamis Oriental <br>
+                    Tel. No. (+63) 225-6170 <br>
+                </div>
+                <div class = "col-md-1">
+                    <button type="button" style = "color: white" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" style = "color: white">&times;</span>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <input type="text" style = "display: none" id = "coffin_id" value = "">
+                    <div class="col-md-6" style = "background-color: #170036; color: white">
+                        <h6>CHOOSE A SERVICE TO ASSIGN THE DECEASED NAMED BELOW: </h6>
+                        <h5 id = "_deceasedName1" style = "text-transform: uppercase; color: red; font-weight: 1px solid bold"></h5>
+                    </div>
+                    <div class="col-md-6">
+                        <h6></h6>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                            <span class="input-group-text" ><i class="fas fa-search"></i></span>
+                            </div>
+                            <input type="text" class = "form-control is-primary" style ="text-transform: uppercase" placeholder = "Search Services Here.." id = "search_services">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <table class = "table table-stripped" id="tbl_services">
+                        <thead style = "background-color: darkred; color: white; text-align: center; font-size: 20px">
+                            <tr>
+                                <th colspan = "2">Other Services</th>
+                                <th>Click Here</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -863,6 +921,12 @@
             $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
         });
     });
+    $("#search_services").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#tbl_services tbody tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+    });
     $("#search_block").on("keyup", function() {
         var value = $(this).val().toLowerCase();
         $("#spaceareas tbody tr").filter(function() {
@@ -923,7 +987,6 @@
             addcontact_person = 0;
         }
    })
-    show_allServices();
     show_allBlocks();
     $("#btn_add").on('click', function(){
         $("#cemetery_form").trigger('reset');
@@ -971,9 +1034,9 @@
                     row += '<tr data-id = '+data[i].deceased_id+' style = "text-transform: uppercase">';
                     row += '<td>'+data[i].lastname+", "+data[i].middlename+", "+data[i].firstname+'</td>';
                     row += '<td>'+data[i].barangay+", "+data[i].city+'</td>';
-                    row += '<td>'+formatDate(data[i].dateof_burial)+'</td>';
-                    row += '<td>'+data[i].sex+'</td>';
-                    row += '<td><span class = "badge badge-danger right"> '+data[i].service_name+'</span></td>';
+                    row += '<td align="center">'+formatDate(data[i].dateof_burial)+'</td>';
+                    row += '<td align="center">'+data[i].sex+'</td>';
+                    row += '<td align="center"><span class = "badge badge-danger right"> '+data[i].service_name+'</span></td>';
                     row += '<td align = "center">';
                     row += '<button data-id = '+data[i].deceased_id+' id = "btn_assign" type="button" class="btn btn-primary btn-sm btn-flat">';
                     row += '<i class = "fa fas fa-map-marked-alt"></i>';
@@ -1133,6 +1196,56 @@
             })
         }
     })
+    $("#tbl_services tbody").on('click', "#btn_designation", function(e){
+        var deceased_id = $(this).data('deceased_id');
+        var service_id = $(this).data('id');
+        if(confirm("Are you sure you want to proceed with this service?\n\nThis action cannot be undone!"))
+        {
+            var password;
+            do{
+                password =  prompt("Please enter your password: ");
+            }while(password.length < 4);
+            $.ajax({
+                type: 'put',
+                url: '/deceaseds/designation/'+deceased_id+'/'+service_id,
+                data: {
+                    status: 'designation',
+                    password: password,
+                },
+                dataType:'json',
+                success: function(response){
+                    if(response.status == 1)
+                    {
+                        show_allServices(deceased_id);
+                        show_allData();
+                        alert(response.message);
+                    }
+                    else
+                    {
+                        alert(response.message);
+                    }
+                }
+            })
+        }
+    })
+    $("#tbl_deceaseds tbody").on('click', "#btn_assignment", function(e){
+        var deceased_id = $(this).data('id');
+        show_allServices(deceased_id);
+        $.ajax({
+            type: 'get',
+            url: "/deceaseds/show/"+deceased_id,
+            dataType: 'json',
+            success:function(data)
+            {
+                var name = data[0][0].firstname+" "+data[0][0].middlename+ " "+data[0][0].lastname;
+                $("#_deceasedName1").text(name);
+            },
+        });
+        $("#assignment_modal").modal({
+            'backdrop': 'static',
+            'keyboard': false
+        });
+    })
     $("#spaceareas tbody").on('click', "#btn_move", function(e){
         var space_id = $(this).data('id');
         var deceased_id = $(this).data('deceased_id');
@@ -1178,7 +1291,6 @@
     $("#tbl_deceaseds tbody").on('click', "#btn_info", function(e){
         e.preventDefault();
         var deceased_id = $(this).data('id');
-      
         $.ajax({
             type: 'get',
             url: "/deceaseds/show/"+deceased_id,
@@ -1473,27 +1585,39 @@
             }
         })
     })
-    function show_allServices()
+    function show_allServices(deceased_id)
     {
         $.ajax({
             type: 'get',
-            url: "{{ route('get_allServices') }}",
+            url: "/services/classified/"+deceased_id,
             dataType: 'json',
             success:function(data)
             {
-                var row = "<option></option>";
-                if(data.length > 0)
+                console.log(data)
+                var row = "";
+                for(var i = 0; i<data.length; i++)
                 {
-                    for(var i = 0; i<data.length; i++)
+                    if(data[i].status == 1)
                     {
-                        row += "<option value = "+data[i].id+">"+data[i].service_name.toUpperCase()+"</option>";
+                        row += '<tr data-id = '+data[i].id+' style = "text-transform: uppercase">';
+                        row += '<td style = "color: red; font-size: 23px" data-column_name  = "service_name" data-id = '+data[i].id+' colspan="2">'+data[i].service_name+'</td>';
+                        row += '<td align = "center" style = "font-size: 23px">';
+                        row += '<span class = "badge badge-success" >PROCESSED</span></td>';
+                        row += '</tr>';
+                    }
+                    else
+                    {
+                        row += '<tr data-id = '+data[i].id+' style = "text-transform: uppercase">';
+                        row += '<td style = "color: red; font-size: 23px" data-column_name  = "service_name" data-id = '+data[i].id+' colspan="2">'+data[i].service_name+'</td>';
+                        row += '<td align = "center">';
+                        row += '<button data-deceased_id = '+deceased_id+' data-id = '+data[i].id+' id = "btn_designation" style = "font-size: 23px" type="button" class="btn btn-primary btn-sm btn-flat">';
+                        row += '<i class = "fas fa-chess-king"></i>&nbsp; CHOOSE';
+                        row += '</button></td>';
+                        row += '</tr>';
                     }
                 }
-                else
-                {
-                    row += '<option>No data available.</option>';
-                }
-                $(".select2-info").html(row);
+               
+                $("#tbl_services tbody").html(row);
             },
             error: function()
             {

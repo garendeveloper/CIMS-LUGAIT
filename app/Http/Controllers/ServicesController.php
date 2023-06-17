@@ -6,7 +6,7 @@ use App\Models\services;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-
+use App\Models\Deceased;
 class ServicesController extends Controller
 {
     /**
@@ -19,6 +19,36 @@ class ServicesController extends Controller
     public function get_allRecords()
     {
         $data = Services::all();
+        echo json_encode($data);
+    }
+    public function classified($deceased_id)
+    {
+        $services = Services::all();
+        $data = [];
+        foreach($services as $service)
+        {
+            $check_deceased = Deceased::where([
+                'service_id'=> $service->id,
+                'id' => $deceased_id,
+            ])->first();
+
+            if($check_deceased !== null)
+            {
+                $data[] = [
+                    'id' => $service->id,
+                    'service_name' => $service->service_name,
+                    'status' => 1,
+                ];
+            }
+            else
+            {
+                $data[] = [
+                    'id' => $service->id,
+                    'service_name' => $service->service_name,
+                    'status' => 0,
+                ];
+            }
+        }
         echo json_encode($data);
     }
     /**
