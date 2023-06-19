@@ -63,7 +63,7 @@
                 <div class="form-group row">
                     {{ csrf_field() }}
                     <div class="col-sm-6">
-                        <button class = "btn btn-danger" id = "btn_openform"><i class = "fas fa fa-plus-square"></i></button>
+                        <button class = "btn btn-danger" id = "btn_openform"><i class = "fas fa fa-plus-square"></i> Add Block</button>
                     </div>
                     <label for="" class = "col-sm-2 col-form-label">Search Block</label>
                     <div class="col-sm-4">
@@ -81,7 +81,8 @@
               <div class="card-body">
                 <table id="tbl_spaceAreas" class="table responsive">
                   <thead style = "background-color: #170036; color: white">
-                  <tr>
+                  <tr align = "center">
+                    <th>Image</th>
                     <th>Section Name</th>
                     <th>Slot / Vacancy</th>
                     <th>Section Cost</th>
@@ -118,24 +119,35 @@
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="" id = "block_form" method="post">
+            <form action="" id = "block_form" method="post" enctype="multipart/form-data">
+                {{ csrf_field() }}    
                 <div class="modal-body">
+                    <input type="text" style = "display: none" name="type" id = "type" value = "">
                     <div class="row" >
                         <input type="hidden" name = "block_id" id = "block_id" value = "">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <label for="">Section Name <span style="color:red">*</span></label>
                             <input type="text" style = "text-transform: uppercase" name="section_name" id="section_name" class="form-control form-control-border border-width-3" autocomplete = "off">
                             <span class = "span_error" style ="color:red; font-size: 12px" id = "errmsg_sectionname"></span>
                         </div>
-                        <div class="col-md-4" >
+                        <div class="col-md-6" >
                             <label for="">Slot / Vacancy<span style="color:red">*</span></label>
                             <input type="number" style = "text-transform: uppercase" name="slot" id="slot" class="form-control form-control-border border-width-3" autocomplete = "off">
                             <span class = "span_error" style ="color:red; font-size: 12px" id = "errmsg_blocknumber"></span>
                         </div>
-                        <div class="col-md-4">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
                             <label for="">Section Cost <span style="color:red">*</span></label>
                             <input type="number" style = "font-size: 25px; text-transform: uppercase; text-align: right;" name="block_cost" id="block_cost" class="form-control form-control-border border-width-3" autocomplete = "off">
                             <span class = "span_error" style ="color:red; font-size: 12px" id = "errmsg_blockcost"></span>
+                        </div>  
+                        <div class="col-md-6">
+                            <label for="">Image<span style="color:red"></span></label>
+                            <img  style = "width: 200px; height: 200px; border: 1px solid;" src="" alt="preview_image" id = "preview_image">
+                             <span class = "span_error" style ="color:red; font-size: 12px" id = "errmsg_image"></span>
+                             <input type="file" value = "" name="image" id="image" class="form-control">
+                             
                         </div>
                     </div>
                 </div>
@@ -166,7 +178,7 @@
                 <div class="modal-body">
                     <div class="row" >
                         <input type="hidden" name = "_block_id" id = "_block_id" value = "">
-                        <h5 style = "font-size: 12px; color: green">Note: <i> Just put negative sign to decrease the slot</i></h5>
+                        <h5 style = "font-size: 12px; color: green">Note: <i> Just put a negative sign to decrease the slot</i></h5>
                         <div class="col-md-12">
                             <label for="">ADJUST (<span style = "color: green; font-size: 15px;">+</span> <span style = "color: red; font-size: 15px;">-</span>)</label>
                             <input type="number" value = "0" style = "font-size: 25px; text-transform: uppercase; text-align: right;"    
@@ -196,7 +208,6 @@
   @include('layouts.footer')
 </div>
 <!-- ./wrapper -->
-
 <!-- REQUIRED SCRIPTS -->
 @include('references.scripts')
 <script>
@@ -231,6 +242,7 @@
             $("#slot").prop('readonly', false);
             $("#block_form")[0].reset();
             $("#block_id").val("");
+            $("#preview_image").attr('src', '{{asset("dist/img/rip.jpg")}}');
             $(".span_error").html("");
             $("input").removeClass('is-invalid')
             $("#modal_form").modal({
@@ -283,7 +295,14 @@
                 {
                     for(var i = 0; i<data.length; i++)
                     {
-                        row += '<tr data-id = '+data[i].id+' style = "text-transform: uppercase">';
+                        row += '<tr data-id = '+data[i].id+' style = "text-transform: uppercase;">';
+                        if(data[i].image != "") 
+                        { 
+                            row += '<td align = "center" data-id = '+data[i].id+'><img class = "img-responsive" src = "/upload_images/'+data[i].image+'" style = "height: 100px; width: 100px" ></td>';    
+                        }
+                        else {
+                             row += '<td align = "center" data-id = '+data[i].id+'><img src= "{{ asset("dist/img/rip.jpg") }}" class = "img-responsive" style = "width: 100px; height: 100px"></td>';   
+                        } 
                         row += '<td data-id = '+data[i].id+'>'+data[i].section_name+'</td>';    
                         row += '<td  data-id = '+data[i].id+' style = "font-size: 20px; text-align: center; font-family: Times New Roman; font-weight: bold; color: red">'+data[i].slot+'</td>';
                         row += '<td data-id = '+data[i].id+' style = "font-size: 20px; text-align: right; font-family: Times New Roman; "> P '+$.number(data[i].block_cost, 2)+'</td>';
@@ -293,10 +312,7 @@
                         row += '</button>';
                         row += '<button data-id = '+data[i].id+' id = "btn_slot" type="button" class="btn btn-primary btn-sm btn-flat">';
                         row += '<i class = "fa fa-laptop"></i>';
-                        row += '</button>';
-                        // row += '<button data-id = '+data[i].id+' id = "btn_de" type="button" class="btn btn-danger btn-sm btn-flat">';
-                        // row += '<i class = "fas fa fa-lock"></i>';
-                        // row += '</button></td>';
+                        row += '</button></td>';
                         row += '</tr>';
                     }
                 }
@@ -373,6 +389,23 @@
                 }
             }
         })
+        let block_image = null;
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#preview_image').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#image").change(function(e){
+            block_image = e.target.files[0];
+            readURL(this);
+        });
         $("#block_form").on('submit', function(e){
             e.preventDefault();
             var slot = $("input[name='slot']").val().toUpperCase();
@@ -382,17 +415,15 @@
 
             if(block_id != "")
             {
+                var data = new FormData(this);
+                data.append('type', 'update_block');   
                 $.ajax({
-                    type: 'put',
-                    url: "{{ route('spaceareas.update', 'id') }}",
-                    data: {
-                        type: 'update_block',
-                        block_id: block_id,
-                        block_cost: block_cost,
-                        slot: slot,
-                        section_name: section_name,
-                    },
+                    url: "/spaceareas/updatewithimage",
+                    type: 'post',
+                    data: data,
                     dataType: 'json',
+                    contentType: false,
+                    processData: false,
                     success: function(response)
                     {
                         if(response.status == 1)
@@ -432,6 +463,11 @@
                                 {
                                     $("#errmsg_blocknumber").text(value);
                                     $("input[name='slot']").addClass('is-invalid');
+                                }
+                                if(key == "image")
+                                {
+                                    $("#errmsg_image").text(value);
+                                    $("input[name='image']").addClass('is-invalid');
                                 }
                             }); 
                         }
@@ -451,12 +487,11 @@
                 $.ajax({
                     type: 'post',
                     url: "{{ route('spaceareas.store') }}",
-                    data: {
-                        block_cost: block_cost,
-                        slot: slot,
-                        section_name: section_name,
-                    },
+                    data: new FormData(this),
                     dataType: 'json',
+                    contentType: false,
+                    cache: false,
+                    processData: false,
                     success: function(response)
                     {
                         if(response.status == 1)
@@ -496,6 +531,11 @@
                                 {
                                     $("#errmsg_blocknumber").text(value);
                                     $("input[name='slot']").addClass('is-invalid');
+                                }
+                                if(key == "image")
+                                {
+                                    $("#errmsg_image").text(value);
+                                    $("input[name='image']").addClass('is-invalid');
                                 }
                             }); 
                         }
@@ -525,6 +565,14 @@
                     $("#slot").val(data.slot.toUpperCase());
                     $("#section_name").val(data.section_name.toUpperCase());
                     $("#block_cost").val(data.block_cost);
+                    if(data.image != "")
+                    {
+                        $("#preview_image").attr('src', '/upload_images/'+data.image)
+                    }
+                    else
+                    {
+                        $("#preview_image").attr('src', '{{asset("dist/img/rip.jpg")}}');
+                    }
                     $("#modal_form").modal({
                         'backdrop': 'static',
                         'keyboard': false,
@@ -542,6 +590,7 @@
                 }
             })
         })
+        
         $("#tbl_spaceAreas tbody").on('click', '#btn_remove', function(){
             var id = $(this).data('id');
             if(confirm("Are you sure you want to deactivate this section? \nCannot be undone."))

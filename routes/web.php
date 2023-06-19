@@ -46,6 +46,7 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
         
         //Space areas
         Route::resource('spaceareas', BlockController::class);
+        Route::post('/spaceareas/updatewithimage', [BlockController::class, 'update_withImage']);
         Route::get('/spaceAreas/show/{id}', [BlockController::class, 'show']);
         Route::get('/spaceAreas/delete/{id}', [BlockController::class, 'destroy']);
         Route::get('/get/blocks', [BlockController::class, 'get_allBlocks'])->name('spaceareas.get_allBlocks');

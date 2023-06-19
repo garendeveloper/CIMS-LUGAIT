@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('slot');
             $table->string('section_name')->nullable();
             $table->bigInteger('block_cost');
+            $table->string('image')->nullable();
             //1 = Active
             //0 = Deactivated
             $table->tinyInteger('status')->default(0);

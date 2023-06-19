@@ -1126,7 +1126,8 @@
                     for(var i = 0; i<data.cb.length; i++)
                     {
                         row += '<tr data-id = '+data.cb[i].id+' style = "text-transform: uppercase">'
-                        row += '<td data-id = '+data.cb[i].id+'><img src= "{{ asset("dist/img/rip.jpg") }}" class = "img-responsive" style = "width: 150px; height: 150px"></td>';    
+                        if(data.cb[i].image != null) row += '<td data-id = '+data.cb[i].id+'><img src = "/upload_images/'+data.cb[i].image+'"  class = "img-responsive" style = "height: 200px; width: 200px" ></td>';    
+                        else  row += '<td data-id = '+data.cb[i].id+'><img src= "{{ asset("dist/img/rip.jpg") }}" class = "img-responsive" style = "width: 200px; height: 200px"></td>';  
                         row += '<td data-id = '+data.cb[i].id+' style = "font-size: 25px; text-align: center; font-family: Segoe UI; font-weight: bold; color: red">'+data.cb[i].section_name+'<p> SLOT = '+data.cb[i].slot+'</p></td>';
                         row += '<td align="center">';
                         if(data.cb[i].status == 1)
@@ -1145,7 +1146,7 @@
                             else
                             {
                                 row += '<button data-id = '+data.cb[i].id+' data-deceased_id = '+assign_id+' id = "btn_assign" style = "" type="button" class="btn btn-primary btn-lg btn-flat">';
-                                row += '<i class = "fa fas fa-map-marked-alt"></i>&nbsp; ASSIGN HERE';
+                                row += '<i class = "fa fas fa-map-marked-alt"></i>&nbsp; PLOT HERE';
                                 row += "</button> <br>";
                             }
                         }
