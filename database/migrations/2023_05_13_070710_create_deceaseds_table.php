@@ -19,21 +19,6 @@ return new class extends Migration
                 ->on('services')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-
-            // $table->unsignedBigInteger('contactperson_id');
-            // $table->foreign('contactperson_id')
-            //     ->references('id')
-            //     ->on('users')
-            //     ->onUpdate('cascade')
-            //     ->onDelete('cascade');  
-        
-            // $table->unsignedBigInteger('cod_id');
-            // $table->foreign('cod_id')
-            //     ->references('id')
-            //     ->on('causeofdeaths')
-            //     ->onUpdate('cascade')
-            //     ->onDelete('cascade');
-
             $table->unsignedBigInteger('address_id');
             $table->foreign('address_id')
                 ->references('id')
@@ -60,7 +45,7 @@ return new class extends Migration
             $table->date('dateof_burial');
             $table->time('burial_time');
             $table->date('dateofbirth');
-
+            $table->tinyInteger('approvalStatus')->default(0);
           
             $table->timestamps();
         });

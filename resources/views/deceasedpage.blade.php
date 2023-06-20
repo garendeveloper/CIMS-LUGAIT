@@ -15,7 +15,12 @@
     <img class="animation__shake" src="{{ asset('dist/img/loader.gif')}}" alt="AdminLTELogo" height="60" width="60">
     <p>Please wait ... </p>
   </div>
-
+    @if(Auth::user()->role == 1) 
+    <input type="text" value = "1" id = "user_role">
+    @endif
+    @if(Auth::user()->role == 2) 
+    <input type="text" value = "2" id = "user_role">
+    @endif
   <!-- Navbar -->
   @include('layouts.header')
   <!-- /.navbar -->
@@ -1019,6 +1024,7 @@
     })
     function show_allData()
     {
+        var user_role = $("#user_role").val();
         $.ajax({
         type: 'get',
         url: "{{ route('deceaseds.get_allData') }}",
@@ -1038,23 +1044,47 @@
                     row += '<td align="center">'+data[i].sex+'</td>';
                     row += '<td align="center"><span class = "badge badge-danger right"> '+data[i].service_name+'</span></td>';
                     row += '<td align = "center">';
-                    row += '<button data-id = '+data[i].deceased_id+' id = "btn_assign" type="button" class="btn btn-primary btn-sm btn-flat">';
-                    row += '<i class = "fa fas fa-map-marked-alt"></i>';
-                    row += '</button>';
-                    row += '<button data-id = '+data[i].deceased_id+' id = "btn_edit" type="button" class="btn btn-success btn-sm btn-flat">';
-                    row += '<i class = "fa fa-edit"></i>';
-                    row += '</button>';
-                    row += '<button data-id = '+data[i].deceased_id+' id = "btn_info" type="button" class="btn btn-primary btn-sm btn-flat">';
-                    row += '<i class = "fa fa-info"></i>';
-                    row += '</button>';
-                    row += '<button data-id = '+data[i].deceased_id+' id = "btn_viewprint" type="button" class="btn btn-success btn-sm btn-flat">';
-                    row += '<i class = "fas fa fa-print"></i>';
-                    row += '</button>';
-                    row += '<button data-id = '+data[i].deceased_id+' id = "btn_assignment" type="button" class="btn btn-primary btn-sm btn-flat">';
-                    row += '<i class = "fas fa fa-route"></i>';
-                    row += '</button>';
-                    row += "</td>";
-                    row += '</tr>';
+                    if(data[i].approvalStatus == 1)
+                    {
+                        row += '<button data-id = '+data[i].deceased_id+' id = "btn_assign" type="button" class="btn btn-primary btn-sm btn-flat">';
+                        row += '<i class = "fa fas fa-map-marked-alt"></i>';
+                        row += '</button>';
+                        row += '<button data-id = '+data[i].deceased_id+' id = "btn_edit" type="button" class="btn btn-success btn-sm btn-flat">';
+                        row += '<i class = "fa fa-edit"></i>';
+                        row += '</button>';
+                        row += '<button data-id = '+data[i].deceased_id+' id = "btn_info" type="button" class="btn btn-primary btn-sm btn-flat">';
+                        row += '<i class = "fa fa-info"></i>';
+                        row += '</button>';
+                        row += '<button data-id = '+data[i].deceased_id+' id = "btn_viewprint" type="button" class="btn btn-success btn-sm btn-flat">';
+                        row += '<i class = "fas fa fa-print"></i>';
+                        row += '</button>';
+                        row += '<button data-id = '+data[i].deceased_id+' id = "btn_assignment" type="button" class="btn btn-primary btn-sm btn-flat">';
+                        row += '<i class = "fas fa fa-route"></i>';
+                        row += '</button>';
+                        row += "</td>";
+                        row += '</tr>';
+                    }
+                    else
+                    {
+                        row += '<button disabled data-id = '+data[i].deceased_id+' id = "btn_assign" type="button" class="btn btn-primary btn-sm btn-flat">';
+                        row += '<i class = "fa fas fa-map-marked-alt"></i>';
+                        row += '</button>';
+                        row += '<button  data-id = '+data[i].deceased_id+' id = "btn_edit" type="button" class="btn btn-success btn-sm btn-flat">';
+                        row += '<i class = "fa fa-edit"></i>';
+                        row += '</button>';
+                        row += '<button data-id = '+data[i].deceased_id+' id = "btn_info" type="button" class="btn btn-primary btn-sm btn-flat">';
+                        row += '<i class = "fa fa-info"></i>';
+                        row += '</button>';
+                        row += '<button data-id = '+data[i].deceased_id+' id = "btn_viewprint" type="button" class="btn btn-success btn-sm btn-flat">';
+                        row += '<i class = "fas fa fa-print"></i>';
+                        row += '</button>';
+                        row += '<button disabled data-id = '+data[i].deceased_id+' id = "btn_assignment" type="button" class="btn btn-primary btn-sm btn-flat">';
+                        row += '<i class = "fas fa fa-route"></i>';
+                        row += '</button>';
+                        row += "</td>";
+                        row += '</tr>';
+                    }
+                   
                 }
             }
             else

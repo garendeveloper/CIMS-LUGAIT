@@ -23,7 +23,20 @@ class DeceasedController extends Controller
     {
         return view('deceasedpage');
     }
-
+    public function deceasedForApproval()
+    {
+        return view('deceasedForApproval');
+    }
+    public function approve($deceased_id)
+    {   
+        $deceased = Deceased::find($deceased_id);
+        $deceased->approvalStatus = 1;
+        $deceased->update();
+        return response()->json([
+            'status' => 1,
+            'message' => 'Deceased has been successfully approved',
+        ]);
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -967,4 +980,5 @@ class DeceasedController extends Controller
             'message' => $msg
         ]);
     }
+    
 }

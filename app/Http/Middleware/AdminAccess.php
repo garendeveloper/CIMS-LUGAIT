@@ -20,6 +20,10 @@ class AdminAccess
         {
             return $next($request);
         }
+        else if(Auth::check() && Auth::user()->role == 2)
+        {
+            return $next($request);
+        }
         else 
         {   
             return redirect('/')->with('NotFound', 'You must logged in first!');

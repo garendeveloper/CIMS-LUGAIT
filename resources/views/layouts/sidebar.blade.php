@@ -25,7 +25,16 @@
               </p>
             </a>
           </li>
-         
+          @if(Auth::user()->role == 1)
+            <li class="nav-item" >  
+              <a href="{{ route('deceaseds.forApproval') }}" class="nav-link">
+                <i class="nav-icon fas fa-users"></i>
+                <p>
+                  Deceased for Approval
+                </p>
+              </a>
+            </li>
+          @endif
           <li class="nav-item" >  
             <a href="{{ route('deceaseds.index') }}" id = "s_deceaseds" class="nav-link">
               <i class="nav-icon fas fa-user-injured"></i>
@@ -50,22 +59,16 @@
               </p>
             </a>
           </li>
-          <!-- <li class="nav-item" >  
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-route"></i>
-              <p>
-                Coffin Plots
-              </p>
-            </a>
-          </li> -->
-          <li class="nav-item" >  
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-users"></i>
-              <p>
-                Manage Users
-              </p>
-            </a>
-          </li>
+          @if(Auth::user()->role == 1)
+            <li class="nav-item" >  
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-users"></i>
+                <p>
+                  Manage Users
+                </p>
+              </a>
+            </li>
+          @endif
           <li class="nav-item" >  
             <a id = "s_logout" type = "button" class="nav-link">
               <i class="nav-icon fas fa-power-off"></i>
