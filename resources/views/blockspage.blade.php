@@ -296,7 +296,7 @@
                     for(var i = 0; i<data.length; i++)
                     {
                         row += '<tr data-id = '+data[i].id+' style = "text-transform: uppercase;">';
-                        if(data[i].image != "" || data[i].image != NULL) 
+                        if(data[i].image != "" && data[i].image != null) 
                         { 
                             row += '<td align = "center" data-id = '+data[i].id+'><img class = "img-responsive" src = "/upload_images/'+data[i].image+'" style = "height: 100px; width: 100px" ></td>';    
                         }

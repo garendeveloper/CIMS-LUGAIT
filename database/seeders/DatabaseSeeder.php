@@ -38,9 +38,46 @@ class DatabaseSeeder extends Seeder
             'remember_token' => Str::random(10),
         ]);
         \App\Models\User::factory(9)->create();
-        \App\Models\Services::factory(1)->create();
+        \App\Models\Services::factory()->create([
+            'service_name' => 'BURIAL',
+        ]);
+        \App\Models\Services::factory()->create([
+            'service_name' => 'TRANSFER OF BONE/CADAVER',
+        ]);
+        \App\Models\Services::factory()->create([
+            'service_name' => 'EXHUME OF BONE/CADAVER',
+        ]);
+        \App\Models\Services::factory()->create([
+            'service_name' => 'NICHES FOR CREMATED REMAINS',
+        ]);
+        \App\Models\Services::factory()->create([
+            'service_name' => 'COMMON BONE DEPOSITORY',
+        ]);
         \App\Models\Deceased::factory(20)->create();
         \App\Models\ContactPerson::factory()->count(10)->create();
-        \App\Models\Block::factory()->count(10)->create();
+        \App\Models\Block::factory()->create([
+            'section_name' => 'MEMORIAL PARK',
+            'block_cost' => random_int(200, 1000),
+            'slot' => random_int(500, 1000),
+            'image' => "",
+        ]);
+        \App\Models\Block::factory()->create([
+            'section_name' => 'PERIMETER CONCRETE NICHES (APARTMENT TYPE)',
+            'block_cost' => random_int(200, 1000),
+            'slot' => random_int(500, 1000),
+            'image' => "",
+        ]);
+        \App\Models\Block::factory()->create([
+            'section_name' => 'MEMORIAL GROUND (CONCRETE)',
+            'block_cost' => random_int(1000, 5000),
+            'slot' => random_int(500, 1000),
+            'image' => "",
+        ]);
+        \App\Models\Block::factory()->create([
+            'section_name' => 'PERPETUAL BONE NICHES',
+            'block_cost' => random_int(200, 1000),
+            'slot' => random_int(500, 1000),
+            'image' => "",
+        ]);
     }
 }
