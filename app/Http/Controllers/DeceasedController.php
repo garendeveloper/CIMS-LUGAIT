@@ -11,9 +11,11 @@ use App\Models\User;
 use App\Models\ContactPerson;
 use App\Models\CoffinPlot;
 use App\Models\Block;
+use App\Models\Services;
 use Illuminate\Support\Facades\Hash;
 use DB;
 use Auth;
+use Carbon\Carbon;
 class DeceasedController extends Controller
 {
     /**
@@ -26,6 +28,83 @@ class DeceasedController extends Controller
     public function deceasedForApproval()
     {
         return view('deceasedForApproval');
+    }
+    public function printpage($deceased_id)
+    {
+        $deceased_info = DB::select('select addresses.id as a_address_id, addresses.*, services.*,  deceaseds.*, deceaseds.id as deceased_id
+        from addresses, deceaseds, services
+        where addresses.id = deceaseds.address_id
+        and services.id = deceaseds.service_id
+        and deceaseds.id = '.$deceased_id.'');
+
+        //Block Area
+        //E check niya block kung aha gi pili para sa deceased .Para pag abot sa view dali ra e check ang checkbox kinsa ang selected nga blocks
+        $blocks = Block::all();
+        $block_data = [];
+        foreach($blocks as $b)
+        {
+            $isPlotted = CoffinPlot::where([
+                'deceased_id' => $deceased_id,
+                'block_id' => $b->id,
+            ])->exists();
+
+            if($isPlotted)
+            {
+                $block_data[] = [
+                    'id' => $b->id,
+                    'section_name' => $b->section_name,
+                    'block_cost' => $b->block_cost,
+                    'isPlotted' => 1,
+                ];
+            }
+            else
+            {
+                $block_data[] = [
+                    'id' => $b->id,
+                    'section_name' => $b->section_name,
+                    'block_cost' => $b->block_cost,
+                    'isPlotted' => 0,
+                ];
+            }
+        }
+
+        //Service Area
+        //E check niya block kung aha gi pili para sa deceased. Para pag abot sa view dali ra e check ang checkbox kinsa ang selected nga services
+        $services = Services::all();
+        $service_data = [];
+        foreach($services as $s)
+        {
+            $is_selected = Deceased::where([
+                'id' => $deceased_id,
+                'service_id' => $s->id,
+            ])->exists();
+
+            if($is_selected)
+            {
+                $service_data[] = [
+                    'id' => $s->id,
+                    'service_name' => $s->service_name,
+                    'is_selected' => 1,
+                ];
+            }
+            else
+            {
+                $service_data[] = [
+                    'id' => $s->id,
+                    'service_name' => $s->service_name,
+                    'is_selected' => 0,
+                ];
+            }
+        }
+
+        $contactpeople = DB::select('select users.*, addresses.* from users, addresses, deceaseds, contactpeople where users.id = contactpeople.user_id and deceaseds.id = contactpeople.deceased_id and users.address_id = addresses.id  and users.role = 3 and deceaseds.id = '.$deceased_id.'');
+        $data = [
+            'deceased_info' => $deceased_info,
+            'blocks' => $block_data,
+            'services' => $service_data,
+            'contactpeople' => $contactpeople,
+        ];
+        return view('printpage', compact('data'));
     }
     public function approve($deceased_id)
     {   
@@ -449,10 +528,10 @@ class DeceasedController extends Controller
         $data = DB::select('select addresses.*, services.*, deceaseds.*, deceaseds.id as deceased_id
                             from addresses, deceaseds, services
                             where addresses.id = deceaseds.address_id
-                            and services.id = deceaseds.service_id');
+                            and services.id = deceaseds.service_id
+                            order by deceaseds.id desc');
         return response()->json($data);
     }
-
     public function show($deceased_id)
     {
         $deceased_info = DB::select('select addresses.id as a_address_id, addresses.*, services.*,  deceaseds.*, deceaseds.id as deceased_id
@@ -486,7 +565,19 @@ class DeceasedController extends Controller
     {
         //
     }
-
+    public function updatenotification()
+    {
+        $new_notif_exists = Deceased::where([
+            'new_notif' => 0
+        ])->exists();
+        if($new_notif_exists)
+        {
+            DB::table('deceaseds')->update(['new_notif'=> 1])->where('new_notif', 0);
+        }
+        return response()->json([
+            'status' => 1,
+        ]);
+    }
     /**
      * Update the specified resource in storage.
      */

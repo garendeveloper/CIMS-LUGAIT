@@ -46,6 +46,7 @@ return new class extends Migration
             $table->time('burial_time');
             $table->date('dateofbirth');
             $table->tinyInteger('approvalStatus')->default(0);
+            $table->tinyInteger('new_notif')->default(0);
           
             $table->timestamps();
         });

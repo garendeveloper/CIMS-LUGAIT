@@ -26,6 +26,7 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => Hash::make($this->faker->email), // password
             'remember_token' => Str::random(10),
+            'relationshipthdeceased' =>  random_int(1,6),
             // 'name' => 'JEROME BAHIAN PORCADO',
             // 'role' => 1,
             // 'address_id' => 1,

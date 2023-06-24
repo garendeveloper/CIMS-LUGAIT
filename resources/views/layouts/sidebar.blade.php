@@ -26,11 +26,12 @@
             </a>
           </li>
           @if(Auth::user()->role == 1)
-            <li class="nav-item" >  
-              <a href="{{ route('deceaseds.forApproval') }}" class="nav-link">
+            <li class="nav-item" style = "font-size: 16px">  
+              <a href="{{ route('deceaseds.forApproval') }}" id = "s_deceasedforapproval" class="nav-link">
                 <i class="nav-icon fas fa-users"></i>
                 <p>
-                  Deceased for Approval
+                  Deceased Approval
+                  <span class="right badge badge-danger" id = "forapproval_notif" style = "display: none"></span>
                 </p>
               </a>
             </li>

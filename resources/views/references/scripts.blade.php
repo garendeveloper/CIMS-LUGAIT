@@ -61,8 +61,8 @@
 <script src="{{ asset('plugins/jquery-mapael/jquery.mapael.min.js') }}"></script>
 <script src="{{ asset('plugins/jquery-mapael/maps/usa_states.min.js') }}"></script>
 <!-- ChartJS -->
-<!-- <script src="{{ asset('plugins/chart.js/Chart.min.js') }}"></script>
-<script src="{{ asset('dist/js/pages/dashboard3.js') }}"></script> -->
+<script src="{{ asset('plugins/chart.js/Chart.min.js') }}"></script>
+<!-- <script src="{{ asset('dist/js/pages/dashboard3.js') }}"></script> -->
 
 <script>
     $(document).ready(function(){
@@ -72,5 +72,46 @@
                 window.location.href="{{ route('system.logout') }}";
             }
         })
+
+        function show_allData()
+        {
+            $.ajax({
+                type: 'get',
+                url: "{{ route('deceaseds.get_allData') }}",
+                dataType: 'json',
+                success:function(data)
+                {
+                    if(data.length > 0)
+                    {
+                        var new_notif = 0;
+                        for(var i = 0; i<data.length; i++)
+                        {
+                            if(data[i].new_notif == 0)
+                            {
+                                new_notif += 1;
+                            }
+                        }
+                        if(new_notif > 0)
+                        {
+                            $("#forapproval_notif").show();
+                            $("#forapproval_notif").text(new_notif);
+                        }
+                    }
+                    else
+                    {
+                        $("#forapproval_notif").hide();
+                    }
+                   
+                },
+                error: function()
+                {
+                    alert("System cannot process request.")
+                }
+            })
+        }
+        setTimeout(() => {
+            show_allData()
+        }, 2000);
     })
+    
 </script>

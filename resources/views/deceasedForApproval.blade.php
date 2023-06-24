@@ -81,12 +81,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h4>Approval of Deceased <span class = "badge badge-sm badge-success" id = "no_ofrecords">0</span></h4>
+            <h4>Deceased for Approval  <span class = "badge badge-sm badge-success" id = "no_ofrecords">0</span></h4>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{{ route('managers.dashboard') }}">Home</a></li>
-              <li class="breadcrumb-item active">Approval of Deceased</li>
+              <li class="breadcrumb-item active">Deceased for Approval</li>
             </ol>
           </div>
         </div>
@@ -189,6 +189,17 @@
             'X-CSRF-Token':$("input[name=_token").val()
         }
     }) 
+    //update notification status to 1, disable notification on this page.
+    $.ajax({
+      type:'get',
+      url: '{{ route("deceaseds.updateNotification") }}',
+      dataType: 'json',
+      success: function(resp)
+      {
+        $("#forapproval_notif").hide();
+      }
+    })
+    $("#s_deceasedforapproval").addClass('active')
     $("#search").addClass('active');
     show_allData();
     $("#search").on("keyup", function() {
@@ -208,37 +219,35 @@
             success:function(data)
             {
                 var row = "";
-                $("#no_ofrecords").text(data.length + " Records");
+                
+                var total = 0;
                 if(data.length > 0)
                 {
                     for(var i = 0; i<data.length; i++)
                     {
+                      if(data[i].approvalStatus == 0)
+                      {
                         row += '<tr data-id = '+data[i].deceased_id+' style = "text-transform: uppercase">';
-                        row += '<td>'+data[i].lastname+", "+data[i].middlename+", "+data[i].firstname+'</td>';
-                        row += '<td>'+data[i].barangay+", "+data[i].city+'</td>';
-                        row += '<td align="center">'+formatDate(data[i].dateof_burial)+'</td>';
-                        row += '<td align="center">'+data[i].sex+'</td>';
-                        row += '<td align="center"><span class = "badge badge-danger right"> '+data[i].service_name+'</span></td>';
-                        row += '<td align = "center">';
-                        if(data[i].approvalStatus == 1)
-                        {
-                            row += '<span class = "badge badge-success">APPROVED</span>';
-                        }
-                        else
-                        {
-                            row += '<button data-id = '+data[i].deceased_id+' id = "btn_approve" type="button" class="btn btn-primary btn-sm btn-flat">';
-                            row += '<i class = "fa fas fa-approve"></i>&nbsp;&nbsp;APPROVE';
-                            row += '</button>';
-                        
-                        }
-                        row += "</td>";
+                          row += '<td>'+data[i].lastname+", "+data[i].middlename+", "+data[i].firstname+'</td>';
+                          row += '<td>'+data[i].barangay+", "+data[i].city+'</td>';
+                          row += '<td align="center">'+formatDate(data[i].dateof_burial)+'</td>';
+                          row += '<td align="center">'+data[i].sex+'</td>';
+                          row += '<td align="center"><span class = "badge badge-danger right"> '+data[i].service_name+'</span></td>';
+                          row += '<td align = "center">';
+                          row += '<button data-id = '+data[i].deceased_id+' id = "btn_approve" type="button" class="btn btn-primary btn-sm btn-flat">';
+                          row += '<i class = "fa fas fa-approve"></i>&nbsp;&nbsp;APPROVE';
+                          row += '</button>';
+                          row += "</td>";
                         row += '</tr>';
+                        total += 1;
+                      }
                     }
                 }
                 else
                 {
-                    row += '<tr style = "text-transform: uppercase"><td colspan = "8">No data available</td></tr>';
+                    row += '<tr style = "text-transform: uppercase"><td colspan = "6">No data available</td></tr>';
                 }
+                $("#no_ofrecords").text(total + " Records");
                 $("#tbl_deceaseds tbody").html(row);
             },
             error: function()
@@ -249,7 +258,7 @@
     }
     $("#tbl_deceaseds tbody").on('click', '#btn_approve', function(){
         var id = $(this).data('id');
-        if(confirm("Are you sure you want to approve this deceased? "))
+        if(confirm("Are you sure you want to approve this deceased? \n"))
         {
             $.ajax({
                 type: 'get',

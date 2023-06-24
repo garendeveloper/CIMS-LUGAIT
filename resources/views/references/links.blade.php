@@ -54,8 +54,9 @@
         background-color: #170036;
         /* background-color: #332600; */
     }
-    /* .sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active, .sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active {
-        background-color: #dc3545;
-        color: #fff;
-    } */
+    .sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active, .sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active {
+        background-color: #1d00d3;
+        color: white;
+        /* font-weight: bold; */
+    }
 </style>

@@ -37,6 +37,8 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
         Route::get('/services/delete/{id}', [ServicesController::class, 'destroy']);
 
         //deceaseds
+        Route::get('/deceased/printpage/{deceased_id}', [DeceasedController::class, 'printpage']);
+        Route::get('/deceaseds/updateNofication', [DeceasedController::class, 'updatenotification'])->name('deceaseds.updateNotification');
         Route::get('deceaseds/forApproval', [DeceasedController::class, 'deceasedForApproval'])->name('deceaseds.forApproval');
         Route::resource('deceaseds', DeceasedController::class);
         Route::put('deceaseds/update/{id}', [DeceasedController::class, 'update_deceased']);
@@ -45,6 +47,7 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
         Route::put('/deceaseds/assign_block/{id1}/{id2}', [DeceasedController::class, 'assign_block']);
         Route::put('/deceaseds/designation/{id1}/{id2}', [DeceasedController::class, 'designation']);
         Route::get('/deceased/approve/{id1}', [DeceasedController::class, 'approve']);
+      
         //Space areas
         Route::resource('spaceareas', BlockController::class);
         Route::post('/spaceareas/updatewithimage', [BlockController::class, 'update_withImage']);

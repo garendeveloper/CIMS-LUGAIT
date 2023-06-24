@@ -1055,17 +1055,18 @@
                         row += '<button data-id = '+data[i].deceased_id+' id = "btn_info" type="button" class="btn btn-primary btn-sm btn-flat">';
                         row += '<i class = "fa fa-info"></i>';
                         row += '</button>';
-                        row += '<button data-id = '+data[i].deceased_id+' id = "btn_viewprint" type="button" class="btn btn-success btn-sm btn-flat">';
-                        row += '<i class = "fas fa fa-print"></i>';
-                        row += '</button>';
                         row += '<button data-id = '+data[i].deceased_id+' id = "btn_assignment" type="button" class="btn btn-primary btn-sm btn-flat">';
                         row += '<i class = "fas fa fa-route"></i>';
                         row += '</button>';
+                        row += '<a  href="/deceased/printpage/'+data[i].deceased_id+'" type="button" class="btn btn-success btn-sm btn-flat">';
+                        row += '<i class = "fas fa fa-print"></i>';
+                        row += '</a>';
                         row += "</td>";
                         row += '</tr>';
                     }
                     else
                     {
+                        var deceased_id = data[i].deceased_id;
                         row += '<button disabled data-id = '+data[i].deceased_id+' id = "btn_assign" type="button" class="btn btn-primary btn-sm btn-flat">';
                         row += '<i class = "fa fas fa-map-marked-alt"></i>';
                         row += '</button>';
@@ -1075,12 +1076,12 @@
                         row += '<button data-id = '+data[i].deceased_id+' id = "btn_info" type="button" class="btn btn-primary btn-sm btn-flat">';
                         row += '<i class = "fa fa-info"></i>';
                         row += '</button>';
-                        row += '<button data-id = '+data[i].deceased_id+' id = "btn_viewprint" type="button" class="btn btn-success btn-sm btn-flat">';
-                        row += '<i class = "fas fa fa-print"></i>';
-                        row += '</button>';
                         row += '<button disabled data-id = '+data[i].deceased_id+' id = "btn_assignment" type="button" class="btn btn-primary btn-sm btn-flat">';
                         row += '<i class = "fas fa fa-route"></i>';
                         row += '</button>';
+                        row += '<a href="/deceased/printpage/'+data[i].deceased_id+'"  type="button" class="btn btn-success btn-sm btn-flat disabled">';
+                        row += '<i class = "fas fa fa-print"></i>';
+                        row += '</a>';
                         row += "</td>";
                         row += '</tr>';
                     }

@@ -28,6 +28,9 @@
         <div class="row mb-2">
           <div class="col-sm-6">
             <h1 class="m-0">CIMS Dashboard</h1>
+              <div class="position-relative mb-4">
+             
+              </div>
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -50,8 +53,9 @@
 
 <!-- REQUIRED SCRIPTS -->
 @include('references.scripts')
+<script src="{{ asset('jquery.canvasjs.min.js') }}"></script>
 
-<script>
+<script type="text/javascript">
   $(document).ready(function(){
     $("#s_dashboard").addClass('active');
   })
