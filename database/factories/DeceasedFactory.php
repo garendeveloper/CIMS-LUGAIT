@@ -29,10 +29,10 @@ class DeceasedFactory extends Factory
             'suffix' => $this->faker->randomElement(['N', 'I', 'III', 'IV', 'V']),
             'civilstatus' => $this->faker->randomElement(['S', 'M', 'D', 'W']),
             'sex' => $this->faker->randomElement(['M', 'F']),
-            'dateof_death' => date('Y-m-d'),
-            'dateof_burial' => date('Y-m-d'),
+            'dateof_death' => $this->faker->dateTimeBetween('-24 years', 'now'),
+            'dateof_burial' => $this->faker->dateTimeBetween('-24 years', 'now'),
             'burial_time' => now()->format('H:i:s'),
-            'dateofbirth' => date('Y-m-d'),
+            'dateofbirth' => $this->faker->dateTimeBetween('-90 years', 'now'),
         ];
     }
 }
