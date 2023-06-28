@@ -73,7 +73,7 @@
             }
         })
 
-        function show_allData()
+        function deceased_forApprovalNotification()
         {
             $.ajax({
                 type: 'get',
@@ -86,7 +86,7 @@
                         var new_notif = 0;
                         for(var i = 0; i<data.length; i++)
                         {
-                            if(data[i].new_notif == 0)
+                            if(data[i].approvalStatus == 0)
                             {
                                 new_notif += 1;
                             }
@@ -110,7 +110,7 @@
             })
         }
         setTimeout(() => {
-            show_allData()
+            deceased_forApprovalNotification()
         }, 2000);
     })
     

@@ -86,6 +86,7 @@
                     <th>Section Name</th>
                     <th>Slot / Vacancy</th>
                     <th>Section Cost</th>
+                    <th>Years of Validity</th>
                     <th style = "text-align: center">Action</th>
                   </tr>
                   </thead>
@@ -137,12 +138,17 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label for="">Section Cost <span style="color:red">*</span></label>
                             <input type="number" style = "font-size: 25px; text-transform: uppercase; text-align: right;" name="block_cost" id="block_cost" class="form-control form-control-border border-width-3" autocomplete = "off">
                             <span class = "span_error" style ="color:red; font-size: 12px" id = "errmsg_blockcost"></span>
                         </div>  
-                        <div class="col-md-6">
+                        <div class="col-md-4">
+                            <label for="">Validity<span style="color:red">*</span></label>
+                            <input type="number" style = "font-size: 25px; text-transform: uppercase; text-align: right;" name="validity" id="validity" class="form-control form-control-border border-width-3" autocomplete = "off">
+                            <span class = "span_error" style ="color:red; font-size: 12px" id = "errmsg_validity"></span>
+                        </div>  
+                        <div class="col-md-4">
                             <label for="">Image<span style="color:red"></span></label>
                             <img  style = "width: 200px; height: 200px; border: 1px solid;" src="" alt="preview_image" id = "preview_image">
                              <span class = "span_error" style ="color:red; font-size: 12px" id = "errmsg_image"></span>
@@ -306,6 +312,7 @@
                         row += '<td data-id = '+data[i].id+'>'+data[i].section_name+'</td>';    
                         row += '<td  data-id = '+data[i].id+' style = "font-size: 20px; text-align: center; font-family: Times New Roman; font-weight: bold; color: red">'+data[i].slot+'</td>';
                         row += '<td data-id = '+data[i].id+' style = "font-size: 20px; text-align: right; font-family: Times New Roman; "> P '+$.number(data[i].block_cost, 2)+'</td>';
+                        row += '<td data-id = '+data[i].id+' style = "font-size: 20px; text-align: right; font-family: Times New Roman; text-align: center"> '+data[i].validity+'</td>';
                         row += '<td align = "center">';
                         row += '<button data-id = '+data[i].id+' id = "btn_edit" type="button" class="btn btn-success btn-sm btn-flat">';
                         row += '<i class = "fa fa-edit"></i>';
@@ -565,6 +572,7 @@
                     $("#slot").val(data.slot.toUpperCase());
                     $("#section_name").val(data.section_name.toUpperCase());
                     $("#block_cost").val(data.block_cost);
+                    $("#validity").val(data.validity);
                     if(data.image != "")
                     {
                         $("#preview_image").attr('src', '/upload_images/'+data.image)

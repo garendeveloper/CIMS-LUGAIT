@@ -38,6 +38,8 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
 
         //deceaseds
         Route::get('/deceased/printpage/{deceased_id}', [DeceasedController::class, 'printpage']);
+        Route::get('/deceased/nearing/maturity', [DeceasedController::class, 'nearingmaturity'])->name('deceaseds.nearingmaturity');
+        Route::get('/deceaseds/allmaturity', [DeceasedController::class, 'get_allMaturity'])->name('deceaseds.get_allMaturity');
         Route::get('/deceaseds/updateNofication', [DeceasedController::class, 'updatenotification'])->name('deceaseds.updateNotification');
         Route::get('deceaseds/forApproval', [DeceasedController::class, 'deceasedForApproval'])->name('deceaseds.forApproval');
         Route::resource('deceaseds', DeceasedController::class);

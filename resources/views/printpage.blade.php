@@ -45,9 +45,9 @@
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item">Deceaseds</li>
-              <li class="breadcrumb-item active">Print Page</li>
+              <li><a href="#" class = "btn btn-sm btn-flat btn-default">Home</a></li>
+              <li><a href="{{ route('deceaseds.index') }}" class = "btn btn-sm btn-flat btn-primary">Deceaseds</a> </li>
+              <li> <a href="#" class = "btn btn-sm btn-flat btn-success">Print Page</a></li>
             </ol>
           </div>
         </div>

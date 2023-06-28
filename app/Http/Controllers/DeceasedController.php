@@ -114,7 +114,28 @@ class DeceasedController extends Controller
         return response()->json([
             'status' => 1,
             'message' => 'Deceased has been successfully approved',
-        ]);
+        ]); 
+    }
+    public function get_deceasedLessThanValidity()
+    {
+        $data = DB::select('select deceaseds.*
+                            from deceaseds, blocks, coffinplots 
+                            where blocks.id =  coffinplots.block_id
+                            and deceaseds.id = coffinplots.deceased_id
+                            and year(curdate()) - year(deceaseds.dateof_burial) < blocks.validity');
+        return response()->json($data);
+    }
+    public function get_allMaturity()
+    {
+        $data = DB::select('select deceaseds.*, blocks.*, deceaseds.id as deceased_id
+                            from deceaseds, blocks, coffinplots 
+                            where blocks.id =  coffinplots.block_id
+                            and deceaseds.id = coffinplots.deceased_id');
+        return response()->json($data);
+    }
+    public function nearingmaturity()
+    {
+        return view('nearingmaturity');
     }
     /**
      * Show the form for creating a new resource.

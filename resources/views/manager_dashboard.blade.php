@@ -73,6 +73,37 @@
             <!-- /.card -->
           </div>
           <!-- /.col-md-6 -->
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-header border-0" style = "background-color: darkred; color: white">
+                <div class="d-flex justify-content-between" >
+                  <h3 class="card-title">Deceased by Age</h3>
+                  <a href="{{route('deceaseds.index')}}" class = "btn btn-sm btn-default"><i class="fas fa fa-arrow-right"></i>&nbsp;&nbsp; View Deceaseds</a>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="d-flex">
+                  <p class="d-flex flex-column">
+                    <span class="text-bold text-lg">{{ $no_ofdeceaseds}}</span>
+                    <span>Total No. of Deceaseds</span>
+                  </p>
+                </div>
+                <!-- /.d-flex -->
+
+                <div class="position-relative mb-4">
+                  <canvas id="ageofdeceased_chart" height="200"></canvas>
+                </div>
+
+                <div class="d-flex flex-row justify-content-end">
+                  <span class="mr-2">
+                    <i class="fas fa-square text-primary"></i> Age of deceased
+                  </span>
+                </div>
+              </div>
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col-md-6 -->
         </div>
         <!-- /.row -->
       </div>
@@ -121,6 +152,81 @@
             data: deaths_values,
           },
         ]
+      },
+      options: {
+        maintainAspectRatio: false,
+        tooltips: {
+          mode: mode,
+          intersect: intersect
+        },
+        hover: {
+          mode: mode,
+          intersect: intersect
+        },
+        legend: {
+          display: false
+        },
+        scales: {
+          yAxes: [{
+            display: true,
+            gridLines: {
+              display: true,
+              // lineWidth: '4px',
+              // color: 'rgba(0, 0, 0, .2)',
+              zeroLineColor: 'transparent'
+            },
+            ticks: $.extend({
+              beginAtZero: true,
+
+              // Include a dollar sign in the ticks
+              callback: function (value) {
+                if (value >= 1000) {
+                  value /= 1000
+                  value += ''
+                }
+
+                return value
+              }
+            }, ticksStyle)
+          }],
+          xAxes: [{
+            display: true,
+            gridLines: {
+              display: false
+            },
+            ticks: ticksStyle
+          }]
+        }
+      }
+    })
+  })
+</script>
+<!-- Age of deceased chart presentation-->
+<script>
+  $(document).ready(function(){
+    'use strict'
+    var ticksStyle = {
+      fontColor: '#495057',
+      fontStyle: 'bold',
+    }
+
+    var mode = 'index'
+    var intersect = true
+    var dateofbirth_label = {{Js::From($dateofbirth_label)}};
+    var dateofbirth_values = {{Js::From($dateofbirth_values)}};
+    var salesChart = $('#ageofdeceased_chart')
+    // eslint-disable-next-line no-unused-vars
+    var salesChart = new Chart(salesChart, {
+      type: 'bar',
+      data: {
+        labels: dateofbirth_label,
+        datasets: [
+          {
+            backgroundColor: 'darkred',
+            borderColor: '#007bff',
+            data: dateofbirth_values,
+          },
+        ] 
       },
       options: {
         maintainAspectRatio: false,

@@ -52,6 +52,14 @@
               </p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="{{ route('deceaseds.nearingmaturity') }}" id = "s_nearingMaturity" class="nav-link">
+              <i class="nav-icon fas fa-universal-access"></i>
+              <p>
+                Nearing Maturity
+              </p>
+            </a>
+          </li>
           <li class="nav-item" >  
             <a href="{{ route('spaceareas.index') }}" id = "s_spaceareas" class="nav-link">
               <i class="nav-icon fas fa-church"></i>

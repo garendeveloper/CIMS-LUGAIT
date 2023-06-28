@@ -67,7 +67,12 @@
 </div>
 <!-- /.login-box -->
 
-@include('references/scripts')
+<!-- jQuery -->
+<script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
+<!-- Bootstrap -->
+<script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<!-- overlayScrollbars -->
+<script src="{{ asset('plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
 <!-- Include the Google Maps API library - required for embedding maps -->
 
 <script type = "text/javascript">

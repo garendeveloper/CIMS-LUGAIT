@@ -1100,7 +1100,7 @@
         }
         })
     }
-    function calculateCoffinYears(dateofburial, )
+    function calculateCoffinYears(dateofburial )
     {
         dob = new Date(dateofburial);
         var today = new Date();

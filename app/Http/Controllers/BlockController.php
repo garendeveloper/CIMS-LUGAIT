@@ -98,6 +98,7 @@ class BlockController extends Controller
                 $block->slot = strtoupper($request->slot);
                 $block->section_name = strtoupper($request->section_name);
                 $block->block_cost = $request->block_cost;
+                $block->validity = $request->validity;
                 $block->image = $new_name;
                 $block->save();
     
@@ -205,6 +206,7 @@ class BlockController extends Controller
                         $block->slot = $request->slot;
                         $block->section_name = strtoupper($request->section_name);
                         $block->block_cost = $request->block_cost;
+                        $block->validity = $request->validity;
                     }
                     else
                     {
@@ -218,6 +220,7 @@ class BlockController extends Controller
                         $block->slot = $request->slot;
                         $block->section_name = strtoupper($request->section_name);
                         $block->block_cost = $request->block_cost;
+                        $block->validity = $request->validity;
                         $block->image = $new_name;
                        
                     }

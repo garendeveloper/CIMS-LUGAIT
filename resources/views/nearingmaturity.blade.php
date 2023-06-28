@@ -122,11 +122,9 @@
                   <thead style = "background-color: #170036; color: white">
                     <tr style = "text-align: center">
                         <th>Full Name (L,M,F)</th>
-                        <th>Address (Barangay, City/Municipality)</th>
                         <th>Date of Burial</th>
-                        <th>Sex</th>
-                        <th>Status</th>
-                        <th>Action Buttons</th>
+                        <th>Block Assigned</th>
+                        <th>Expiration</th>
                     </tr>
                   </thead>
                   <tbody >
@@ -189,18 +187,8 @@
             'X-CSRF-Token':$("input[name=_token").val()
         }
     }) 
-    //update notification status to 1, disable notification on this page.
-    // $.ajax({
-    //   type:'get',
-    //   url: '{{ route("deceaseds.updateNotification") }}',
-    //   dataType: 'json',
-    //   success: function(resp)
-    //   {
-    //     $("#forapproval_notif").hide();
-    //   }
-    // })
-    $("#forapproval_notif").addClass('display', 'none');
-    $("#s_deceasedforapproval").addClass('active')
+
+    $("#s_nearingMaturity").addClass('active')
     $("#search").addClass('active');
     show_allData();
     $("#search").on("keyup", function() {
@@ -210,12 +198,18 @@
         });
     });
     var _token = $('input[name="_token"]').val();
-   
+    function calculateCoffinYears(dateofburial, validity)
+    {
+        var dob = new Date(dateofburial);
+        var val = new Date();
+        var count = Math.floor((val-dob) / (365.25 * 24 * 60 * 60 * 1000));
+        return count;
+    }
     function show_allData()
     {
         $.ajax({
             type: 'get',
-            url: "{{ route('deceaseds.get_allData') }}",
+            url: "{{ route('deceaseds.get_allMaturity') }}",
             dataType: 'json',
             success:function(data)
             {
@@ -226,22 +220,18 @@
                 {
                     for(var i = 0; i<data.length; i++)
                     {
-                      if(data[i].approvalStatus == 0)
-                      {
                         row += '<tr data-id = '+data[i].deceased_id+' style = "text-transform: uppercase">';
                           row += '<td>'+data[i].lastname+", "+data[i].middlename+", "+data[i].firstname+'</td>';
-                          row += '<td>'+data[i].barangay+", "+data[i].city+'</td>';
                           row += '<td align="center">'+formatDate(data[i].dateof_burial)+'</td>';
-                          row += '<td align="center">'+data[i].sex+'</td>';
-                          row += '<td align="center"><span class = "badge badge-danger right"> '+data[i].service_name+'</span></td>';
-                          row += '<td align = "center">';
-                          row += '<button data-id = '+data[i].deceased_id+' id = "btn_approve" type="button" class="btn btn-primary btn-sm btn-flat">';
-                          row += '<i class = "fa fas fa-approve"></i>&nbsp;&nbsp;APPROVE';
-                          row += '</button>';
-                          row += "</td>";
+                          row += '<td align="center">'+data[i].section_name+'</td>';
+                          row += '<td><progress style = "background: crimson" value = '+calculateCoffinYears(data[i].dateof_burial, data[i].validity)+' max = '+data[i].validity+'></progress></td>';
+                          // row += '<td align = "center">';
+                          // row += '<button data-id = '+data[i].deceased_id+' id = "btn_approve" type="button" class="btn btn-primary btn-sm btn-flat">';
+                          // row += '<i class = "fa fas fa-approve"></i>&nbsp;&nbsp;APPROVE';
+                          // row += '</button>';
+                          // row += "</td>";
                         row += '</tr>';
                         total += 1;
-                      }
                     }
                 }
                 else
@@ -257,35 +247,6 @@
             }
         })
     }
-    $("#tbl_deceaseds tbody").on('click', '#btn_approve', function(){
-        var id = $(this).data('id');
-        if(confirm("Are you sure you want to approve this deceased? \n"))
-        {
-            $.ajax({
-                type: 'get',
-                url: '/deceased/approve/'+id,
-                dataType: 'json',
-                success: function(response)
-                {
-                    if(response.status == 1)
-                    {
-                      $(document).Toasts('create', {
-                          class: 'bg-success',
-                          title: 'Responses',
-                          autohide: true,
-                          delay: 3000,
-                          body: response.message,
-                      })
-                      show_allData();
-                    }
-                    else
-                    {
-                        alert("Something went wrong.");
-                    }
-                }
-            })
-        }
-    })
     function formatDate(userdate)
     {
         var month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
