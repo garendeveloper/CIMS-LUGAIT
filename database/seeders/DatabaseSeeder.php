@@ -18,21 +18,31 @@ class DatabaseSeeder extends Seeder
         \App\Models\Address::factory(1)->create();
         // \App\Models\User::factory(1)->create();
         \App\Models\User::factory()->create([
-            'name' => 'JEROME BAHIAN PORCADO',
+            'name' => 'DR. PATRICIO P. PARAMI JR.',
             'role' => 1,
             'address_id' => 1,
-            'contactnumber' => '09312158479',
-            'email' => 'porcadojerome@gmail.com',
+            'contactnumber' => '09878976331',
+            'email' => 'drpatricioparami@gmail.com',
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
         ]);
         \App\Models\User::factory()->create([
-            'name' => 'JOHN PAUL ABARECE',
+            'name' => 'MS. RIEL BAGARES',
             'role' => 2,
             'address_id' => 1,
-            'contactnumber' => '09312158479',
-            'email' => 'johnpaul@gmail.com',
+            'contactnumber' => '09878976332',
+            'email' => 'msrielbagares@gmail.com',
+            'email_verified_at' => now(),
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'remember_token' => Str::random(10),
+        ]);
+        \App\Models\User::factory()->create([
+            'name' => 'MS. GEOLITA YURONG',
+            'role' => 2,
+            'address_id' => 1,
+            'contactnumber' => '09878976332',
+            'email' => 'msgeolitayurong@gmail.com',
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
@@ -63,19 +73,19 @@ class DatabaseSeeder extends Seeder
         ]);
         \App\Models\Block::factory()->create([
             'section_name' => 'PERIMETER CONCRETE NICHES (APARTMENT TYPE)',
-            'block_cost' => random_int(200, 1000),
+            'block_cost' => 4000,
             'slot' => random_int(500, 1000),
             'image' => "",
         ]);
         \App\Models\Block::factory()->create([
             'section_name' => 'MEMORIAL GROUND (CONCRETE)',
-            'block_cost' => random_int(1000, 5000),
+            'block_cost' => 2000,
             'slot' => random_int(500, 1000),
             'image' => "",
         ]);
         \App\Models\Block::factory()->create([
             'section_name' => 'PERPETUAL BONE NICHES',
-            'block_cost' => random_int(200, 1000),
+            'block_cost' => 5000,
             'slot' => random_int(500, 1000),
             'image' => "",
         ]);

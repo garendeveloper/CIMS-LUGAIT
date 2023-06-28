@@ -81,7 +81,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h4>Deceased for Approval  <span class = "badge badge-sm badge-success" id = "no_ofrecords">0</span></h4>
+            <h4>Deceased Nearing Maturity  <span class = "badge badge-sm badge-success" id = "no_ofrecords">0</span></h4>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -161,24 +161,6 @@
 <!-- REQUIRED SCRIPTS -->
 @include('references.scripts')
 
-<script type = "text/javascript">
-    $(function(){
-    var dtToday = new Date();
-
-    var month = dtToday.getMonth() + 1;
-    var day = dtToday.getDate();
-    var year = dtToday.getFullYear();
-
-    if(month < 10)
-        month = '0' + month.toString();
-    if(day < 10)
-        day = '0' + day.toString();
-
-    var maxDate = year + '-' + month + '-' + day;    
-    $('#dateofbirth').attr('max', maxDate);
-    $('#dateof_death').attr('max', maxDate);
-});
-</script>
 <script>
   $(document).ready(function(){
 
@@ -224,7 +206,15 @@
                           row += '<td>'+data[i].lastname+", "+data[i].middlename+", "+data[i].firstname+'</td>';
                           row += '<td align="center">'+formatDate(data[i].dateof_burial)+'</td>';
                           row += '<td align="center">'+data[i].section_name+'</td>';
-                          row += '<td><progress style = "background: crimson" value = '+calculateCoffinYears(data[i].dateof_burial, data[i].validity)+' max = '+data[i].validity+'></progress></td>';
+                          var count = calculateCoffinYears(data[i].dateof_burial, data[i].validity);
+                          if(count < data[i].validity)
+                          {
+                            row += '<td align = "center"><span class="badge badge-primary">'+calculateCoffinYears(data[i].dateof_burial, data[i].validity)+' Remaining Years</span></td>';
+                          }
+                          else 
+                          {
+                            row += '<td style = "color: red" align = "center"><span class="badge badge-danger">EXPIRED</span></td>';
+                          }
                           // row += '<td align = "center">';
                           // row += '<button data-id = '+data[i].deceased_id+' id = "btn_approve" type="button" class="btn btn-primary btn-sm btn-flat">';
                           // row += '<i class = "fa fas fa-approve"></i>&nbsp;&nbsp;APPROVE';

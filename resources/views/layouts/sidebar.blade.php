@@ -25,6 +25,14 @@
               </p>
             </a>
           </li>
+          <li class="nav-item" >  
+            <a href="{{ route('deceaseds.index') }}" id = "s_deceaseds" class="nav-link">
+              <i class="nav-icon fas fa-user-injured"></i>
+              <p>
+                Manage Deceased
+              </p>
+            </a>
+          </li>
           @if(Auth::user()->role == 1)
             <li class="nav-item" style = "font-size: 16px">  
               <a href="{{ route('deceaseds.forApproval') }}" id = "s_deceasedforapproval" class="nav-link">
@@ -36,14 +44,7 @@
               </a>
             </li>
           @endif
-          <li class="nav-item" >  
-            <a href="{{ route('deceaseds.index') }}" id = "s_deceaseds" class="nav-link">
-              <i class="nav-icon fas fa-user-injured"></i>
-              <p>
-                Manage Deceased
-              </p>
-            </a>
-          </li>
+         
           <li class="nav-item">
             <a href="{{ route('services') }}" id = "s_services" class="nav-link">
               <i class="nav-icon fas fa-universal-access"></i>

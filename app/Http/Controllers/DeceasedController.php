@@ -1006,48 +1006,88 @@ class DeceasedController extends Controller
     public function assign_block(Request $request, $deceased_id, $space_id)
     {
         $status = 0;
+        $message = "";
         if($request->status == "assign")
         {
-            $coffinplot = new CoffinPlot();
-            $coffinplot->deceased_id = $deceased_id;
-            $coffinplot->block_id = $space_id;
-            $coffinplot->plot_number = 0001;
-            $coffinplot->status = 1;
-            $coffinplot->save();
-    
-            //Decrement blocks once coffinplot is occupied.
-            $block = Block::find($space_id);
-            $block->slot = $block->slot-1;
-            $block->update();
-            $status = 1;
-            $message = 'The deceased has been plotted successfully.';
-        }
-        if($request->status == "move")
-        {
-            if(Hash::check($request->password, Auth::user()->password))
+            $deceased = Deceased::find($deceased_id);
+            $space_area = Block::find($space_id);
+            if($request->payment > $space_area->block_cost)
             {
-                //Return info 
-                $coffinplot = CoffinPlot::find($request->coffin_id);
-                $block_id = $coffinplot->block_id;
-                //Increment blocks once coffinplot is occupied.
-                $block = Block::find($block_id);
-                $block->slot = $block->slot+1;
-                $block->update();
+                $status = 2;
+                $message = "Payment must below the block cost";
+            }
+            else
+            {
+                //Diri mag transact sa payment kung naa bay balance bayran ang client;
+                $remainingBalance = 0;
+                if($request->payment < $space_area->block_cost)
+                {
+                    $remainingBalance = $space_area->block_cost - $request->payment;
+                }
 
-                //update new
-                $coffinplot = CoffinPlot::find($request->coffin_id);
+                $deceased->remaining_balance = $remainingBalance;
+                $deceased->update();
+
+                $coffinplot = new CoffinPlot();
                 $coffinplot->deceased_id = $deceased_id;
                 $coffinplot->block_id = $space_id;
                 $coffinplot->plot_number = 0001;
                 $coffinplot->status = 1;
-                $coffinplot->update();
-
+                $coffinplot->save();
+        
                 //Decrement blocks once coffinplot is occupied.
                 $block = Block::find($space_id);
                 $block->slot = $block->slot-1;
                 $block->update();
                 $status = 1;
                 $message = 'The deceased has been plotted successfully.';
+            }
+        }
+        if($request->status == "move")
+        {
+            if(Hash::check($request->password, Auth::user()->password))
+            {
+                $deceased = Deceased::find($deceased_id);
+                $space_area = Block::find($space_id);
+                if($request->payment > $space_area->block_cost)
+                {
+                    $status = 2;
+                    $message = "Payment must below the block cost";
+                }
+                else
+                {
+                    //Diri mag transact sa payment kung naa bay balance bayran ang client;
+                    $remainingBalance = 0;
+                    if($request->payment < $space_area->block_cost)
+                    {
+                        $remainingBalance = $space_area->block_cost - $request->payment;
+                    }
+
+                    $deceased->remaining_balance = $remainingBalance;
+                    $deceased->update();
+                    //Return info 
+                    $coffinplot = CoffinPlot::find($request->coffin_id);
+                    $block_id = $coffinplot->block_id;
+                    //Increment blocks once coffinplot is occupied.
+                    $block = Block::find($block_id);
+                    $block->slot = $block->slot+1;
+                    $block->update();
+
+                    //update new
+                    $coffinplot = CoffinPlot::find($request->coffin_id);
+                    $coffinplot->deceased_id = $deceased_id;
+                    $coffinplot->block_id = $space_id;
+                    $coffinplot->plot_number = 0001;
+                    $coffinplot->status = 1;
+                    $coffinplot->update();
+
+                    //Decrement blocks once coffinplot is occupied.
+                    $block = Block::find($space_id);
+                    $block->slot = $block->slot-1;
+                    $block->update();
+                    $status = 1;
+                    $message = 'The deceased has been plotted successfully.';
+                }
             }
             else{
                 $status = 0;

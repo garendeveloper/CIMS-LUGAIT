@@ -17,13 +17,13 @@ class AddressFactory extends Factory
     public function definition(): array
     {
         return [
-            'region_no' => 1,
-            'region' =>  'REGION I (ILOCOS REGION)',
-            'province_no' => 129,
-            'province' => 'ILOCOS SUR',
-            'city_no' => 12918,
-            'city' => 'SAN ESTEBAN',
-            'barangay_no' => 12918006,
+            'region_no' => 10,
+            'region' =>  'REGION X (NORTHERN MINDANAO) ',
+            'province_no' => 1043,
+            'province' => 'MISAMIS ORIENTAL',
+            'city_no' => 104316,
+            'city' => 'LUGAIT',
+            'barangay_no' => 104316007,
             'barangay' => 'POBLACION',
         ];
     }

@@ -158,8 +158,8 @@
                     </div>
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    <button type="submit" class="btn btn-primary btn-flat btn-block">Save changes</button>
+                    <button type="button" class="btn btn-danger btn-flat btn-block" data-dismiss="modal">X Close</button>
                 </div>
             </form>
         </div>
@@ -562,6 +562,13 @@
         $("#tbl_spaceAreas tbody").on('click', '#btn_edit', function(){
             $("#slot").prop('readonly', true);
             var id = $(this).data('id');
+            $("input[type='text']").removeClass('is-invalid');
+            $("input[type='number']").removeClass('is-invalid');
+            $("#errmsg_blockcost").html("");
+            $("#errmsg_blocknumber").html("");
+            $("#errmsg_sectionname").html("");
+            $("#errmsg_image").html("");
+            $("input[name='image']").removeClass('is-invalid');
             $.ajax({
                 type: 'get',
                 url: '/spaceAreas/show/'+id,

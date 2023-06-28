@@ -47,7 +47,7 @@ return new class extends Migration
             $table->date('dateofbirth');
             $table->tinyInteger('approvalStatus')->default(0);
             $table->tinyInteger('new_notif')->default(0);
-          
+            $table->integer('remaining_balance')->default(0);
             $table->timestamps();
         });
     }

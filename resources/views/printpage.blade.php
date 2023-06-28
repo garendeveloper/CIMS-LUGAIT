@@ -58,17 +58,6 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-12">
-            <!-- <div class="callout callout-info">
-              <h5><i class="fas fa-info"></i> Note:</h5>
-              This page has been enhanced for printing. Click the print button at the bottom of the invoice to test.
-            </div> -->
-            <style>
-                /* #toprint{
-                   
-                    size: 8.5in 11in;  width height 
-                 */
-               
-            </style>
             <!-- Main content -->
             <div id = "toprint" class="invoice p-3 mb-3">
               <!-- title row -->
@@ -191,7 +180,7 @@
                             <div class="form-group row">
                                 <h5 class="col-sm-2"> ADDRESS: </h5>
                                 <div class="col-sm-10" style = "text-align: center">
-                                    <h5 style = "border-bottom: 1px solid black; font-weight: bold;">{{$data['deceased_info'][0]->barangay.", ".$data['deceased_info'][0]->city.", ".$data['deceased_info'][0]->province.", ".$data['deceased_info'][0]->region}} </h5>
+                                    <h5 style = "border-bottom: 1px solid black; font-weight: bold;">{{$data['deceased_info'][0]->barangay.", ".$data['deceased_info'][0]->city.", ".$data['deceased_info'][0]->province}} </h5>
                                 </div>
                             </div>
                         </div>
@@ -213,7 +202,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-7">
                             <h5 style = "font-weight: bold; "><u> SPACE / AREA / BLOCKS: </u></h5>
                             <ul>
                                 <?php $space_area = "";?>
@@ -221,41 +210,46 @@
                                     @if($b['isPlotted'] == 1)
                                         <?php $space_area = $b['section_name']; ?>
                                         <div class="form-group row">
-                                            <div class="col-sm-2" style = "text-align: center">
+                                            <div class="col-sm-1" style = "text-align: center">
                                                 <input disabled type = "checkbox" checked class = "form-control"></input>
                                             </div>
-                                            <h5 class="col-sm-10">{{ $b['section_name'] }}</h5>
+                                            @if($data['deceased_info'][0]->remaining_balance == 0)
+                                            <h5 class="col-sm-11">{{ $b['section_name'] }} <i style = "color: blue">PAID {{$b['block_cost']}}</i> </h5>
+                                            @endif
+                                            @if($data['deceased_info'][0]->remaining_balance != 0)
+                                            <h5 class="col-sm-11">{{ $b['section_name'] }} <i style = "color: red">PARTIAL {{$data['deceased_info'][0]->remaining_balance}} </i> </h5>
+                                            @endif
                                         </div>
                                     @endif
                                     @if($b['isPlotted'] == 0)
                                         <div class="form-group row">
-                                            <div class="col-sm-2" style = "text-align: center">
+                                            <div class="col-sm-1" style = "text-align: center">
                                                 <input disabled type = "checkbox" class = "form-control"></input>
                                             </div>
-                                            <h5 class="col-sm-10">{{ $b['section_name'] }}</h5>
+                                            <h5 class="col-sm-11">{{ $b['section_name'] }}</h5>
                                         </div>
                                     @endif
                                 @endforeach
                             </ul>
                         </div>
-                        <div class="col-6">
+                        <div class="col-5">
                             <h5 style = "font-weight: bold; "><u> SERVICES: </u></h5>
                             <ul>
                                 @foreach($data['services'] as $s)
                                     @if($s['is_selected'] == 1)
                                         <div class="form-group row">
-                                            <div class="col-sm-2" style = "text-align: center">
+                                            <div class="col-sm-1" style = "text-align: center">
                                                 <input disabled type = "checkbox"  class = "form-control" checked></input>
                                             </div>
-                                            <h5 class="col-sm-10">{{ $s['service_name'] }}</h5>
+                                            <h5 class="col-sm-11">{{ $s['service_name'] }}</h5>
                                         </div>
                                     @endif
                                     @if($s['is_selected'] == 0)
                                         <div class="form-group row">
-                                            <div class="col-sm-3" style = "text-align: center">
+                                            <div class="col-sm-1" style = "text-align: center">
                                                 <input disabled type = "checkbox" class = "form-control"></input>
                                             </div>
-                                            <h5 class="col-sm-9">{{ $s['service_name'] }}</h5>
+                                            <h5 class="col-sm-11">{{ $s['service_name'] }}</h5>
                                         </div>
                                     @endif
                                 @endforeach
@@ -303,7 +297,7 @@
                                 <div class="form-group row">
                                     <h5 class="col-sm-2"> ADDRESS:  </h5>
                                     <div class="col-sm-10" style = "text-align: center">
-                                        <h5 style = "border-bottom: 1px solid black; font-weight: bold;">{{$cp->barangay.", ".$cp->city.", ".$cp->province.", "." ".$cp->region}} </h5>
+                                        <h5 style = "border-bottom: 1px solid black; font-weight: bold;">{{$cp->barangay.", ".$cp->city.", ".$cp->province}} </h5>
                                     </div>
                                 </div>
                             </div>
@@ -409,7 +403,7 @@
                             <div class="form-group row">
                                 <h5 class="col-sm-2"> ADDRESS: </h5>
                                 <div class="col-sm-10" style = "text-align: center">
-                                    <h5 style = "border-bottom: 1px solid black; font-weight: bold;">{{$data['deceased_info'][0]->barangay.", ".$data['deceased_info'][0]->city.", ".$data['deceased_info'][0]->province.", ".$data['deceased_info'][0]->region}} </h5>
+                                    <h5 style = "border-bottom: 1px solid black; font-weight: bold;">{{$data['deceased_info'][0]->barangay.", ".$data['deceased_info'][0]->city.", ".$data['deceased_info'][0]->province}} </h5>
                                 </div>
                             </div>
                         </div>

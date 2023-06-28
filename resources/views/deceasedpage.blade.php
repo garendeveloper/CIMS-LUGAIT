@@ -1159,7 +1159,7 @@
                         row += '<tr data-id = '+data.cb[i].id+' style = "text-transform: uppercase">'
                         if(data.cb[i].image != null) row += '<td data-id = '+data.cb[i].id+'><img src = "/upload_images/'+data.cb[i].image+'"  class = "img-responsive" style = "height: 200px; width: 200px" ></td>';    
                         else  row += '<td data-id = '+data.cb[i].id+'><img src= "{{ asset("dist/img/rip.jpg") }}" class = "img-responsive" style = "width: 200px; height: 200px"></td>';  
-                        row += '<td data-id = '+data.cb[i].id+' style = "font-size: 25px; text-align: center; font-family: Segoe UI; font-weight: bold; color: red">'+data.cb[i].section_name+'<p> SLOT = '+data.cb[i].slot+'</p></td>';
+                        row += '<td data-id = '+data.cb[i].id+' style = "font-size: 25px; text-align: center; font-family: Segoe UI; font-weight: bold; color: red">'+data.cb[i].section_name+'<p> SLOT = '+data.cb[i].slot+'</p><p> PRICE = '+data.cb[i].block_cost+'</p></td>';
                         row += '<td align="center">';
                         if(data.cb[i].status == 1)
                         {
@@ -1199,33 +1199,42 @@
         var name = "";
         if(confirm("Are you sure you want to ASSIGN the deceased in this block?"))
         {
-            $.ajax({
-                type: 'put',
-                url: '/deceaseds/assign_block/'+deceased_id+'/'+space_id,
-                data: {
-                    status: 'assign',
-                },
-                dataType:'json',
-                success: function(response){
-                    if(response.status == 1)
-                    {
-                        show_allSpaceAreas(deceased_id);
-                        show_allData();
-                        // $("#assignment").modal('hide');
-                        $(document).Toasts('create', {
-                            class: 'bg-success',
-                            title: 'Responses',
-                            autohide: true,
-                            delay: 3000,
-                            body: response.message,
-                        })
+            var payment =  prompt("Please enter the payment: ");
+            if(payment != "")
+            {
+                $.ajax({
+                    type: 'put',
+                    url: '/deceaseds/assign_block/'+deceased_id+'/'+space_id,
+                    data: {
+                        status: 'assign',
+                        payment: payment,
+                    },
+                    dataType:'json',
+                    success: function(response){
+                        if(response.status == 1)
+                        {
+                            show_allSpaceAreas(deceased_id);
+                            show_allData();
+                            // $("#assignment").modal('hide');
+                            $(document).Toasts('create', {
+                                class: 'bg-success',
+                                title: 'Responses',
+                                autohide: true,
+                                delay: 3000,
+                                body: response.message,
+                            })
+                        }
+                        else if(response.status == 2)
+                        {
+                            alert(response.message)
+                        }
+                        else
+                        {
+                            alert("Something went wrong cannot processs");
+                        }
                     }
-                    else
-                    {
-                        alert("Something went wrong cannot processs");
-                    }
-                }
-            })
+                })
+            }
         }
     })
     $("#tbl_services tbody").on('click', "#btn_designation", function(e){
@@ -1289,35 +1298,44 @@
             do{
                 password =  prompt("Please enter your password: ");
             }while(password.length < 4);
-            $.ajax({
-                type: 'put',
-                url: '/deceaseds/assign_block/'+deceased_id+'/'+space_id,
-                data: {
-                  status: 'move',  
-                  coffin_id: coffin_id,
-                  password: password,
-                },
-                dataType:'json',
-                success: function(response){
-                    if(response.status == 1)
-                    {
-                        show_allSpaceAreas(deceased_id);
-                        show_allData(); 
-                        // $("#assignment").modal('hide');
-                        $(document).Toasts('create', {
-                            class: 'bg-success',
-                            title: 'Responses',
-                            autohide: true,
-                            delay: 3000,
-                            body: response.message,
-                        })
+            var payment = prompt("Enter the payment: ");
+            if(payment != "")
+            {
+                $.ajax({
+                    type: 'put',
+                    url: '/deceaseds/assign_block/'+deceased_id+'/'+space_id,
+                    data: {
+                        status: 'move',  
+                        coffin_id: coffin_id,
+                        password: password,
+                        payment: payment,
+                    },
+                    dataType:'json',
+                    success: function(response){
+                        if(response.status == 1)
+                        {
+                            show_allSpaceAreas(deceased_id);
+                            show_allData(); 
+                            // $("#assignment").modal('hide');
+                            $(document).Toasts('create', {
+                                class: 'bg-success',
+                                title: 'Responses',
+                                autohide: true,
+                                delay: 3000,
+                                body: response.message,
+                            })
+                        }
+                        else if(response.status == 2)
+                        {
+                            alert(response.message);
+                        }
+                        else
+                        {
+                            alert(response.message);
+                        }
                     }
-                    else
-                    {
-                        alert(response.message);
-                    }
-                }
-            })
+                })
+            }
         }
     })
     $("#tbl_deceaseds tbody").on('click', "#btn_info", function(e){
@@ -1454,6 +1472,16 @@
                 table += "<th>BURIAL TIME</th>";
                 table += "<td>"+data[0][0].burial_time+"</td>";
                 table += "</tr>";
+
+                table += "<tr style = 'background-color: darkred; color: white'>";
+                table += "<th colspan ='2'>PAYMENT DETAILS</th>";
+                table += "</tr>";
+
+                table += "<tr>";
+                table += "<th>REMAINING BALANCE</th>";
+                table += "<td align = 'center'>P "+data[0][0].remaining_balance+"</td>";
+                table += "</tr>";
+
 
                 table += "</tbody>";
 
