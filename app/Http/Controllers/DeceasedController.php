@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Hash;
 use DB;
 use Auth;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Notification;
+
 class DeceasedController extends Controller
 {
     /**
@@ -111,10 +113,37 @@ class DeceasedController extends Controller
         $deceased = Deceased::find($deceased_id);
         $deceased->approvalStatus = 1;
         $deceased->update();
-        return response()->json([
-            'status' => 1,
-            'message' => 'Deceased has been successfully approved',
-        ]); 
+
+        // $basic  = new \Vonage\Client\Credentials\Basic("a4d8c8ee", "3KGO3b6Cdb9EW2FW");
+        // $client = new \Vonage\Client($basic);
+
+        // $response = $client->sms()->send(
+        //     new \Vonage\SMS\Message\SMS("639312158479", "LCIMS", 'A text message sent using the Nexmo SMS API')
+        // );
+
+        // $message = $client->message()->send([
+        //     'to' => '639312158479',
+        //     'from' => 'LCIMS',
+        //     'text' => 'Test Message sent from Vonage SMS API'
+        // ]);
+        
+        // $message = $response->current();
+
+        // if($message->getStatus() == 0)
+        // {
+            return response()->json([
+                'status' => 1,
+                'message' => 'Deceased has been successfully approved',
+            ]); 
+        // }
+        // else
+        // {
+        //     return response()->json([
+        //         'status' => 1,
+        //         'message' => 'Something went wrong',
+        //     ]); 
+        // }
+        
     }
     public function get_deceasedLessThanValidity()
     {
