@@ -114,12 +114,12 @@ class DeceasedController extends Controller
         $deceased->approvalStatus = 1;
         $deceased->update();
 
-        // $basic  = new \Vonage\Client\Credentials\Basic("a4d8c8ee", "3KGO3b6Cdb9EW2FW");
-        // $client = new \Vonage\Client($basic);
+        $basic  = new \Vonage\Client\Credentials\Basic("a4d8c8ee", "3KGO3b6Cdb9EW2FW");
+        $client = new \Vonage\Client($basic);
 
-        // $response = $client->sms()->send(
-        //     new \Vonage\SMS\Message\SMS("639312158479", "LCIMS", 'A text message sent using the Nexmo SMS API')
-        // );
+        $response = $client->sms()->send(
+            new \Vonage\SMS\Message\SMS("639312158479", "LCIMS", 'A text message sent using the Nexmo SMS API')
+        );
 
         // $message = $client->message()->send([
         //     'to' => '639312158479',
@@ -127,22 +127,22 @@ class DeceasedController extends Controller
         //     'text' => 'Test Message sent from Vonage SMS API'
         // ]);
         
-        // $message = $response->current();
+        $message = $response->current();
 
-        // if($message->getStatus() == 0)
-        // {
+        if($message->getStatus() == 0)
+        {
             return response()->json([
                 'status' => 1,
                 'message' => 'Deceased has been successfully approved',
             ]); 
-        // }
-        // else
-        // {
-        //     return response()->json([
-        //         'status' => 1,
-        //         'message' => 'Something went wrong',
-        //     ]); 
-        // }
+        }
+        else
+        {
+            return response()->json([
+                'status' => 1,
+                'message' => 'Something went wrong',
+            ]); 
+        }
         
     }
     public function get_deceasedLessThanValidity()
