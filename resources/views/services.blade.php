@@ -71,10 +71,14 @@
                     </div>
                 </div>
               </div>
+             
               <!-- /.card-header -->
               <div class="card-body">
                 <table id="tbl_services" class="table  table-stripped table-bordered table-hovered">
-                  <thead style = "background-color: #170036; color: white">
+                <div id="example1_wrapper">
+
+</div>  
+                <thead style = "background-color: #170036; color: white">
                   <tr>
                     <th>Service Name</th>
                     <th>Action</th>
@@ -109,24 +113,10 @@
   @include('layouts.footer')
 </div>
 <!-- ./wrapper -->
-
 <!-- REQUIRED SCRIPTS -->
 @include('references.scripts')
 <script>
   $(function () {
-    // $("#tbl_services").DataTable({
-    //   "responsive": true, "lengthChange": false, "autoWidth": false,
-    //   "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    // }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    // $('#tbl_services').DataTable({
-    //   "paging": true,
-    //   "lengthChange": false,
-    //   "searching": false,
-    //   "ordering": true,
-    //   "info": true,
-    //   "autoWidth": false,
-    //   "responsive": true,
-    // });
     var Toast = Swal.mixin({
       toast: true,
       position: 'top-end',

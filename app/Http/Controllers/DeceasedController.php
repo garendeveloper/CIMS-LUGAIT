@@ -111,39 +111,48 @@ class DeceasedController extends Controller
     public function approve($deceased_id)
     {   
         $deceased = Deceased::find($deceased_id);
-        $deceased->approvalStatus = 1;
-        $deceased->update();
-
-        $basic  = new \Vonage\Client\Credentials\Basic("a4d8c8ee", "3KGO3b6Cdb9EW2FW");
-        $client = new \Vonage\Client($basic);
-
-        $response = $client->sms()->send(
-            new \Vonage\SMS\Message\SMS("639312158479", "LCIMS", 'A text message sent using the Nexmo SMS API')
-        );
-
-        // $message = $client->message()->send([
-        //     'to' => '639312158479',
-        //     'from' => 'LCIMS',
-        //     'text' => 'Test Message sent from Vonage SMS API'
-        // ]);
         
-        $message = $response->current();
+        $contactpeople = ContactPerson::where('deceased_id', $deceased_id)->get();
+        if(!empty($contactpeople))
+        {
+            foreach($contactpeople as $cp)
+            {
+                $customer = User::find($cp->user_id);
 
-        if($message->getStatus() == 0)
-        {
-            return response()->json([
-                'status' => 1,
-                'message' => 'Deceased has been successfully approved',
-            ]); 
+                if(!empty($customer))
+                {
+                    $basic  = new \Vonage\Client\Credentials\Basic("a4d8c8ee", "3KGO3b6Cdb9EW2FW");
+                    $client = new \Vonage\Client($basic);
+                    
+                    $response = $client->sms()->send(
+                        new \Vonage\SMS\Message\SMS($customer->contactnumber, "LCIMS", 'A text message from Lugait Cemetery System.')
+                    );
+                    
+                    $message = $response->current();
+            
+                    if($message->getStatus() == 0)
+                    {
+                        $deceased->approvalStatus = 1;
+                        $deceased->update();
+                        return response()->json([
+                            'status' => 1,
+                            'message' => 'Deceased has been successfully approved',
+                        ]); 
+                    }
+                    else
+                    {
+                        return response()->json([
+                            'status' => 0,
+                            'message' => 'Cannot find a person contact number',
+                        ]); 
+                    }
+                }
+            }
         }
-        else
-        {
-            return response()->json([
-                'status' => 1,
-                'message' => 'Something went wrong',
-            ]); 
-        }
-        
+        return response()->json([
+            'status' => 0,
+            'message' => 'Cannot find a person',
+        ]); 
     }
     public function get_deceasedLessThanValidity()
     {

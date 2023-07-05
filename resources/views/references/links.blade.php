@@ -39,6 +39,8 @@
 <!-- dropzonejs -->
 <link rel="stylesheet" href="{{ asset('plugins/dropzone/min/dropzone.min.css') }}">
 
+
+
 <!-- Theme style -->
 <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
 <style>

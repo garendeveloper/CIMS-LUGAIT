@@ -280,7 +280,13 @@
                     }
                     else
                     {
-                        alert("Something went wrong.");
+                      $(document).Toasts('create', {
+                          class: 'bg-danger',
+                          title: 'Responses',
+                          autohide: true,
+                          delay: 3000,
+                          body: response.message,
+                      })
                     }
                 }
             })
