@@ -6,7 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ServicesController;
 use App\Http\Controllers\DeceasedController;
 use App\Http\Controllers\BlockController;
-
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -58,6 +58,9 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
         Route::get('/spaceAreas/delete/{id}', [BlockController::class, 'destroy']);
         Route::get('/get/blocks', [BlockController::class, 'get_allBlocks'])->name('spaceareas.get_allBlocks');
         Route::get('/get/classifiedBlocks/{id1}', [BlockController::class, 'get_classifiedBlocks']);
+
+        Route::get('api/users', [UserController::class, 'data']);
+        Route::get('users', [UserController::class, 'index'])->name('users.index');
 
         Route::get('/logout', [LoginController::class, 'logout'])->name('system.logout');
     });

@@ -13,7 +13,8 @@ class DashboardController extends Controller
         $years = DB::select('select distinct YEAR(dateof_death) as year from deceaseds where approvalStatus = 1 group by YEAR(dateof_death) asc');
         $deceased_byDateOfBirth = DB::select('select distinct year(curdate())-year(deceaseds.dateofbirth) as age, count(year(curdate())-year(deceaseds.dateofbirth)) as value
                                             from deceaseds 
-                                            where year(deceaseds.dateofbirth) >= 1920 and year(deceaseds.dateofbirth) <= year(curdate()) 
+                                            where year(deceaseds.dateofbirth) >= 1920 and year(deceaseds.dateofbirth) <= year(curdate())   
+                                            and deceaseds.approvalStatus = 1
                                             group by year(curdate())-year(deceaseds.dateofbirth) asc
                                             order by year(curdate())-year(deceaseds.dateofbirth) asc');
         
@@ -25,7 +26,7 @@ class DashboardController extends Controller
         {   
             $deaths_label[] = $year->year;
             //iya dayon e count pila kabook ang namatay ana nga year
-            $deceased = DB::select('select count(id) as y from deceaseds where approvalStatus = 0 and YEAR(dateof_death) = '.$year->year.' ');
+            $deceased = DB::select('select count(id) as y from deceaseds where approvalStatus = 1 and YEAR(dateof_death) = '.$year->year.' ');
 
             $deaths_values[] = $deceased[0]->y;
         }
