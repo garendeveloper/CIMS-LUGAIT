@@ -10,7 +10,7 @@
 </head>
 <style>
   body{
-  background: url("/dist/img/cemetery.jpg") no-repeat center fixed;
+  background: url("/dist/img/lugait-map.png") no-repeat center fixed;
   background-size: cover;
 }
 

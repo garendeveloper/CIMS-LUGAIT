@@ -49,6 +49,7 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
         Route::put('/deceaseds/assign_block/{id1}/{id2}', [DeceasedController::class, 'assign_block']);
         Route::put('/deceaseds/designation/{id1}/{id2}', [DeceasedController::class, 'designation']);
         Route::get('/deceased/approve/{id1}', [DeceasedController::class, 'approve']);
+        Route::get('/deceased/disapprove/{id1}', [DeceasedController::class, 'disapprove']);
       
         //Space areas
         Route::resource('spaceareas', BlockController::class);

@@ -229,18 +229,33 @@
                       if(data[i].approvalStatus == 0)
                       {
                         row += '<tr data-id = '+data[i].deceased_id+' style = "text-transform: uppercase">';
-                          row += '<td>'+data[i].lastname+", "+data[i].middlename+", "+data[i].firstname+'</td>';
-                          row += '<td>'+data[i].barangay+", "+data[i].city+'</td>';
-                          row += '<td align="center">'+formatDate(data[i].dateof_burial)+'</td>';
-                          row += '<td align="center">'+data[i].sex+'</td>';
-                          row += '<td align="center"><span class = "badge badge-danger right"> '+data[i].service_name+'</span></td>';
-                          row += '<td align = "center">';
-                          row += '<button data-id = '+data[i].deceased_id+' id = "btn_approve" type="button" class="btn btn-primary btn-sm btn-flat">';
-                          row += '<i class = "fa fas fa-approve"></i>&nbsp;&nbsp;APPROVE';
-                          row += '</button>';
-                          row += "</td>";
+                        row += '<td>'+data[i].lastname+", "+data[i].middlename+", "+data[i].firstname+'</td>';
+                        row += '<td>'+data[i].barangay+", "+data[i].city+", "+data[i].province+'</td>';
+                        row += '<td align="center">'+formatDate(data[i].dateof_burial)+'</td>';
+                        row += '<td align="center">'+data[i].sex+'</td>';
+                        row += '<td align="center"><span class = "badge badge-danger right"> '+data[i].service_name+'</span></td>';
+                        row += '<td align = "center">';
+                        row += '<button data-id = '+data[i].deceased_id+' id = "btn_approve" type="button" class="btn btn-primary btn-sm btn-flat">';
+                        row += '<i class = "fa fas fa-approve"></i>&nbsp;&nbsp;APPROVE';
+                        row += '</button>';
+                        row += "</td>";
                         row += '</tr>';
                         total += 1;
+                      }
+                      if(data[i].approvalStatus == 1)
+                      {
+                        row += '<tr data-id = '+data[i].deceased_id+' style = "text-transform: uppercase">';
+                        row += '<td>'+data[i].lastname+", "+data[i].middlename+", "+data[i].firstname+'</td>';
+                        row += '<td>'+data[i].barangay+", "+data[i].city+", "+data[i].province+'</td>';
+                        row += '<td align="center">'+formatDate(data[i].dateof_burial)+'</td>';
+                        row += '<td align="center">'+data[i].sex+'</td>';
+                        row += '<td align="center"><span class = "badge badge-danger right"> '+data[i].service_name+'</span></td>';
+                        row += '<td align = "center">';
+                        row += '<button data-id = '+data[i].deceased_id+' id = "btn_disapprove" type="button" class="btn btn-danger btn-sm btn-flat">';
+                        row += '<i class = "fa fas fa-approve"></i>&nbsp;&nbsp;DISAPPROVE';
+                        row += '</button>';
+                        row += "</td>";
+                        row += '</tr>';
                       }
                     }
                 }
@@ -264,6 +279,41 @@
             $.ajax({
                 type: 'get',
                 url: '/deceased/approve/'+id,
+                dataType: 'json',
+                success: function(response)
+                {
+                    if(response.status == 1)
+                    {
+                      $(document).Toasts('create', {
+                          class: 'bg-success',
+                          title: 'Responses',
+                          autohide: true,
+                          delay: 3000,
+                          body: response.message,
+                      })
+                      show_allData();
+                    }
+                    else
+                    {
+                      $(document).Toasts('create', {
+                          class: 'bg-danger',
+                          title: 'Responses',
+                          autohide: true,
+                          delay: 3000,
+                          body: response.message,
+                      })
+                    }
+                }
+            })
+        }
+    })
+    $("#tbl_deceaseds tbody").on('click', '#btn_disapprove', function(){
+        var id = $(this).data('id');
+        if(confirm("Are you sure you want to disapprove this deceased? \n"))
+        {
+            $.ajax({
+                type: 'get',
+                url: '/deceased/disapprove/'+id,
                 dataType: 'json',
                 success: function(response)
                 {

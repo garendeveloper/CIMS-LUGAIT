@@ -34,6 +34,12 @@
         alert({{ Session::get('NotFound') }});
     </script>
   @endif
+  <!-- Map Token -->
+  <!-- pk.eyJ1IjoiZ2FyZW5kZXZlbG9wZXIiLCJhIjoiY2xqcXA0YWh5MDZ4czNucGliM2VuMGJ2YyJ9.NWCrvVy9ZGNKaAdKor30Ow -->
+<!-- Bounds = 124.26,8.34,124.26,8.34
+ La = 8.336,124.258
+-->
+
  <!-- Content Wrapper. Contains page content -->
  <div class="content-wrapper">
     <!-- Content Header (Page header) -->

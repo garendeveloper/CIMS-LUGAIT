@@ -125,7 +125,7 @@ class DeceasedController extends Controller
                     $client = new \Vonage\Client($basic);
                     
                     $response = $client->sms()->send(
-                        new \Vonage\SMS\Message\SMS($customer->contactnumber, "LCIMS", 'A text message from Lugait Cemetery System.')
+                        new \Vonage\SMS\Message\SMS($customer->contactnumber, "LCIMS", 'A text message from Lugait Cemetery System, Your application has been approved.')
                     );
                     
                     $message = $response->current();
@@ -137,6 +137,52 @@ class DeceasedController extends Controller
                         return response()->json([
                             'status' => 1,
                             'message' => 'Deceased has been successfully approved',
+                        ]); 
+                    }
+                    else
+                    {
+                        return response()->json([
+                            'status' => 0,
+                            'message' => 'Cannot find a person contact number',
+                        ]); 
+                    }
+                }
+            }
+        }
+        return response()->json([
+            'status' => 0,
+            'message' => 'Cannot find a person',
+        ]); 
+    }
+    public function disapprove($deceased_id)
+    {   
+        $deceased = Deceased::find($deceased_id);
+        
+        $contactpeople = ContactPerson::where('deceased_id', $deceased_id)->get();
+        if(!empty($contactpeople))
+        {
+            foreach($contactpeople as $cp)
+            {
+                $customer = User::find($cp->user_id);
+
+                if(!empty($customer))
+                {
+                    $basic  = new \Vonage\Client\Credentials\Basic("a4d8c8ee", "3KGO3b6Cdb9EW2FW");
+                    $client = new \Vonage\Client($basic);
+                    
+                    $response = $client->sms()->send(
+                        new \Vonage\SMS\Message\SMS($customer->contactnumber, "LCIMS", 'A text message from Lugait Cemetery System, Your application has been denied.')
+                    );
+                    
+                    $message = $response->current();
+            
+                    if($message->getStatus() == 0)
+                    {
+                        $deceased->approvalStatus = 0;
+                        $deceased->update();
+                        return response()->json([
+                            'status' => 1,
+                            'message' => 'Deceased has been successfully denied',
                         ]); 
                     }
                     else
@@ -588,7 +634,7 @@ class DeceasedController extends Controller
                             from addresses, deceaseds, services
                             where addresses.id = deceaseds.address_id
                             and services.id = deceaseds.service_id
-                            order by deceaseds.id desc');
+                            order by deceaseds.dateof_burial asc');
         return response()->json($data);
     }
     public function show($deceased_id)
