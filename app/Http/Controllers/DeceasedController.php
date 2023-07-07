@@ -151,7 +151,7 @@ class DeceasedController extends Controller
         }
         return response()->json([
             'status' => 0,
-            'message' => 'Cannot find a person',
+            'message' => 'Cannot find a contact person',
         ]); 
     }
     public function disapprove($deceased_id)
@@ -495,7 +495,7 @@ class DeceasedController extends Controller
                     $contactperson = new User();
                     $contactperson->role = 3;
                     $contactperson->name = strtoupper($request->contactperson);
-                    $contactperson->contactnumber = $request->contactnumber;
+                    $contactperson->contactnumber = "63".$request->contactnumber;
                     $contactperson->relationshipthdeceased = $request->relationship;
                     $contactperson->address_id = $conperson_add;
                     $contactperson->save();
@@ -555,7 +555,7 @@ class DeceasedController extends Controller
                         $contactperson1 = new User();
                         $contactperson1->role = 3;
                         $contactperson1->name = strtoupper($request->contactperson1);
-                        $contactperson1->contactnumber = $request->contactnumber1;
+                        $contactperson1->contactnumber = "63".$request->contactnumber1;
                         $contactperson1->relationshipthdeceased = $request->relationship1;
                         $contactperson1->address_id = $conperson_add1;
                         $contactperson1->save();
@@ -645,12 +645,6 @@ class DeceasedController extends Controller
         and services.id = deceaseds.service_id
         and deceaseds.id = '.$deceased_id.'');
 
-        $deceased_asssigment =  DB::select('select blocks.*, deceaseds.id as deceased_id, deceaseds.*, coffinplots.*
-        from blocks, deceaseds, coffinplots
-        where blocks.id = coffinplots.block_id
-        and deceaseds.id = coffinplots.deceased_id
-        and deceaseds.id = '.$deceased_id.'');
-
         $contactperson =  DB::select('SELECT users.*, users.id as contactperson_id, deceaseds.id as deceased_id, addresses.id as address_id, addresses.*
                                     FROM users, deceaseds, addresses, contactpeople
                                     where addresses.id = users.address_id
@@ -659,6 +653,13 @@ class DeceasedController extends Controller
                                     and deceaseds.id = '.$deceased_id.'
                                     order by users.id asc');
 
+       $deceased_asssigment = DB::select('SELECT blocks.*, services.* 
+                                      FROM deceaseds, blocks, services, coffinplots
+                                      WHERE blocks.id = coffinplots.block_id
+                                      AND deceaseds.id = coffinplots.deceased_id
+                                      AND services.id = deceaseds.service_id
+                                      AND deceaseds.id = '.$deceased_id.'');
+        
         $data = [ $deceased_info, $deceased_asssigment, $contactperson];
         return response()->json($data);
     }
@@ -946,7 +947,7 @@ class DeceasedController extends Controller
                     $contactperson = User::find($request->contactperson_id);
                     $contactperson->role = 3;
                     $contactperson->name = strtoupper($request->contactperson);
-                    $contactperson->contactnumber = $request->contactnumber;
+                    $contactperson->contactnumber = "63".$request->contactnumber;
                     $contactperson->relationshipthdeceased = $request->relationship;
                     $contactperson->address_id = $conperson_add;
                     $contactperson->update();
@@ -1000,7 +1001,7 @@ class DeceasedController extends Controller
                         $contactperson1 = User::find($request->contactperson_id1);
                         $contactperson1->role = 3;
                         $contactperson1->name = strtoupper($request->contactperson1);
-                        $contactperson1->contactnumber = $request->contactnumber1;
+                        $contactperson1->contactnumber = "63".$request->contactnumber1;
                         $contactperson1->relationshipthdeceased = $request->relationship1;
                         $contactperson1->address_id = $conperson_add1;
                         $contactperson1->update();
@@ -1017,7 +1018,7 @@ class DeceasedController extends Controller
                             $contactperson1 = new User;
                             $contactperson1->role = 3;
                             $contactperson1->name = strtoupper($request->contactperson1);
-                            $contactperson1->contactnumber = $request->contactnumber1;
+                            $contactperson1->contactnumber = "63".$request->contactnumber1;
                             $contactperson1->relationshipthdeceased = $request->relationship1;
                             $contactperson1->address_id = $conperson_add1;
                             $contactperson1->save();

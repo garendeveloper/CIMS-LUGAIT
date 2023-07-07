@@ -26,6 +26,7 @@ return new class extends Migration
 
             $table->string('name');
             $table->string('contactnumber');
+            $table->tinyInteger('status')->default(1);
             $table->char('relationshipthdeceased')->nullable();
             $table->string('email')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();

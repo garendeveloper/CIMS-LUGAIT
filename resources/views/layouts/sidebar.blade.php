@@ -71,7 +71,7 @@
           </li>
           @if(Auth::user()->role == 1)
             <li class="nav-item" >  
-              <a href="{{ route('users.index')}}" class="nav-link">
+              <a href="{{ route('users.index')}}" id = "s_users" class="nav-link">
                 <i class="nav-icon fas fa-users"></i>
                 <p>
                   Manage Users

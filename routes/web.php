@@ -61,7 +61,11 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
 
         Route::get('api/users', [UserController::class, 'data']);
         Route::get('users', [UserController::class, 'index'])->name('users.index');
-
+        Route::post('users/add', [UserController::class, 'store'])->name('users.store');
+        Route::put('users/update/{id}', [UserController::class, 'update']);
+        Route::get('users/activate/{id}', [UserController::class, 'activate'])->name('users.activate');
+        Route::post('users/deactivate/{id}', [UserController::class, 'deactivate'])->name('users.deactivate');
+        
         Route::get('/logout', [LoginController::class, 'logout'])->name('system.logout');
     });
 

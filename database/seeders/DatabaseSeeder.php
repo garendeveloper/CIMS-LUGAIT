@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'DR. PATRICIO P. PARAMI JR.',
             'role' => 1,
             'address_id' => 1,
-            'contactnumber' => '09878976331',
+            'contactnumber' => '639878976331',
             'email' => 'drpatricioparami@gmail.com',
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'MS. RIEL BAGARES',
             'role' => 2,
             'address_id' => 1,
-            'contactnumber' => '09878976332',
+            'contactnumber' => '639878976332',
             'email' => 'msrielbagares@gmail.com',
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
@@ -41,7 +41,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'MS. GEOLITA YURONG',
             'role' => 2,
             'address_id' => 1,
-            'contactnumber' => '09878976332',
+            'contactnumber' => '639878976332',
             'email' => 'msgeolitayurong@gmail.com',
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
@@ -66,28 +66,46 @@ class DatabaseSeeder extends Seeder
         \App\Models\Deceased::factory(20)->create();
         \App\Models\ContactPerson::factory()->count(10)->create();
         \App\Models\Block::factory()->create([
-            'section_name' => 'MEMORIAL PARK',
+            'section_name' => 'PHASE I MEMORIAL PARK PRIVATE LOT',
             'block_cost' => random_int(200, 1000),
             'slot' => random_int(500, 1000),
-            'image' => "",
+            'image' => "5.png",
+        ]);
+        \App\Models\Block::factory()->create([
+            'section_name' => 'PHASE II MEMORIAL PARK PRIVATE LOT',
+            'block_cost' => random_int(200, 1000),
+            'slot' => random_int(500, 1000),
+            'image' => "4.png",
         ]);
         \App\Models\Block::factory()->create([
             'section_name' => 'PERIMETER CONCRETE NICHES (APARTMENT TYPE)',
             'block_cost' => 4000,
             'slot' => random_int(500, 1000),
-            'image' => "",
+            'image' => "3.png",
         ]);
         \App\Models\Block::factory()->create([
-            'section_name' => 'MEMORIAL GROUND (CONCRETE)',
+            'section_name' => 'PHASE I MEMORIAL GROUND NON-CONCRETE (INDIGENT SECTION)',
             'block_cost' => 2000,
             'slot' => random_int(500, 1000),
-            'image' => "",
+            'image' => "6.png",
+        ]);
+        \App\Models\Block::factory()->create([
+            'section_name' => 'PHASE II MEMORIAL GROUND NON-CONCRETE (INDIGENT SECTION)',
+            'block_cost' => 2000,
+            'slot' => random_int(500, 1000),
+            'image' => "7.png",
+        ]);
+        \App\Models\Block::factory()->create([
+            'section_name' => 'MEMORIAL GROUND CONCRETE',
+            'block_cost' => 2000,
+            'slot' => random_int(500, 1000),
+            'image' => "1.png",
         ]);
         \App\Models\Block::factory()->create([
             'section_name' => 'PERPETUAL BONE NICHES',
             'block_cost' => 5000,
             'slot' => random_int(500, 1000),
-            'image' => "",
+            'image' => "8.png",
         ]);
     }
 }

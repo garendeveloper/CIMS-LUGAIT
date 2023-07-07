@@ -1351,13 +1351,33 @@
                     'backdrop': 'static',
                     'keyboard': false
                 });
-                $("#img_rip").attr('src', '{{ asset("dist/img/rip.jpg") }}');  
                 var tbl_years = "<tbody>";
                 tbl_years += "<tr style = 'background-color: darkred; color: white' class = 'tbl_burialyears'>";
                 tbl_years += "<th>YEARS FROM BURIAL</th>";
                 tbl_years += "<th>"+calculateCoffinYears(data[0][0].dateof_death)+"</th>";
                 tbl_years += "</tr>";
-                tbl_years += "</tbody>";
+
+                if(data[1] != "")
+                {
+                    if(data[1][0].image == "")
+                    {
+                        $("#img_rip").attr('src', '{{ asset("dist/img/rip.jpg") }}');  
+                    }
+                    else
+                    {
+                        $("#img_rip").attr('src', '/upload_images/'+data[1][0].image+'');  
+                        tbl_years += "<tr style = 'background-color: #170036; color: white' class = 'tbl_burialyears'>";
+                        tbl_years += "<th>BLOCK ASSIGNED</th>";
+                        tbl_years += "<th>"+data[1][0].section_name+"</th>";
+                        tbl_years += "</tr>";
+                        tbl_years += "</tbody>";
+                    }
+                }
+                else
+                {
+                    $("#img_rip").attr('src', '{{ asset("dist/img/rip.jpg") }}');  
+                }
+                
                 $("#tbl_years").html(tbl_years);
 
                 var table = "<tbody>";
