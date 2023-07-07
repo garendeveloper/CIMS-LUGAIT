@@ -28,6 +28,14 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
     Route::group(['middleware' => ['adminAccess']], function(){
         Route::get('/manager/dashboard', [DashboardController::class, 'manager_index'])->name('managers.dashboard');
         
+        Route::get('api/users', [UserController::class, 'data']);
+        Route::get('users', [UserController::class, 'index'])->name('users.index');
+        Route::post('users/add', [UserController::class, 'store'])->name('users.store');
+        Route::put('users/update/{id}', [UserController::class, 'update']);
+        Route::get('users/activate/{id}', [UserController::class, 'activate']);
+        Route::get('users/deactivate/{id}', [UserController::class, 'deactivate']);
+        Route::get('users/show/{id}', [UserController::class, 'show']);
+
         //services
         Route::resource('services', ServicesController::class);
         Route::get('/services', [ServicesController::class, 'index'])->name('services');
@@ -59,12 +67,7 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
         Route::get('/get/blocks', [BlockController::class, 'get_allBlocks'])->name('spaceareas.get_allBlocks');
         Route::get('/get/classifiedBlocks/{id1}', [BlockController::class, 'get_classifiedBlocks']);
 
-        Route::get('api/users', [UserController::class, 'data']);
-        Route::get('users', [UserController::class, 'index'])->name('users.index');
-        Route::post('users/add', [UserController::class, 'store'])->name('users.store');
-        Route::put('users/update/{id}', [UserController::class, 'update']);
-        Route::get('users/activate/{id}', [UserController::class, 'activate'])->name('users.activate');
-        Route::post('users/deactivate/{id}', [UserController::class, 'deactivate'])->name('users.deactivate');
+   
         
         Route::get('/logout', [LoginController::class, 'logout'])->name('system.logout');
     });

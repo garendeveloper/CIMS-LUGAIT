@@ -771,15 +771,6 @@
         window.print();
     }
     $("#print").on('click', function(){
-        // $("#tbl_years tbody tr").css({
-        //     'color': 'black',
-        // });
-        // $("#tbl_deceasedinfo tbody tr").css({
-        //     'color': 'black',
-        // });
-        // $("#tbl_contactinfo tr").css({
-        //     'color': 'black',
-        // });
         printElement(document.getElementById("printThis"));
     });
 </script>

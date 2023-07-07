@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Address;
 use DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
@@ -13,9 +14,14 @@ class UserController extends Controller
     {
         return view('users');
     }
+    public function show($user_id)
+    {
+        $user_details = DB::select('select addresses.*, users.* from users, addresses where addresses.id = users.address_id and users.id = '.$user_id.'');
+        return response()->json($user_details);
+    }
     public function data()
     {
-        $users = User::where('role', 1)->orWhere('role', 2);
+        $users = User::where('role', 1)->orWhere('role', 2)->orderby('id', 'asc');
        
         return datatables()->of($users)
                         ->addColumn('role', function($row){
@@ -28,7 +34,21 @@ class UserController extends Controller
                         })
                         ->addColumn('action', function ($row) {
                             $html = '<button align = "center" data-rowid="'.$row->id.'" id = "btn_edit" class="btn btn-xs btn-secondary"><i class = "fa fa-edit"></i></button> ';
-                            $html .= '<button align= "center" data-rowid="'.$row->id.'" id = "btn_del"  class="btn btn-xs btn-danger"><i class = "fa fa-trash"></i></button>';
+                            if($row->role == 1)
+                            {
+                                $html .= '<button align= "center" data-rowid="'.$row->id.'" id = "btn_deactivate"  class="btn btn-xs btn-danger" disabled><i class = "fa fa-lock"></i></button>';
+                            }
+                            else
+                            {
+                                if($row->status == 1)
+                                {
+                                    $html .= '<button align= "center" data-rowid="'.$row->id.'" id = "btn_deactivate"  class="btn btn-xs btn-danger"><i class = "fa fa-lock"></i></button>';
+                                }
+                                else
+                                {
+                                 $html .= '<button align= "center" data-rowid="'.$row->id.'" id = "btn_activate"  class="btn btn-xs btn-primary"><i class = "fa fa-unlock"></i></button>';
+                                }
+                            }
                             return $html;
                         })
                         ->rawColumns(['role', 'action'])
@@ -41,6 +61,9 @@ class UserController extends Controller
         if($request->ajax())
         {
             $validator = Validator::make($request->all(), [
+                'name' => 'required|string',
+                'contactnumber' => 'required|min:10|max:10',
+                'email' => 'required|email|unique:users',
                 'region' => 'required',
                 'province' => 'required',
                 'city' => 'required',
@@ -83,12 +106,13 @@ class UserController extends Controller
 
                 $user = User::where([
                     'name' => $request->name,
-                ]);
+                    'address_id' => $address,
+                ])->first();
 
                 if($user !== null)
                 {
                     $status = 500;
-                    $messages = "Name already exists";
+                    $messages = "User details is existing.";
                 }
                 else
                 {
@@ -98,6 +122,7 @@ class UserController extends Controller
                     $user->contactnumber = "63".$request->contactnumber;
                     $user->address_id = $address;
                     $user->email = $request->email;
+                    $user->role = 2;
                     $user->save();
 
                     $status   = 200;
@@ -117,7 +142,7 @@ class UserController extends Controller
             $validator = Validator::make($request->all(), [
                 'name' => 'required|string|unique:users,name,'.$user_id.',id',
                 'contactnumber' => 'required|min:10|max:10',
-                'email' => 'required|email',
+                'email' => 'required|email|unique:users,email,'.$user_id.',',
                 'region' => 'required',
                 'province' => 'required',
                 'city' => 'required',
@@ -183,7 +208,7 @@ class UserController extends Controller
         $user->update();
         return response()->json([
             'status' => 200,
-            'messages' => "User successfully activated",
+            'message' => "User successfully activated",
         ]);
     }
     public function deactivate($user_id)
@@ -193,7 +218,7 @@ class UserController extends Controller
         $user->update();
         return response()->json([
             'status' => 200,
-            'messages' => "User successfully deactivated",
+            'message' => "User successfully deactivated",
         ]);
     }
 }

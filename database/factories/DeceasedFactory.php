@@ -26,6 +26,7 @@ class DeceasedFactory extends Factory
             'lastname' => strtoupper($this->faker->lastname),
             'firstname' => strtoupper($this->faker->firstname),
             'middlename' => strtoupper($this->faker->lastname),
+            'approvalStatus' => random_int(0, 1),
             'suffix' => $this->faker->randomElement(['N', 'I', 'III', 'IV', 'V']),
             'civilstatus' => $this->faker->randomElement(['S', 'M', 'D', 'W']),
             'sex' => $this->faker->randomElement(['M', 'F']),

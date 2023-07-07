@@ -2,10 +2,12 @@
 <html lang="en">
 <head>
   @include('references.links')
-  <link href="//cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css" rel="stylesheet">
   <style>
     table, tbody, tr, td{
         text-align: center;
+    }
+    select,option{
+      text-transform: uppercase;
     }
 
   </style>
@@ -53,6 +55,7 @@
                 <div class="form-group row">
                     <div class="col-sm-6">
                         <button class = "btn btn-default btn-flat" id = "btn_openform"><i class = "fas fa fa-user-plus"></i>&nbsp;&nbsp; Create User</button>
+                        <button class = "btn btn-primary btn-flat" id = "btn_reload"><i class = "fas fa fa-service"></i>&nbsp;&nbsp; Reload Table</button>
                     </div>
                 </div>
               </div>
@@ -104,19 +107,18 @@
             <form action="" id = "user_form" method="post" enctype="multipart/form-data">
                 {{ csrf_field() }}    
                 <div class="modal-body">
-                    <input type="text" style = "display: none" name="type" id = "type" value = "">
                     <div class="row" >
                         <input type="hidden" name = "user_id" id = "user_id" value = "">
                         <div class="col-md-4">
                             <label for="">Name<span style="color:red">*</span></label>
                             <input type="text" style = "text-transform: uppercase" name="name" id="name" class="form-control form-control-border border-width-3" autocomplete = "off" 
-                                onkeydown="return /[a-zA-Z ]/i.test(event.key)" oninput="return $('#sp_lastname').html(''), $(this).removeClass('is-invalid')">
-                            <span class = "span_error" style ="color:red; font-size: 12px" id = "errmsg_sectionname"></span>
+                                onkeydown="return /[a-zA-Z ]/i.test(event.key)" oninput="return $('#sp_name').html(''), $(this).removeClass('is-invalid')">
+                            <span class = "span_error" style ="color:red; font-size: 12px" id = "errmsg_name"></span>
                         </div>
                         <div class="col-md-4" >
                             <label for="">Email<span style="color:red">*</span></label>
-                            <input type="email" style = "text-transform: uppercase" name="slot" id="slot" class="form-control form-control-border border-width-3" autocomplete = "off">
-                            <span class = "span_error" style ="color:red; font-size: 12px" id = "errmsg_usernumber"></span>
+                            <input type="email" oninput="return $('#sp_email').html(''), $(this).removeClass('is-invalid')" style = "text-transform: uppercase" name="email" id="email" class="form-control form-control-border border-width-3" autocomplete = "off">
+                            <span class = "span_error" style ="color:red; font-size: 12px" id = "errmsg_email"></span>
                         </div>
                         <div class="col-md-4" >
                             <label for="">Contact Number (<i>Ex. 9303087678</i>)</label>
@@ -124,9 +126,9 @@
                                 <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-phone"></i>&nbsp; +63</span>
                                 </div>
-                                <input type="tel" maxlength = "10" pattern = "^(9|\+639)\d{9}$" oninput="return $('#sp_contactnumber1').html(''), $(this).removeClass('is-invalid')" id = "contactnumber1" name = "contactnumber1" class="form-control form-control-border" >
+                                <input type="tel" maxlength = "10" pattern = "^(9|\+639)\d{9}$" oninput="return $('#sp_contactnumber').html(''), $(this).removeClass('is-invalid')" id = "contactnumber" name = "contactnumber" class="form-control form-control-border" >
                             </div>
-                            <span style = "color: red" class = "span" id = "sp_contactnumber1"></span>
+                            <span style = "color: red" class = "span" id = "sp_contactnumber"></span>
                         </div>
                     </div>
                     <p></p>
@@ -152,7 +154,7 @@
                         </div>
                         <div class="col-md-3">
                             <label for="">Barangay</label>
-                            <select class="form-control form-control-border select2-primary" onchange="return $('#sp_barangay').html(''), $(this).removeClass('is-invalid')" data-dropdown-css-class="select2-primary" id = "barangay" name = "barangay" style="width: 100%;">
+                            <select class="form-control form-control-border select2-primary" onchange="return $('#sp_barangay').html(''), $(this).removeClass('is-invalid')" data-dropdown-css-class="select2-primary" id = "barangay" name = "barangay" style="width: 100%; text-transform: uppercase">
                             </select>
                             <span style = "color: red" class = "span" id = "sp_barangay"></span>
                         </div>
@@ -185,13 +187,63 @@
 <!-- jQuery -->
 
 @include('references.scripts')
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script type="text/javascript" src="https://f001.backblazeb2.com/file/buonzz-assets/jquery.ph-locations.js"></script>
+<script type="text/javascript">
 
-<script src="//cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+    var my_handlers = {
+
+            fill_provinces:  function(){
+                $("#city").html("");
+                $("#barangay").html("");
+                var region_code = $(this).val();
+                $('#province').ph_locations('fetch_list', [{"region_code": region_code}]);
+                
+            },
+
+            fill_cities: function(){
+                $("#barangay").html("");
+                var province_code = $(this).val();
+                $('#city').ph_locations( 'fetch_list', [{"province_code": province_code}]);
+            },
+
+
+            fill_barangays: function(){
+                var city_code = $(this).val();
+                $('#barangay').ph_locations('fetch_list', [{"city_code": city_code}]);
+            }
+      };
+
+        $(function(){
+            $('#region').on('change', my_handlers.fill_provinces);
+            $('#province').on('change', my_handlers.fill_cities);
+            $('#city').on('change', my_handlers.fill_barangays);
+
+            $('#region').ph_locations({'location_type': 'regions'});
+            $('#province').ph_locations({'location_type': 'provinces'});
+            $('#city').ph_locations({'location_type': 'cities'});
+            $('#barangay').ph_locations({'location_type': 'barangays'});
+            $('#region').ph_locations('fetch_list');
+        });
+
+</script>
+<script>
+  $(function () {
+    var Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000
+    });
+  });
+</script>
 <script>
    $(document).ready(function() {
+      $.ajaxSetup({
+          headers: {
+              'X-CSRF-Token':$("input[name=_token").val()
+          }
+      })
       $("#s_users").addClass('active');
-        $.noConflict();
          //DUGAY KAAYO NI GIGANA ABTAN TAG PILA KA ORAS ANI HAHAHA
          function show_datatable()
          {
@@ -214,11 +266,6 @@
             });
          }
     
-        $("#users").on('click', '#btn_del', function(){
-            var id = $(this).data('rowid');
-            alert(id);
-        })  
-
         function RefreshTable(tableId, urlData) {
             $.getJSON(urlData, null, function(json) {
                 table = $(tableId).dataTable();
@@ -239,22 +286,255 @@
             RefreshTable('#users', 'api/users');
         }
         show_datatable();
+
+        $("#users").on('click', '#btn_deactivate', function(){
+            var id = $(this).data('rowid');
+            if(confirm("Are you sure you want to deactivate this user?\n\nNote: Upon clicking Ok, User will no longer have access to the system.\nAnd will be currently locked\n\nDo you want to proceed?"))
+            {
+              $.ajax({
+                type:'get',
+                url: 'users/deactivate/'+id,
+                dataType: 'json',
+                success: function(resp){
+                  $(document).Toasts('create', {
+                      class: 'bg-success',
+                      title: 'Responses',
+                      autohide: true,
+                      delay: 3000,
+                      body: resp.message,
+                  })
+                  AutoReload();
+                }
+              })
+            }
+        })  
+        $("#users").on('click', '#btn_activate', function(){
+            var id = $(this).data('rowid');
+            if(confirm("Are you sure you want to activate this user?\n\nNote: Upon clicking Ok, User will have access to the system.\n\nDo you want to proceed?"))
+            {
+              $.ajax({
+                type:'get',
+                url: 'users/activate/'+id,
+                dataType: 'json',
+                success: function(resp){
+                  $(document).Toasts('create', {
+                      class: 'bg-success',
+                      title: 'Responses',
+                      autohide: true,
+                      delay: 3000,
+                      body: resp.message,
+                  })
+                  AutoReload();
+                }
+              })
+            }
+        })  
+
+        $("#btn_reload").on('click', function(){
+          AutoReload();
+        })
+
+        $("#btn_openform").on('click', function(){
+          $("#modal_form").modal({
+              'backdrop': 'static',
+              'keyboard': false
+          });
+        })
+        $("#users").on('click', '#btn_edit', function(){
+          var id = $(this).data('rowid');
+          $("#user_id").val(id);
+          $("#user_form")[0].reset();
+          $("select").html("");
+
+          $.ajax({
+            type:'get',
+            url: 'users/show/'+id,
+            dataType: 'json',
+            success: function(user){
+              $("#name").val(user[0].name);
+              $("#email").val(user[0].email);
+              $("#contactnumber").val(user[0].contactnumber);
+             
+              $("#region option").filter(function() {
+                  return $(this).val() == user[0].region_no;
+              }).attr('selected', true);
+              $('#region').ph_locations('fetch_list');
+              $("#province").prepend("<option selected='selected' value = "+user[0].province_no+">"+user[0].province+"</option>");
+              $("#city").prepend("<option selected='selected' value = "+user[0].city_no+">"+user[0].city+"</option>");
+              $("#barangay").prepend("<option selected='selected' value = "+user[0].barangay_no+">"+user[0].barangay+"</option>");
+             
+              $("#modal_form").modal({
+                  'backdrop': 'static',
+                  'keyboard': false
+              });
+            }
+          })
+
+        })
+        $("#user_form").on('submit', function(e){
+          e.preventDefault();
+          if($("#user_id").val() != "")
+          {
+            $.ajax({
+              type: 'put',
+              url: 'users/update/'+$("#user_id").val(),
+              data: {
+                name: $("#name").val(),
+                email: $("#email").val(),
+                contactnumber: $("#contactnumber").val(),
+                region: $("#region").val(),
+                region_text: $("#region option:selected").text(),
+                province: $("#province").val(),
+                province_text: $("#province option:selected").text(),
+                city: $("#region").val(),
+                city_text: $("#region option:selected").text(),
+                barangay: $("#region").val(),
+                barangay_text: $("#region option:selected").text(),
+              },
+              dataType: 'json',
+              success: function(resp){
+                if(resp.status == 200)
+                {
+                  $(document).Toasts('create', {
+                      class: 'bg-success',
+                      title: 'Responses',
+                      autohide: true,
+                      delay: 3000,
+                      body: resp.messages,
+                  })
+                  $("#modal_form").modal('hide');
+                  $("#user_form")[0].reset();
+                  $("select").html();
+                  $("input").removeClass('is-invalid');
+                  AutoReload();
+                }
+                else
+                {
+                  $(document).Toasts('create', {
+                      class: 'bg-danger',
+                      title: 'Responses',
+                      autohide: true,
+                      delay: 3000,
+                      body: "Check your form.",
+                  })
+                  $.each(resp.messages, function(key, value){
+                    if(key == "name")
+                    {
+                        $("#errmsg_name").text(value);
+                        $("#name").addClass('is-invalid');
+                    }
+                    if(key == "email")
+                    {
+                        $("#errmsg_email").text(value);
+                        $("#email").addClass('is-invalid');
+                    }
+                    if(key == "contactnumber")
+                    {
+                        $("#sp_contactnumber").text(value);
+                        $("#contactnumber").addClass('is-invalid');
+                    }
+                    if(key == "region")
+                    {
+                        $("#sp_region").text(value);
+                        $("#region").addClass('is-invalid');
+                    }
+                    if(key == "province")
+                    {
+                        $("#sp_province").text(value);
+                        $("#province").addClass('is-invalid');
+                    }
+                    if(key == "city")
+                    {
+                        $("#sp_city").text(value);
+                        $("#city").addClass('is-invalid');
+                    }
+                    if(key == "barangay")
+                    {
+                        $("#sp_barangay").text(value);
+                        $("#barangay").addClass('is-invalid');
+                    }
+                  })
+                }
+              }
+          })
+          }
+          else
+          {
+            $.ajax({
+              type: 'post',
+              url: '{{ route("users.store") }}',
+              data: new FormData(this),
+              dataType: 'json',
+              contentType: false,
+              processData: false,
+              success: function(resp){
+                if(resp.status == 200)
+                {
+                  $(document).Toasts('create', {
+                      class: 'bg-success',
+                      title: 'Responses',
+                      autohide: true,
+                      delay: 3000,
+                      body: resp.messages,
+                  })
+                  $("#modal_form").modal('hide');
+                  $("#user_form")[0].reset();
+                  $("select").html();
+                  $("input").removeClass('is-invalid');
+                  AutoReload();
+                }
+                else
+                {
+                  $(document).Toasts('create', {
+                      class: 'bg-danger',
+                      title: 'Responses',
+                      autohide: true,
+                      delay: 3000,
+                      body: "Check your form.",
+                  })
+                  $.each(resp.messages, function(key, value){
+                    if(key == "name")
+                    {
+                        $("#errmsg_name").text(value);
+                        $("#name").addClass('is-invalid');
+                    }
+                    if(key == "email")
+                    {
+                        $("#errmsg_email").text(value);
+                        $("#email").addClass('is-invalid');
+                    }
+                    if(key == "contactnumber")
+                    {
+                        $("#sp_contactnumber").text(value);
+                        $("#contactnumber").addClass('is-invalid');
+                    }
+                    if(key == "region")
+                    {
+                        $("#sp_region").text(value);
+                        $("#region").addClass('is-invalid');
+                    }
+                    if(key == "province")
+                    {
+                        $("#sp_province").text(value);
+                        $("#province").addClass('is-invalid');
+                    }
+                    if(key == "city")
+                    {
+                        $("#sp_city").text(value);
+                        $("#city").addClass('is-invalid');
+                    }
+                    if(key == "barangay")
+                    {
+                        $("#sp_barangay").text(value);
+                        $("#barangay").addClass('is-invalid');
+                    }
+                  })
+                }
+              }
+            })
+          }
+        })
     })
-</script>
-<script>
-  $(document).ready(function(){
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-Token':$("input[name=_token").val()
-        }
-    })
-    $("#btn_openform").on('click', function(){
-      $("#modal_form").modal({
-          'backdrop': 'static',
-          'keyboard': false
-      });
-    })
-  })
 </script>
 </body>
 </html>
