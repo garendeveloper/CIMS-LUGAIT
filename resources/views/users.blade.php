@@ -9,7 +9,6 @@
     select,option{
       text-transform: uppercase;
     }
-
   </style>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -71,6 +70,7 @@
                     <th>Contact Number</th>
                     <th>Email</th>
                     <th>Role</th>
+                    <th>Status</th>
                     <th>Action</th>
                   </tr>
                   </thead>
@@ -108,7 +108,9 @@
                 {{ csrf_field() }}    
                 <div class="modal-body">
                     <div class="row" >
-                        <input type="hidden" name = "user_id" id = "user_id" value = "">
+                        <input type="text" style = "display: none" name = "user_id" id = "user_id" value = "">
+                        <input type="text" style = "display: none" name = "role" id = "role"  value  = "0">
+                        <input type="text" style = "display: none" name = "changepass" id = "changepass"  value  = "0">
                         <div class="col-md-4">
                             <label for="">Name<span style="color:red">*</span></label>
                             <input type="text" style = "text-transform: uppercase" name="name" id="name" class="form-control form-control-border border-width-3" autocomplete = "off" 
@@ -158,6 +160,34 @@
                             </select>
                             <span style = "color: red" class = "span" id = "sp_barangay"></span>
                         </div>
+                    </div>
+                    <p></p>
+                    <div class="login-cred" >
+                      <h4>Login Credentials</h4>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <button type = "button" class = "button btn btn-sm btn-primary" id = "btn_changepass">Change Login Credentials</button>
+                          <button  style = "display: none" type = "button" class = "button btn btn-sm btn-secondary" id = "btn_unchangepass">Unchange Login Credentials</button>
+                        </div>
+                      </div>
+                      <p></p>
+                      <div class="row" id = "creden" style = "display: none">
+                          <div class="col-md-4">
+                            <label for="">Current Password<span style="color:red">*</span></label>
+                            <input class="form-control form-control-border select2-primary" type="password" name="prev_pwd" id="prev_pwd" oninput="return $('#sp_prevpwd').html(''), $(this).removeClass('is-invalid')">
+                            <span style = "color: red" class = "span" id = "sp_prevpwd"></span>
+                          </div>
+                          <div class="col-md-4">
+                            <label for="">New Password<span style="color:red">*</span></label>
+                            <input class="form-control form-control-border select2-primary" type="password" name="new_pwd" id="new_pwd" oninput="return $('#sp_newpwd').html(''), $(this).removeClass('is-invalid')">
+                            <span style = "color: red" class = "span" id = "sp_newpwd"></span>
+                          </div>
+                          <div class="col-md-4">
+                            <label for="">Confirm Password<span style="color:red">*</span></label>
+                            <input class="form-control form-control-border select2-primary" type="password" name="con_pwd" id="con_pwd" oninput="return $('#sp_conpwd').html(''), $(this).removeClass('is-invalid')">
+                            <span style = "color: red" class = "span" id = "sp_conpwd"></span>
+                          </div>
+                      </div>
                     </div>
                 </div>
                 <div class="modal-footer justify-content-between">
@@ -261,6 +291,7 @@
                     {data: 'contactnumber', name: 'contactnumber'},
                     {data: 'email', name: 'email'},
                     {data: 'role', name: 'role'},
+                    {data: 'status', name: 'status'},
                     {data: 'action', name: 'action'}
                 ]
             });
@@ -333,19 +364,72 @@
         $("#btn_reload").on('click', function(){
           AutoReload();
         })
+        $("#btn_changepass").on('click', function(){
+          $("#changepass").val("1");
+          $("#creden").show();
+          $("#role").val("1");
+          $("#btn_unchangepass").show();
+       
+        })
+        $("#btn_unchangepass").on('click', function(){
+          $("#changepass").val("0");
+          $("#creden").hide();
+          $("#role").val("1");
+          $("#btn_unchangepass").hide();
+        })
 
         $("#btn_openform").on('click', function(){
+          $("#user_form")[0].reset();
+          $("select").val("");
           $("#modal_form").modal({
               'backdrop': 'static',
               'keyboard': false
           });
+          $('#region').ph_locations('fetch_list');
         })
         $("#users").on('click', '#btn_edit', function(){
           var id = $(this).data('rowid');
           $("#user_id").val(id);
           $("#user_form")[0].reset();
           $("select").html("");
-
+          $("#creden").hide();
+          $("#btn_unchangepass").hide();
+          $(".login-cred").hide();
+         
+          $.ajax({
+            type:'get',
+            url: 'users/show/'+id,
+            dataType: 'json',
+            success: function(user){
+               
+              $("#name").val(user[0].name);
+              $("#email").val(user[0].email);
+              $("#contactnumber").val(user[0].contactnumber.replace("63", ""));
+             
+              $("#region option").filter(function() {
+                  return $(this).val() == user[0].region_no;
+              }).attr('selected', true);
+              $("#province").prepend("<option selected='selected' value = "+user[0].province_no+">"+user[0].province+"</option>");
+              $("#city").prepend("<option selected='selected' value = "+user[0].city_no+">"+user[0].city+"</option>");
+              $("#barangay").prepend("<option selected='selected' value = "+user[0].barangay_no+">"+user[0].barangay+"</option>");
+             
+              $("#modal_form").modal({
+                  'backdrop': 'static',
+                  'keyboard': false
+              });
+            }
+          })
+          
+          $('#region').ph_locations('fetch_list');
+        })
+        $("#users").on('click', '#myprofile', function(){
+          var id = $(this).data('rowid');
+          $("#user_id").val(id);
+          $("#user_form")[0].reset();
+          $("select").html("");
+          $(".login-cred").show();
+          $("#role").val("1");
+          $("#changepass").val("0");
           $.ajax({
             type:'get',
             url: 'users/show/'+id,
@@ -353,8 +437,7 @@
             success: function(user){
               $("#name").val(user[0].name);
               $("#email").val(user[0].email);
-              $("#contactnumber").val(user[0].contactnumber);
-             
+              $("#contactnumber").val(user[0].contactnumber.replace("63", ""));
               $("#region option").filter(function() {
                   return $(this).val() == user[0].region_no;
               }).attr('selected', true);
@@ -390,6 +473,11 @@
                 city_text: $("#region option:selected").text(),
                 barangay: $("#region").val(),
                 barangay_text: $("#region option:selected").text(),
+                changepass: $("#changepass").val(),
+                role: $("#role").val(),
+                curr_pwd: $("#prev_pwd").val(),
+                new_pwd: $("#new_pwd").val(),
+                con_pwd: $("#con_pwd").val(),
               },
               dataType: 'json',
               success: function(resp){
@@ -452,6 +540,21 @@
                     {
                         $("#sp_barangay").text(value);
                         $("#barangay").addClass('is-invalid');
+                    }
+                    if(key == "curr_pwd")
+                    {
+                        $("#sp_prevpwd").text(value);
+                        $("#prev_pwd").addClass('is-invalid');
+                    }
+                    if(key == "new_pwd")
+                    {
+                        $("#sp_newpwd").text(value);
+                        $("#new_pwd").addClass('is-invalid');
+                    }
+                    if(key == "con_pwd")
+                    {
+                        $("#sp_conpwd").text(value);
+                        $("#con_pwd").addClass('is-invalid');
                     }
                   })
                 }

@@ -25,6 +25,7 @@ return new class extends Migration
                 ->onDelete('cascade');
 
             $table->string('name');
+            $table->tinyInteger('systemstatus')->default(0);
             $table->string('contactnumber');
             $table->tinyInteger('status')->default(1);
             $table->char('relationshipthdeceased')->nullable();

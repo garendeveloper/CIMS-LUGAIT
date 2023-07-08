@@ -8,6 +8,7 @@ use App\Models\Address;
 use DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
     public function index()
@@ -32,11 +33,19 @@ class UserController extends Controller
                             }
                             return $html;
                         })
+                        ->addColumn('status', function($row){
+                            $html = '<span class = "badge badge-secondary">OFFLINE</span>';
+                            if($row->systemstatus == 1)
+                            {
+                                $html = '<span class = "badge badge-success">ONLINE</span>';
+                            }
+                            return $html;
+                        })
                         ->addColumn('action', function ($row) {
                             $html = '<button align = "center" data-rowid="'.$row->id.'" id = "btn_edit" class="btn btn-xs btn-secondary"><i class = "fa fa-edit"></i></button> ';
                             if($row->role == 1)
                             {
-                                $html .= '<button align= "center" data-rowid="'.$row->id.'" id = "btn_deactivate"  class="btn btn-xs btn-danger" disabled><i class = "fa fa-lock"></i></button>';
+                                $html = '<button id = "myprofile" data-rowid="'.$row->id.'" class = "btn btn-xs btn-primary">MY PROFILE</button>';
                             }
                             else
                             {
@@ -51,7 +60,7 @@ class UserController extends Controller
                             }
                             return $html;
                         })
-                        ->rawColumns(['role', 'action'])
+                        ->rawColumns(['role', 'status', 'action'])
                         ->make(true);
 
         
@@ -123,6 +132,7 @@ class UserController extends Controller
                     $user->address_id = $address;
                     $user->email = $request->email;
                     $user->role = 2;
+                    $user->password = Hash::make("password");
                     $user->save();
 
                     $status   = 200;
@@ -139,62 +149,183 @@ class UserController extends Controller
     {
         if($request->ajax())
         {
-            $validator = Validator::make($request->all(), [
-                'name' => 'required|string|unique:users,name,'.$user_id.',id',
-                'contactnumber' => 'required|min:10|max:10',
-                'email' => 'required|email|unique:users,email,'.$user_id.',',
-                'region' => 'required',
-                'province' => 'required',
-                'city' => 'required',
-            ]);
-
             $messages = "";
             $status = 0;
-            if($validator->fails())
+            $user = User::find($user_id);
+            if($request->role == "1")
             {
-                $messages = $validator->messages();
-                $status = 500;
-            }
-            else
-            {
-                $address = DB::table('addresses')->select('id')->where([
-                    'region_no' => $request->region,
-                    'province_no' => $request->province,
-                    'city_no' => $request->city,
-                    'barangay_no' => $request->barangay,
-                ])->first();
-
-                if($address !== null)
+                if($user->role == 1)
                 {
-                    $address = $address->id;
+                    $validations = [];
+                    if($request->changepass == "1")
+                    {
+                        $validations = [
+                            'name' => 'required|string|unique:users,name,'.$user_id.',id',
+                            'contactnumber' => 'required|min:10|max:10',
+                            'email' => 'required|email|unique:users,email,'.$user_id.',',
+                            'region' => 'required',
+                            'province' => 'required',
+                            'city' => 'required',
+                            'curr_pwd' => 'required|min:6',
+                            'new_pwd' => 'required|min:6',
+                            'con_pwd' => 'required|min:6',
+                        ];
+                    }
+                    else
+                    {
+                        $validations = [
+                            'name' => 'required|string|unique:users,name,'.$user_id.',id',
+                            'contactnumber' => 'required|min:10|max:10',
+                            'email' => 'required|email|unique:users,email,'.$user_id.',',
+                            'region' => 'required',
+                            'province' => 'required',
+                            'city' => 'required',
+                        ];
+                    }
+
+                    $validator = Validator::make($request->all(), $validations);
+                    if($validator->fails())
+                    {
+                        $messages = $validator->messages();
+                        $status = 500;
+                    }
+                    else
+                    {
+                        $address = DB::table('addresses')->select('id')->where([
+                            'region_no' => $request->region,
+                            'province_no' => $request->province,
+                            'city_no' => $request->city,
+                            'barangay_no' => $request->barangay,
+                        ])->first();
+        
+                        if($address !== null)
+                        {
+                            $address = $address->id;
+                        }
+                        else
+                        {
+                            $address = new Address;
+                            $address->region_no = $request->region;
+                            $address->region = strtoupper($request->region_text);
+                            $address->province_no = $request->province;
+                            $address->province =  strtoupper($request->province_text);
+                            $address->city_no = $request->city;
+                            $address->city = strtoupper($request->city_text);
+                            $address->barangay_no = $request->barangay;
+                            $address->barangay = strtoupper($request->barangay_text);
+                            $address->save();
+                            $address = $address->id;
+                        }
+                        
+                        if($request->changepass == "1")
+                        {
+                            if(Hash::check($request->curr_pwd, $user->password))
+                            {
+                                if($request->new_pwd === $request->con_pwd)
+                                {
+                                    $user->name = strtoupper($request->name);
+                                    $user->contactnumber = "63".$request->contactnumber;
+                                    $user->address_id = $address;
+                                    $user->email = $request->email;
+                                    $user->password = Hash::make($request->con_pwd);
+                                    $user->update();
+                                    $status   = 200;
+                                    $messages = "User details has been successfully updated.";
+                                }
+                                else
+                                {
+                                    $status = 500;
+                                    $messages = [
+                                        'new_pwd' => "Password does not match",
+                                        'con_pwd' => "Password does not match",
+                                    ];
+                                }
+                                
+                            }
+                            else
+                            {
+                                $status = 500;
+                                $messages = [
+                                    'curr_pwd' => "Invalid Password",
+                                ];
+                            }
+                        }
+                        else
+                        {
+                            $user->name = strtoupper($request->name);
+                            $user->contactnumber = "63".$request->contactnumber;
+                            $user->address_id = $address;
+                            $user->email = $request->email;
+                            $user->update();
+                            $status   = 200;
+                            $messages = "User details has been successfully updated.";
+                        }
+                    }
                 }
                 else
                 {
-                    $address = new Address;
-                    $address->region_no = $request->region;
-                    $address->region = strtoupper($request->region_text);
-                    $address->province_no = $request->province;
-                    $address->province =  strtoupper($request->province_text);
-                    $address->city_no = $request->city;
-                    $address->city = strtoupper($request->city_text);
-                    $address->barangay_no = $request->barangay;
-                    $address->barangay = strtoupper($request->barangay_text);
-                    $address->save();
-                    $address = $address->id;
+                    $status = 500;
+                    $messages = "User is not the admin.";
                 }
-
-                $user = User::find($user_id);
-                $user->role = 2;
-                $user->name = strtoupper($request->name);
-                $user->contactnumber = "63".$request->contactnumber;
-                $user->address_id = $address;
-                $user->email = $request->email;
-                $user->update();
-
-                $status   = 200;
-                $messages = "User details has been successfully updated.";
-               
             }
+            else
+            {
+                $validator = Validator::make($request->all(), [
+                    'name' => 'required|string|unique:users,name,'.$user_id.',id',
+                    'contactnumber' => 'required|min:10|max:10',
+                    'email' => 'required|email|unique:users,email,'.$user_id.',',
+                    'region' => 'required',
+                    'province' => 'required',
+                    'city' => 'required',
+                ]);
+               
+                if($validator->fails())
+                {
+                    $messages = $validator->messages();
+                    $status = 500;
+                }
+                else
+                {
+                    $address = DB::table('addresses')->select('id')->where([
+                        'region_no' => $request->region,
+                        'province_no' => $request->province,
+                        'city_no' => $request->city,
+                        'barangay_no' => $request->barangay,
+                    ])->first();
+    
+                    if($address !== null)
+                    {
+                        $address = $address->id;
+                    }
+                    else
+                    {
+                        $address = new Address;
+                        $address->region_no = $request->region;
+                        $address->region = strtoupper($request->region_text);
+                        $address->province_no = $request->province;
+                        $address->province =  strtoupper($request->province_text);
+                        $address->city_no = $request->city;
+                        $address->city = strtoupper($request->city_text);
+                        $address->barangay_no = $request->barangay;
+                        $address->barangay = strtoupper($request->barangay_text);
+                        $address->save();
+                        $address = $address->id;
+                    }
+    
+                    $user = User::find($user_id);
+                    $user->role = 2;
+                    $user->name = strtoupper($request->name);
+                    $user->contactnumber = "63".$request->contactnumber;
+                    $user->address_id = $address;
+                    $user->email = $request->email;
+                    $user->update();
+    
+                    $status   = 200;
+                    $messages = "User details has been successfully updated.";
+                   
+                }
+            }
+            
             return response()->json([
                 'status' => $status,
                 'messages' => $messages,

@@ -27,9 +27,16 @@ class LoginController extends Controller
     }
     public function logout()
     {
-        Session::flush();
-        Auth::logout();
-        return redirect('/');
+        if(Auth::check())
+        {
+            $user = Auth::user()->id;
+            $user = User::find($user);
+            $user->systemstatus = 1;
+            $user->update();
+            Session::flush();
+            Auth::logout();
+            return redirect('/');
+        }
     }
     public function login(Request $request)
     {
@@ -60,6 +67,10 @@ class LoginController extends Controller
             ];
             if(Auth::attempt($data))
             {
+                $user = Auth::user()->id;
+                $user = User::find($user);
+                $user->systemstatus = 1;
+                $user->update();
                 $response = [
                     'status' => 1,
                     'message' => 'You have successfully logged in!',
