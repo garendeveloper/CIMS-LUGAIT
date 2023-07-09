@@ -3,9 +3,6 @@
 <head>
   @include('references.links')
   <style>
-    table, tbody, tr, td{
-        text-align: center;
-    }
     select,option{
       text-transform: uppercase;
     }
@@ -65,7 +62,6 @@
 
                 <thead style = "background-color: #170036; color: white">
                   <tr>
-                    <th>ID</th>
                     <th>Name</th>
                     <th>Contact Number</th>
                     <th>Email</th>
@@ -215,9 +211,6 @@
 <!-- ./wrapper -->
 <!-- REQUIRED SCRIPTS -->
 <!-- jQuery -->
-<script src=
-"https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
-    </script>
 @include('references.scripts')
 
 <script>
@@ -290,8 +283,11 @@
                 },
                 serverSide: true,
                 processing: true,
+                columnDefs: [{
+                    className: "text-center", // Add 'text-center' class to the targeted column
+                    targets: [1, 2, 3, 4, 5] // Replace 'columnIndex' with the index of your targeted column (starting from 0)
+                }],
                 columns: [
-                    {data: "id", name: "id"},
                     {data: "name", name: "name"},
                     {data: 'contactnumber', name: 'contactnumber'},
                     {data: 'email', name: 'email'},
@@ -384,6 +380,7 @@
 
         $("#btn_openform").on('click', function(){
           $("#user_form")[0].reset();
+          $(".login-cred").hide();
           $("#user_id").val("");
           $("#role").val("");
           $("#changepass").val("");
@@ -414,10 +411,9 @@
               $("#email").val(user[0].email);
               $("#contactnumber").val(user[0].contactnumber.replace("63", ""));
     
-              // $('#region option').filter(function() {
-              //     return $(this).val() == user[0].region_no;
-              // }).attr('selected', true);
-              $('#region option:eq(1)').val(user[0].region_no);
+              $('#region option').filter(function() {
+                  return $(this).val() == user[0].region_no;
+              }).attr('selected', true);
               
               // $('select[name="region"] option:'+user[0].region_no+'').attr("selected", "selected");
               $("#province").prepend("<option selected='selected' value = "+user[0].province_no+">"+user[0].province+"</option>");
