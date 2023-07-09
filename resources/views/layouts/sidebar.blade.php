@@ -47,7 +47,7 @@
           @if(Auth::user()->role == 1)
           <li class="nav-item">
             <a href="{{ route('services') }}" id = "s_services" class="nav-link">
-              <i class="nav-icon fas fa-universal-access"></i>
+              <i class="nav-icon fas fa-broom"></i>
               <p>
                 Services
               </p>
@@ -56,7 +56,7 @@
           @endif
           <li class="nav-item">
             <a href="{{ route('deceaseds.nearingmaturity') }}" id = "s_nearingMaturity" class="nav-link">
-              <i class="nav-icon fas fa-universal-access"></i>
+              <i class="nav-icon fas fa-hourglass-half  "></i>
               <p>
                 Nearing Maturity
               </p>
@@ -65,7 +65,7 @@
           @if(Auth::user()->role == 1)
           <li class="nav-item" >  
             <a href="{{ route('spaceareas.index') }}" id = "s_spaceareas" class="nav-link">
-              <i class="nav-icon fas fa-church"></i>
+              <i class="nav-icon fas fa-cube"></i>
               <p>
                 Manage Space Area
               </p>

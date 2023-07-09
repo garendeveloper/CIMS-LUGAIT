@@ -101,7 +101,10 @@
             <div class="card">
               <div class="card-header">
                 <div class="form-group row">
-                    <div class="col-md-12">
+                  <div class="col-md-6">
+                        <button class = "btn btn-primary " id = "btn_reload" type = "button"><i class = "fa fa-sync"></i> &nbsp;&nbsp;Reload Table</button>
+                    </div>
+                    <div class="col-md-6">
                         <div class="input-group">
                             <div class="input-group-prepend">
                             <span class="input-group-text" ><i class="fas fa-search"></i></span>
@@ -189,20 +192,10 @@
             'X-CSRF-Token':$("input[name=_token").val()
         }
     }) 
-    //update notification status to 1, disable notification on this page.
-    // $.ajax({
-    //   type:'get',
-    //   url: '{{ route("deceaseds.updateNotification") }}',
-    //   dataType: 'json',
-    //   success: function(resp)
-    //   {
-    //     $("#forapproval_notif").hide();
-    //   }
-    // })
     $("#forapproval_notif").addClass('display', 'none');
     $("#s_deceasedforapproval").addClass('active')
     $("#search").addClass('active');
-    show_allData();
+
     $("#search").on("keyup", function() {
         var value = $(this).val().toLowerCase();
         $("#tbl_deceaseds tbody tr").filter(function() {
@@ -272,6 +265,67 @@
             }
         })
     }
+    function show_datatable()
+    {
+        $('#tbl_deceaseds').DataTable({
+            ajax: {
+                type: 'get',
+                url: '{{route("deceaseds.data_forApproval")}}',
+                dataType: 'json',
+            },
+            serverSide: true,
+            processing: true,
+            columns: [
+                {data: "fullname", name: "fullname"},
+                {data: "address", name: "address"},
+                {data: 'dateofburial', name: 'dateofburial'},
+                {data: 'sex', name: 'sex'},
+                {data: 'status', name: 'status'},
+                {data: 'action', name: 'action'}
+            ],
+            order: [[2, "desc"]],
+            columnDefs: [{
+                  className: "text-center", // Add 'text-center' class to the targeted column
+                  targets: [2, 3, 4, 5] // Replace 'columnIndex' with the index of your targeted column (starting from 0)
+              },
+              {
+                  "targets": 2, // Replace with the index of the column you want to format
+                  "render": function(data, type, row, meta) {
+                      var dateStr = data;
+                      var dateObj = new Date(dateStr);
+                      
+                      var options = { year: 'numeric', month: 'long', day: 'numeric' };
+                      var formattedDate = dateObj.toLocaleDateString('en-US', options);
+                      return formattedDate;
+                  }
+              }],
+        });
+        }
+
+    function RefreshTable(tableId, urlData) {
+        $.getJSON(urlData, null, function(json) {
+            table = $(tableId).dataTable();
+            oSettings = table.fnSettings();
+
+            table.fnClearTable(this);
+
+            for (var i = 0; i < json.data.length; i++) {
+                table.oApi._fnAddData(oSettings, json.data[i]);
+            }
+
+            oSettings.aiDisplay = oSettings.aiDisplayMaster.slice();
+            table.fnDraw();
+        });
+    }
+    function AutoReload() 
+    {
+        RefreshTable('#tbl_deceaseds', '{{route("deceaseds.data_forApproval")}}');
+    }
+    $("#btn_reload").on('click', function(){
+      AutoReload();
+    })
+    show_datatable();
+   
     $("#tbl_deceaseds tbody").on('click', '#btn_approve', function(){
         var id = $(this).data('id');
         if(confirm("Are you sure you want to approve this deceased? \n"))
@@ -291,7 +345,7 @@
                           delay: 3000,
                           body: response.message,
                       })
-                      show_allData();
+                      AutoReload();
                     }
                     else
                     {
@@ -326,7 +380,7 @@
                           delay: 3000,
                           body: response.message,
                       })
-                      show_allData();
+                      AutoReload();
                     }
                     else
                     {

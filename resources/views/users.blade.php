@@ -54,7 +54,7 @@
                 <div class="form-group row">
                     <div class="col-sm-6">
                         <button class = "btn btn-default btn-flat" id = "btn_openform"><i class = "fas fa fa-user-plus"></i>&nbsp;&nbsp; Create User</button>
-                        <button class = "btn btn-primary btn-flat" id = "btn_reload"><i class = "fas fa fa-service"></i>&nbsp;&nbsp; Reload Table</button>
+                        <button class = "btn btn-primary btn-flat" id = "btn_reload"><i class = "fas fa fa-sync"></i>&nbsp;&nbsp; Reload Table</button>
                     </div>
                 </div>
               </div>
@@ -108,9 +108,9 @@
                 {{ csrf_field() }}    
                 <div class="modal-body">
                     <div class="row" >
-                        <input type="text" style = "display: none" name = "user_id" id = "user_id" value = "">
-                        <input type="text" style = "display: none" name = "role" id = "role"  value  = "0">
-                        <input type="text" style = "display: none" name = "changepass" id = "changepass"  value  = "0">
+                        <input type="hidden"  name = "user_id" id = "user_id" value = "0">
+                        <input type="hidden"  name = "role" id = "role"  value  = "0">
+                        <input type="hidden"  name = "changepass" id = "changepass"  value  = "0">
                         <div class="col-md-4">
                             <label for="">Name<span style="color:red">*</span></label>
                             <input type="text" style = "text-transform: uppercase" name="name" id="name" class="form-control form-control-border border-width-3" autocomplete = "off" 
@@ -137,7 +137,7 @@
                     <div class="row">
                         <div class="col-md-3">
                             <label for="">Region</label>
-                            <select class="form-control form-control-border select2-primary" onchange="return $('#sp_region').html(''), $(this).removeClass('is-invalid')" data-dropdown-css-class="select2-primary" id = "region" name = "region" style="width: 100%;">
+                            <select class="form-control form-control-border select2 select2-primary" onchange="return $('#sp_region').html(''), $(this).removeClass('is-invalid')" data-dropdown-css-class="select2-primary" id = "region" name = "region" style="width: 100%;">
                                 
                             </select>
                             <span style = "color: red" class = "span" id = "sp_region"></span>
@@ -215,8 +215,21 @@
 <!-- ./wrapper -->
 <!-- REQUIRED SCRIPTS -->
 <!-- jQuery -->
-
+<script src=
+"https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+    </script>
 @include('references.scripts')
+
+<script>
+  $(function () {
+    var Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000
+    });
+  });
+</script>
 <script type="text/javascript" src="https://f001.backblazeb2.com/file/buonzz-assets/jquery.ph-locations.js"></script>
 <script type="text/javascript">
 
@@ -257,22 +270,14 @@
 
 </script>
 <script>
-  $(function () {
-    var Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000
-    });
-  });
-</script>
-<script>
    $(document).ready(function() {
       $.ajaxSetup({
           headers: {
               'X-CSRF-Token':$("input[name=_token").val()
           }
       })
+       //Initialize Select2 Elements
+    $('.select2').select2()
       $("#s_users").addClass('active');
          //DUGAY KAAYO NI GIGANA ABTAN TAG PILA KA ORAS ANI HAHAHA
          function show_datatable()
@@ -369,7 +374,6 @@
           $("#creden").show();
           $("#role").val("1");
           $("#btn_unchangepass").show();
-       
         })
         $("#btn_unchangepass").on('click', function(){
           $("#changepass").val("0");
@@ -380,6 +384,9 @@
 
         $("#btn_openform").on('click', function(){
           $("#user_form")[0].reset();
+          $("#user_id").val("");
+          $("#role").val("");
+          $("#changepass").val("");
           $("select").val("");
           $("#modal_form").modal({
               'backdrop': 'static',
@@ -387,7 +394,9 @@
           });
           $('#region').ph_locations('fetch_list');
         })
-        $("#users").on('click', '#btn_edit', function(){
+        $("#users").on('click', '#btn_edit', function(e){
+          e.preventDefault();
+          $('#region').ph_locations('fetch_list');
           var id = $(this).data('rowid');
           $("#user_id").val(id);
           $("#user_form")[0].reset();
@@ -395,32 +404,37 @@
           $("#creden").hide();
           $("#btn_unchangepass").hide();
           $(".login-cred").hide();
-         
           $.ajax({
             type:'get',
             url: 'users/show/'+id,
             dataType: 'json',
             success: function(user){
-               
+            
               $("#name").val(user[0].name);
               $("#email").val(user[0].email);
               $("#contactnumber").val(user[0].contactnumber.replace("63", ""));
-             
-              $("#region option").filter(function() {
-                  return $(this).val() == user[0].region_no;
-              }).attr('selected', true);
+    
+              // $('#region option').filter(function() {
+              //     return $(this).val() == user[0].region_no;
+              // }).attr('selected', true);
+              $('#region option:eq(1)').val(user[0].region_no);
+              
+              // $('select[name="region"] option:'+user[0].region_no+'').attr("selected", "selected");
               $("#province").prepend("<option selected='selected' value = "+user[0].province_no+">"+user[0].province+"</option>");
               $("#city").prepend("<option selected='selected' value = "+user[0].city_no+">"+user[0].city+"</option>");
               $("#barangay").prepend("<option selected='selected' value = "+user[0].barangay_no+">"+user[0].barangay+"</option>");
-             
+            
               $("#modal_form").modal({
                   'backdrop': 'static',
                   'keyboard': false
               });
+             
+            },
+            error: function(error){
+              console.log("Responding error...")
             }
           })
-          
-          $('#region').ph_locations('fetch_list');
+         
         })
         $("#users").on('click', '#myprofile', function(){
           var id = $(this).data('rowid');
@@ -639,5 +653,6 @@
         })
     })
 </script>
+
 </body>
 </html>

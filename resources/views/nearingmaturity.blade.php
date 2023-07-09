@@ -123,7 +123,7 @@
                     <tr style = "text-align: center">
                         <th>Full Name (L,M,F)</th>
                         <th>Date of Burial</th>
-                        <th>Block Assigned</th>
+                        <th>Block Assigned / Burried</th>
                         <th>Expiration</th>
                         <th>Action</th>
                         

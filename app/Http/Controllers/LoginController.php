@@ -21,6 +21,7 @@ class LoginController extends Controller
         }
         else
         {
+            // $user =DB::table('users')->update(array('systemstatus'=> 0));
             Auth::logout();
             return view('login');
         }
@@ -31,7 +32,7 @@ class LoginController extends Controller
         {
             $user = Auth::user()->id;
             $user = User::find($user);
-            $user->systemstatus = 1;
+            $user->systemstatus = 0;
             $user->update();
             Session::flush();
             Auth::logout();

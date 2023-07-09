@@ -111,94 +111,104 @@ class DeceasedController extends Controller
     public function approve($deceased_id)
     {   
         $deceased = Deceased::find($deceased_id);
-        
-        $contactpeople = ContactPerson::where('deceased_id', $deceased_id)->get();
-        if(!empty($contactpeople))
-        {
-            foreach($contactpeople as $cp)
-            {
-                $customer = User::find($cp->user_id);
-
-                if(!empty($customer))
-                {
-                    $basic  = new \Vonage\Client\Credentials\Basic("a4d8c8ee", "3KGO3b6Cdb9EW2FW");
-                    $client = new \Vonage\Client($basic);
-                    
-                    $response = $client->sms()->send(
-                        new \Vonage\SMS\Message\SMS($customer->contactnumber, "LCIMS", 'A text message from Lugait Cemetery System, Your application has been approved.')
-                    );
-                    
-                    $message = $response->current();
-            
-                    if($message->getStatus() == 0)
-                    {
-                        $deceased->approvalStatus = 1;
-                        $deceased->update();
-                        return response()->json([
-                            'status' => 1,
-                            'message' => 'Deceased has been successfully approved',
-                        ]); 
-                    }
-                    else
-                    {
-                        return response()->json([
-                            'status' => 0,
-                            'message' => 'Cannot find a person contact number',
-                        ]); 
-                    }
-                }
-            }
-        }
+        $deceased->approvalStatus = 1;
+        $deceased->update();
         return response()->json([
-            'status' => 0,
-            'message' => 'Cannot find a contact person',
+            'status' => 1,
+            'message' => 'Deceased has been successfully approved',
         ]); 
+        // $contactpeople = ContactPerson::where('deceased_id', $deceased_id)->get();
+        // if(!empty($contactpeople))
+        // {
+        //     foreach($contactpeople as $cp)
+        //     {
+        //         $customer = User::find($cp->user_id);
+
+        //         if(!empty($customer))
+        //         {
+        //             $basic  = new \Vonage\Client\Credentials\Basic("a4d8c8ee", "3KGO3b6Cdb9EW2FW");
+        //             $client = new \Vonage\Client($basic);
+                    
+        //             $response = $client->sms()->send(
+        //                 new \Vonage\SMS\Message\SMS($customer->contactnumber, "LCIMS", 'A text message from Lugait Cemetery System, Your application has been approved.')
+        //             );
+                    
+        //             $message = $response->current();
+            
+        //             if($message->getStatus() == 0)
+        //             {
+        //                 $deceased->approvalStatus = 1;
+        //                 $deceased->update();
+        //                 return response()->json([
+        //                     'status' => 1,
+        //                     'message' => 'Deceased has been successfully approved',
+        //                 ]); 
+        //             }
+        //             else
+        //             {
+        //                 return response()->json([
+        //                     'status' => 0,
+        //                     'message' => 'Cannot find a person contact number',
+        //                 ]); 
+        //             }
+        //         }
+        //     }
+        // }
+        // return response()->json([
+        //     'status' => 0,
+        //     'message' => 'Cannot find a contact person',
+        // ]); 
     }
     public function disapprove($deceased_id)
     {   
         $deceased = Deceased::find($deceased_id);
-        
-        $contactpeople = ContactPerson::where('deceased_id', $deceased_id)->get();
-        if(!empty($contactpeople))
-        {
-            foreach($contactpeople as $cp)
-            {
-                $customer = User::find($cp->user_id);
-
-                if(!empty($customer))
-                {
-                    $basic  = new \Vonage\Client\Credentials\Basic("a4d8c8ee", "3KGO3b6Cdb9EW2FW");
-                    $client = new \Vonage\Client($basic);
-                    
-                    $response = $client->sms()->send(
-                        new \Vonage\SMS\Message\SMS($customer->contactnumber, "LCIMS", 'A text message from Lugait Cemetery System, Your application has been denied.')
-                    );
-                    
-                    $message = $response->current();
-            
-                    if($message->getStatus() == 0)
-                    {
-                        $deceased->approvalStatus = 0;
-                        $deceased->update();
-                        return response()->json([
-                            'status' => 1,
-                            'message' => 'Deceased has been successfully denied',
-                        ]); 
-                    }
-                    else
-                    {
-                        return response()->json([
-                            'status' => 0,
-                            'message' => 'Cannot find a person contact number',
-                        ]); 
-                    }
-                }
-            }
-        }
+        $deceased->approvalStatus = 0;
+        $deceased->update();
         return response()->json([
-            'status' => 0,
-            'message' => 'Cannot find a person',
+            'status' => 1,
+            'message' => 'Deceased has been successfully denied',
         ]); 
+        // $contactpeople = ContactPerson::where('deceased_id', $deceased_id)->get();
+        // if(!empty($contactpeople))
+        // {
+        //     foreach($contactpeople as $cp)
+        //     {
+        //         $customer = User::find($cp->user_id);
+
+        //         if(!empty($customer))
+        //         {
+        //             $basic  = new \Vonage\Client\Credentials\Basic("a4d8c8ee", "3KGO3b6Cdb9EW2FW");
+        //             $client = new \Vonage\Client($basic);
+                    
+        //             $response = $client->sms()->send(
+        //                 new \Vonage\SMS\Message\SMS($customer->contactnumber, "LCIMS", 'A text message from Lugait Cemetery System, Your application has been denied.')
+        //             );
+                    
+        //             $message = $response->current();
+            
+        //             if($message->getStatus() == 0)
+        //             {
+        //                 $deceased->approvalStatus = 0;
+        //                 $deceased->update();
+        //                 return response()->json([
+        //                     'status' => 1,
+        //                     'message' => 'Deceased has been successfully denied',
+        //                 ]); 
+        //             }
+        //             else
+        //             {
+        //                 return response()->json([
+        //                     'status' => 0,
+        //                     'message' => 'Cannot find a person contact number',
+        //                 ]); 
+        //             }
+        //         }
+        //     }
+        // }
+        // return response()->json([
+        //     'status' => 0,
+        //     'message' => 'Cannot find a person',
+        // ]); 
     }
     public function get_deceasedLessThanValidity()
     {
@@ -634,8 +644,76 @@ class DeceasedController extends Controller
                             from addresses, deceaseds, services
                             where addresses.id = deceaseds.address_id
                             and services.id = deceaseds.service_id
-                            order by deceaseds.dateof_burial asc');
-        return response()->json($data);
+                            order by date(deceaseds.dateof_burial) desc');
+        
+        return datatables()->of($data)
+                            ->addColumn('fullname', function($row){
+                                $html = $row->lastname.", ".$row->middlename.", ".$row->firstname;
+                                return $html;
+                            })
+                            ->addColumn('address', function($row){
+                                $html = $row->barangay.", ".$row->city;
+                                return $html;
+                            })
+                            ->addColumn('dateofburial', function($row){
+                                $html = $row->dateof_burial;
+                                return $html;
+                            })
+                            ->addColumn('sex', function($row){
+                                $html = $row->sex;
+                                return $html;
+                            })
+                            ->addColumn('status', function($row){
+                                $html = '<span class = "badge badge-warning right"> '.$row->service_name.'</span>';
+                                if($row->burriedStatus == 1)
+                                {
+                                    $html = '<span class = "badge badge-danger right">BURRIED</span>';
+                                }
+                                return $html;
+                            })
+                            ->addColumn('action', function($row){
+                                $html = "";
+                                if($row->approvalStatus == 1)
+                                {
+                                    $html .= '<button data-id = '.$row->deceased_id.' id = "btn_assign" type="button" class="btn btn-primary btn-sm btn-flat">';
+                                    $html .= '<i class = "fa fas fa-map-marked-alt"></i>';
+                                    $html .= '</button>';
+                                    $html .= '<button data-id = '.$row->deceased_id.' id = "btn_edit" type="button" class="btn btn-success btn-sm btn-flat">';
+                                    $html .= '<i class = "fa fa-edit"></i>';
+                                    $html .= '</button>';
+                                    $html .= '<button data-id = '.$row->deceased_id.' id = "btn_info" type="button" class="btn btn-primary btn-sm btn-flat">';
+                                    $html .= '<i class = "fa fa-info"></i>';
+                                    $html .= '</button>';
+                                    // $html .= '<button data-id = '.$row->deceased_id.' id = "btn_assignment" type="button" class="btn btn-primary btn-sm btn-flat">';
+                                    // $html .= '<i class = "fas fa fa-route"></i>';
+                                    // $html .= '</button>';
+                                    $html .= '<a  href="/deceased/printpage/'.$row->deceased_id.'" type="button" class="btn btn-success btn-sm btn-flat">';
+                                    $html .= '<i class = "fas fa fa-print"></i>';
+                                    $html .= '</a>';
+                                }
+                                else
+                                {
+                                    $deceased_id = $row->deceased_id;
+                                    $html .= '<button disabled data-id = '.$row->deceased_id.' id = "btn_assign" type="button" class="btn btn-primary btn-sm btn-flat">';
+                                    $html .= '<i class = "fa fas fa-map-marked-alt"></i>';
+                                    $html .= '</button>';
+                                    $html .= '<button  data-id = '.$row->deceased_id.' id = "btn_edit" type="button" class="btn btn-success btn-sm btn-flat">';
+                                    $html .= '<i class = "fa fa-edit"></i>';
+                                    $html .= '</button>';
+                                    $html .= '<button data-id = '.$row->deceased_id.' id = "btn_info" type="button" class="btn btn-primary btn-sm btn-flat">';
+                                    $html .= '<i class = "fa fa-info"></i>';
+                                    $html .= '</button>';
+                                    // $html .= '<button disabled data-id = '.$row->deceased_id.' id = "btn_assignment" type="button" class="btn btn-primary btn-sm btn-flat">';
+                                    // $html .= '<i class = "fas fa fa-route"></i>';
+                                    // $html .= '</button>';
+                                    $html .= '<a href="/deceased/printpage/'.$row->deceased_id.'"  type="button" class="btn btn-success btn-sm btn-flat disabled">';
+                                    $html .= '<i class = "fas fa fa-print"></i>';
+                                    $html .= '</a>';
+                                }
+                                return $html;
+                            })
+                            ->rawColumns(['fullname', 'address', 'dateofburial', 'sex', 'status', 'action'])
+                            ->make(true);
     }
     public function show($deceased_id)
     {
@@ -663,7 +741,75 @@ class DeceasedController extends Controller
         $data = [ $deceased_info, $deceased_asssigment, $contactperson];
         return response()->json($data);
     }
-
+    public function notificationCount()
+    {
+        $data = DB::select('select addresses.*, services.*, deceaseds.*, deceaseds.id as deceased_id
+                            from addresses, deceaseds, services
+                            where addresses.id = deceaseds.address_id
+                            and services.id = deceaseds.service_id
+                            order by deceaseds.dateof_burial desc');
+        return response()->json($data);
+    }
+    public function forApproval()
+    {
+        $data = DB::select('select addresses.*, services.*, deceaseds.*, deceaseds.id as deceased_id
+                            from addresses, deceaseds, services
+                            where addresses.id = deceaseds.address_id
+                            and services.id = deceaseds.service_id
+                            order by deceaseds.dateof_burial desc');
+                            
+        return datatables()->of($data)
+                            ->addColumn('fullname', function($row){
+                                $html = $row->lastname.", ".$row->middlename.", ".$row->firstname;
+                                return $html;
+                            })
+                            ->addColumn('address', function($row){
+                                $html = $row->barangay.", ".$row->city;
+                                return $html;
+                            })
+                            ->addColumn('dateofburial', function($row){
+                                $html = $row->dateof_burial;
+                                return $html;
+                            })
+                            ->addColumn('sex', function($row){
+                                $html = $row->sex;
+                                return $html;
+                            })
+                            ->addColumn('status', function($row){
+                                $html = '<span class = "badge badge-warning right"> '.$row->service_name.'</span>';
+                                if($row->burriedStatus == 1)
+                                {
+                                    $html = '<span class = "badge badge-danger right">BURRIED</span>';
+                                }
+                                return $html;
+                            })
+                            ->addColumn('action', function($row){
+                                $html = "";
+                                if($row->burriedStatus == 1)
+                                {
+                                    $html = '<span class = "badge badge-danger right"> CONCLUDED</span>';
+                                }
+                                else
+                                {
+                                    if($row->approvalStatus == 1)
+                                    {
+                                    
+                                        $html .= '<button data-id = '.$row->deceased_id.' id = "btn_disapprove" type="button" class="btn btn-danger btn-sm btn-flat">';
+                                        $html .= '<i class = "fa fas fa-times"></i>&nbsp;&nbsp;CANCEL';
+                                        $html .= '</button>';
+                                    }
+                                    else
+                                    {
+                                        $html .= '<button data-id = '.$row->deceased_id.' id = "btn_approve" type="button" class="btn btn-primary btn-sm btn-flat">';
+                                        $html .= '<i class = "fa fas fa-check"></i>&nbsp;&nbsp;APPROVE';
+                                        $html .= '</button>';
+                                    }
+                                }
+                                return $html;
+                            })
+                            ->rawColumns(['fullname', 'address', 'dateofburial', 'sex', 'status', 'action'])
+                            ->make(true);
+    }
     /**
      * Show the form for editing the specified resource.
      */
@@ -1109,8 +1255,9 @@ class DeceasedController extends Controller
                 {
                     $remainingBalance = $space_area->block_cost - $request->payment;
                 }
-
+                //E update dayon niya ang burried status to 1 meaning nalubong na gyud ang patay
                 $deceased->remaining_balance = $remainingBalance;
+                $deceased->burriedStatus = 1;
                 $deceased->update();
 
                 $coffinplot = new CoffinPlot();
@@ -1124,6 +1271,7 @@ class DeceasedController extends Controller
                 $block = Block::find($space_id);
                 $block->slot = $block->slot-1;
                 $block->update();
+
                 $status = 1;
                 $message = 'The deceased has been plotted successfully.';
             }

@@ -16,10 +16,10 @@
     <p>Please wait ... </p>
   </div>
     @if(Auth::user()->role == 1) 
-    <input type="text" style = "display: none" value = "1" id = "user_role">
+    <input type="text" value = "1" id = "user_role">
     @endif
     @if(Auth::user()->role == 2) 
-    <input type="text" style = "display: none" value = "2" id = "user_role">
+    <input type="text" value = "2" id = "user_role">
     @endif
   <!-- Navbar -->
   @include('layouts.header')
@@ -125,11 +125,10 @@
             <div class="card">
               <div class="card-header">
                 <div class="form-group row">
-                    <div class="col-md-6">
-                        <button class = "btn btn-danger" id = "btn_add"><i class = "fa fa-skull"></i> &nbsp;&nbsp;Add New Deceased</button>
-                        <button class = "btn btn-primary"  id = "btn_reload" type = "button"><i class = "fa fa-sync"></i> &nbsp;&nbsp;Reload Table</button>
+                    <div class="col-md-4">
+                        <button class = "btn btn-danger" id = "btn_add"><i class = "fa fa-user-injured"></i> &nbsp;&nbsp;Add New Deceased</button>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-8">
                         <div class="input-group">
                             <div class="input-group-prepend">
                             <span class="input-group-text" ><i class="fas fa-search"></i></span>
@@ -147,16 +146,16 @@
               <!-- /.card-header -->
               <div class="card-body">
                 <table id="tbl_deceaseds"  class="table table-stripped table-hovered">
-                  <thead style = "background-color: #170036; color: white; text-align: center">
+                  <thead style = "background-color: #170036; color: white">
                     <tr style = "background-color: darkred;">
                         <th>DEFINITION OF ACTION ICONS </th>
                         <th style = "background-color: darkblue;"><i class = "fas fa-map-marked-alt"></i>&nbsp;&nbsp;Plotting of Deceased</th>
                         <th style = "background-color: darkgreen;"><i class = "fas fa fa-edit"></i>&nbsp;&nbsp;Edit Deceased Details</th>
                         <th style = "background-color: darkblue;"><i class = "fas fa fa-info"></i>&nbsp;&nbsp;Information of Deceased</th>
-                        <th style = "background-color: darkgreen;" colspan="2"><i class = "fas fa fa-print"></i>&nbsp;&nbsp;View Print Page</th>
-                        <!-- <th style = "background-color: darkblue;"><i class = "fas fa fa-route"></i>&nbsp;&nbsp;Assignment</th> -->
+                        <th style = "background-color: darkgreen;"><i class = "fas fa fa-print"></i>&nbsp;&nbsp;View Print Page</th>
+                        <th style = "background-color: darkblue;"><i class = "fas fa fa-route"></i>&nbsp;&nbsp;Assignment</th>
                     </tr>
-                    <tr >
+                    <tr style = "text-align: center">
                         <th>Full Name (L,M,F)</th>
                         <th>Address (Barangay, City/Municipality)</th>
                         <th>Date of Burial</th>
@@ -755,7 +754,26 @@
 
 <!-- REQUIRED SCRIPTS -->
 @include('references.scripts')
+<script type = "text/javascript">
+    function printElement(elem) {
+        var domClone = elem.cloneNode(true);
 
+        var $printSection = document.getElementById("printSection");
+
+        if (!$printSection) {
+            var $printSection = document.createElement("div");
+            $printSection.id = "printSection";
+            document.body.appendChild($printSection);
+        }
+
+        $printSection.innerHTML = "";
+        $printSection.appendChild(domClone);
+        window.print();
+    }
+    $("#print").on('click', function(){
+        printElement(document.getElementById("printThis"));
+    });
+</script>
 <script type = "text/javascript">
     $(function(){
     var dtToday = new Date();
@@ -892,68 +910,7 @@
         }
     }) 
     $("#search").addClass('active');
-    function show_datatable()
-    {
-        
-        $('#tbl_deceaseds').DataTable({
-            ajax: {
-                type: 'get',
-                url: '{{route("deceaseds.get_allData")}}',
-                dataType: 'json',
-            },
-            serverSide: true,
-            processing: true,
-            order: [[2, "desc"]],
-            //Naglisud ta diri 
-            columnDefs: [{
-                    className: "text-center", // Add 'text-center' class to the targeted column
-                    targets: [2, 3, 4, 5] // Replace 'columnIndex' with the index of your targeted column (starting from 0)
-                },
-                {
-                    "targets": 2, // Replace with the index of the column you want to format
-                    "render": function(data, type, row, meta) {
-                        var dateStr = data;
-                        var dateObj = new Date(dateStr);
-                        
-                        var options = { year: 'numeric', month: 'long', day: 'numeric' };
-                        var formattedDate = dateObj.toLocaleDateString('en-US', options);
-                        return formattedDate;
-                    }
-                }],
-            columns: [
-                {data: "fullname", name: "fullname"},
-                {data: "address", name: "address"},
-                {data: 'dateofburial', name: 'dateofburial'},
-                {data: 'sex', name: 'sex'},
-                {data: 'status', name: 'status'},
-                {data: 'action', name: 'action'}
-            ]
-        });
-        }
-
-    function RefreshTable(tableId, urlData) {
-        $.getJSON(urlData, null, function(json) {
-            table = $(tableId).dataTable();
-            oSettings = table.fnSettings();
-
-            table.fnClearTable(this);
-
-            for (var i = 0; i < json.data.length; i++) {
-                table.oApi._fnAddData(oSettings, json.data[i]);
-            }
-
-            oSettings.aiDisplay = oSettings.aiDisplayMaster.slice();
-            table.fnDraw();
-        });
-    }
-    function AutoReload() 
-    {
-        RefreshTable('#tbl_deceaseds', '{{route("deceaseds.get_allData")}}');
-    }
-    $("#btn_reload").on('click', function(){
-        AutoReload();
-    })
-    show_datatable();
+    show_allData();
     $("#search").on("keyup", function() {
         var value = $(this).val().toLowerCase();
         $("#tbl_deceaseds tbody tr").filter(function() {
@@ -1056,6 +1013,84 @@
         haschecked1 = 0;
         $("#modal_form").modal({backdrop:'static', keyboard: false});
     })
+    function show_allData()
+    {
+        var user_role = $("#user_role").val();
+        $.ajax({
+        type: 'get',
+        url: "{{ route('deceaseds.get_allData') }}",
+        dataType: 'json',
+        success:function(data)
+        {
+            var row = "";
+            $("#no_ofrecords").text(data.length + " Records");
+            if(data.length > 0)
+            {
+                for(var i = 0; i<data.length; i++)
+                {
+                    row += '<tr data-id = '+data[i].deceased_id+' style = "text-transform: uppercase">';
+                    row += '<td>'+data[i].lastname+", "+data[i].middlename+", "+data[i].firstname+'</td>';
+                    row += '<td>'+data[i].barangay+", "+data[i].city+'</td>';
+                    row += '<td align="center">'+formatDate(data[i].dateof_burial)+'</td>';
+                    row += '<td align="center">'+data[i].sex+'</td>';
+                    row += '<td align="center"><span class = "badge badge-danger right"> '+data[i].service_name+'</span></td>';
+                    row += '<td align = "center">';
+                    if(data[i].approvalStatus == 1)
+                    {
+                        row += '<button data-id = '+data[i].deceased_id+' id = "btn_assign" type="button" class="btn btn-primary btn-sm btn-flat">';
+                        row += '<i class = "fa fas fa-map-marked-alt"></i>';
+                        row += '</button>';
+                        row += '<button data-id = '+data[i].deceased_id+' id = "btn_edit" type="button" class="btn btn-success btn-sm btn-flat">';
+                        row += '<i class = "fa fa-edit"></i>';
+                        row += '</button>';
+                        row += '<button data-id = '+data[i].deceased_id+' id = "btn_info" type="button" class="btn btn-primary btn-sm btn-flat">';
+                        row += '<i class = "fa fa-info"></i>';
+                        row += '</button>';
+                        row += '<button data-id = '+data[i].deceased_id+' id = "btn_assignment" type="button" class="btn btn-primary btn-sm btn-flat">';
+                        row += '<i class = "fas fa fa-route"></i>';
+                        row += '</button>';
+                        row += '<a  href="/deceased/printpage/'+data[i].deceased_id+'" type="button" class="btn btn-success btn-sm btn-flat">';
+                        row += '<i class = "fas fa fa-print"></i>';
+                        row += '</a>';
+                        row += "</td>";
+                        row += '</tr>';
+                    }
+                    else
+                    {
+                        var deceased_id = data[i].deceased_id;
+                        row += '<button disabled data-id = '+data[i].deceased_id+' id = "btn_assign" type="button" class="btn btn-primary btn-sm btn-flat">';
+                        row += '<i class = "fa fas fa-map-marked-alt"></i>';
+                        row += '</button>';
+                        row += '<button  data-id = '+data[i].deceased_id+' id = "btn_edit" type="button" class="btn btn-success btn-sm btn-flat">';
+                        row += '<i class = "fa fa-edit"></i>';
+                        row += '</button>';
+                        row += '<button data-id = '+data[i].deceased_id+' id = "btn_info" type="button" class="btn btn-primary btn-sm btn-flat">';
+                        row += '<i class = "fa fa-info"></i>';
+                        row += '</button>';
+                        row += '<button disabled data-id = '+data[i].deceased_id+' id = "btn_assignment" type="button" class="btn btn-primary btn-sm btn-flat">';
+                        row += '<i class = "fas fa fa-route"></i>';
+                        row += '</button>';
+                        row += '<a href="/deceased/printpage/'+data[i].deceased_id+'"  type="button" class="btn btn-success btn-sm btn-flat disabled">';
+                        row += '<i class = "fas fa fa-print"></i>';
+                        row += '</a>';
+                        row += "</td>";
+                        row += '</tr>';
+                    }
+                   
+                }
+            }
+            else
+            {
+                row += '<tr style = "text-transform: uppercase"><td colspan = "8">No data available</td></tr>';
+            }
+            $("#tbl_deceaseds tbody").html(row);
+        },
+        error: function()
+        {
+            alert("System cannot process request.")
+        }
+        })
+    }
     function calculateCoffinYears(dateofburial )
     {
         dob = new Date(dateofburial);
@@ -1120,7 +1155,7 @@
                         if(data.cb[i].status == 1)
                         {
                             $("#coffin_id").val(data.cb[i].coffin_id);
-                            row += "<span class = 'badge badge-success' style = 'font-size: 20px'><i class = 'fa fas fa-map-marked-alt'></i>&nbsp; Burried Here </span> <br>";
+                            row += "<span class = 'badge badge-success' style = 'font-size: 20px'><i class = 'fa fas fa-map-marked-alt'></i>&nbsp; Plotted Here </span> <br>";
                         }
                         else
                         {
@@ -1170,7 +1205,7 @@
                         if(response.status == 1)
                         {
                             show_allSpaceAreas(deceased_id);
-                            AutoReload();
+                            show_allData();
                             // $("#assignment").modal('hide');
                             $(document).Toasts('create', {
                                 class: 'bg-success',
@@ -1214,7 +1249,7 @@
                     if(response.status == 1)
                     {
                         show_allServices(deceased_id);
-                        AutoReload();
+                        show_allData();
                         alert(response.message);
                     }
                     else
@@ -1271,7 +1306,7 @@
                         if(response.status == 1)
                         {
                             show_allSpaceAreas(deceased_id);
-                            AutoReload(); 
+                            show_allData(); 
                             // $("#assignment").modal('hide');
                             $(document).Toasts('create', {
                                 class: 'bg-success',
@@ -1558,14 +1593,14 @@
                 $("#address_id").val(data[0][0].a_address_id)
                 $("#region option").filter(function() {
                     return $(this).val() == data[0][0].region_no;
-                }).prop('selected', true);
+                }).attr('selected', true);
                 $("#province").prepend("<option selected='selected' value = "+data[0][0].province_no+">"+data[0][0].province+"</option>");
                 $("#city").prepend("<option selected='selected' value = "+data[0][0].city_no+">"+data[0][0].city+"</option>");
                 $("#barangay").prepend("<option selected='selected' value = "+data[0][0].barangay_no+">"+data[0][0].barangay+"</option>");
                 
                 $("#causeofdeath option").filter(function() {
                     return $(this).val() == data[0][0].causeofdeath;
-                }).prop('selected', true);
+                }).attr('selected', true);
 
                 $("#contactperson").val(data[2][0].name),
                 $("#relationship option").filter(function() {
@@ -1575,7 +1610,7 @@
 
                 $("#region1 option").filter(function() {
                     return $(this).val() == data[2][0].region_no;
-                }).prop('selected', true);
+                }).attr('selected', true);
                 $("input[name='add_contactperson']").prop('checked', false);
                 $("#province1").prepend("<option selected='selected' value = "+data[2][0].province_no+">"+data[2][0].province+"</option>");
                 $("#city1").prepend("<option selected='selected' value = "+data[2][0].city_no+">"+data[2][0].city+"</option>");
@@ -1775,7 +1810,7 @@
                     if(response.status == 1)
                     {
                         show_allBlocks();
-                        AutoReload();
+                        show_allData();
                         $("input[type='text']").removeClass('is-invalid');
                         $("input[type='radio']").removeClass('is-invalid');
                         $("input[type='checkbox']").removeClass('is-invalid');
@@ -2028,7 +2063,7 @@
                         if(response.status == 1)
                         {
                             show_allBlocks();
-                            AutoReload();
+                            show_allData();
                             $("input[type='text']").removeClass('is-invalid');
                             $("input[type='radio']").removeClass('is-invalid');
                             $("input[type='checkbox']").removeClass('is-invalid');

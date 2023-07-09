@@ -48,6 +48,7 @@ return new class extends Migration
             $table->tinyInteger('approvalStatus')->default(0);
             $table->tinyInteger('new_notif')->default(0);
             $table->integer('remaining_balance')->default(0);
+            $table->tinyInteger('burriedStatus')->default(0);
             $table->timestamps();
         });
     }
