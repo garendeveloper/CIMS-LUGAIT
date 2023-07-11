@@ -69,15 +69,15 @@ class UserController extends Controller
     {
         if($request->ajax())
         {
-            $validator = Validator::make($request->all(), [
+            $validations = [
                 'name' => 'required|string',
                 'contactnumber' => 'required|min:10|max:10',
                 'email' => 'required|email|unique:users',
                 'region' => 'required',
                 'province' => 'required',
                 'city' => 'required',
-            ]);
-
+            ];
+            $validator = Validator::make($request->all(), $validations);
             $messages = "";
             $status = 0;
             if($validator->fails())
@@ -93,7 +93,6 @@ class UserController extends Controller
                     'city_no' => $request->city,
                     'barangay_no' => $request->barangay,
                 ])->first();
-
                 if($address !== null)
                 {
                     $address = $address->id;
@@ -112,7 +111,7 @@ class UserController extends Controller
                     $address->save();
                     $address = $address->id;
                 }
-
+               
                 $user = User::where([
                     'name' => $request->name,
                     'address_id' => $address,
@@ -159,28 +158,54 @@ class UserController extends Controller
                     $validations = [];
                     if($request->changepass == "1")
                     {
-                        $validations = [
-                            'name' => 'required|string|unique:users,name,'.$user_id.',id',
-                            'contactnumber' => 'required|min:10|max:10',
-                            'email' => 'required|email|unique:users,email,'.$user_id.',',
-                            'region' => 'required',
-                            'province' => 'required',
-                            'city' => 'required',
-                            'curr_pwd' => 'required|min:6',
-                            'new_pwd' => 'required|min:6',
-                            'con_pwd' => 'required|min:6',
-                        ];
+                        if($request->address_id != "")
+                        {
+                            $validations = [
+                                'name' => 'required|string|unique:users,name,'.$user_id.',id',
+                                'contactnumber' => 'required|min:10|max:10',
+                                'email' => 'required|email|unique:users,email,'.$user_id.',',
+                                'curr_pwd' => 'required|min:6',
+                                'new_pwd' => 'required|min:6',
+                                'con_pwd' => 'required|min:6',
+                            ];
+                        }
+                        else
+                        {
+                            $validations = [
+                                'name' => 'required|string|unique:users,name,'.$user_id.',id',
+                                'contactnumber' => 'required|min:10|max:10',
+                                'email' => 'required|email|unique:users,email,'.$user_id.',',
+                                'region' => 'required',
+                                'province' => 'required',
+                                'city' => 'required',
+                                'curr_pwd' => 'required|min:6',
+                                'new_pwd' => 'required|min:6',
+                                'con_pwd' => 'required|min:6',
+                            ];
+                        }
                     }
                     else
                     {
-                        $validations = [
-                            'name' => 'required|string|unique:users,name,'.$user_id.',id',
-                            'contactnumber' => 'required|min:10|max:10',
-                            'email' => 'required|email|unique:users,email,'.$user_id.',',
-                            'region' => 'required',
-                            'province' => 'required',
-                            'city' => 'required',
-                        ];
+                        
+                        if($request->address_id != "")
+                        {
+                            $validations = [
+                                'name' => 'required|string|unique:users,name,'.$user_id.',id',
+                                'contactnumber' => 'required|min:10|max:10',
+                                'email' => 'required|email|unique:users,email,'.$user_id.',',
+                            ];
+                        }
+                        else
+                        {
+                            $validations = [
+                                'name' => 'required|string|unique:users,name,'.$user_id.',id',
+                                'contactnumber' => 'required|min:10|max:10',
+                                'email' => 'required|email|unique:users,email,'.$user_id.',',
+                                'region' => 'required',
+                                'province' => 'required',
+                                'city' => 'required',
+                            ];
+                        }
                     }
 
                     $validator = Validator::make($request->all(), $validations);
@@ -191,32 +216,35 @@ class UserController extends Controller
                     }
                     else
                     {
-                        $address = DB::table('addresses')->select('id')->where([
-                            'region_no' => $request->region,
-                            'province_no' => $request->province,
-                            'city_no' => $request->city,
-                            'barangay_no' => $request->barangay,
-                        ])->first();
-        
-                        if($address !== null)
+                        $address = $request->address_id;
+                        if($request->address_id == "")
                         {
-                            $address = $address->id;
+                            $address = DB::table('addresses')->select('id')->where([
+                                'region_no' => $request->region,
+                                'province_no' => $request->province,
+                                'city_no' => $request->city,
+                                'barangay_no' => $request->barangay,
+                            ])->first();
+            
+                            if($address !== null)
+                            {
+                                $address = $address->id;
+                            }
+                            else
+                            {
+                                $address = new Address;
+                                $address->region_no = $request->region;
+                                $address->region = strtoupper($request->region_text);
+                                $address->province_no = $request->province;
+                                $address->province =  strtoupper($request->province_text);
+                                $address->city_no = $request->city;
+                                $address->city = strtoupper($request->city_text);
+                                $address->barangay_no = $request->barangay;
+                                $address->barangay = strtoupper($request->barangay_text);
+                                $address->save();
+                                $address = $address->id;
+                            }
                         }
-                        else
-                        {
-                            $address = new Address;
-                            $address->region_no = $request->region;
-                            $address->region = strtoupper($request->region_text);
-                            $address->province_no = $request->province;
-                            $address->province =  strtoupper($request->province_text);
-                            $address->city_no = $request->city;
-                            $address->city = strtoupper($request->city_text);
-                            $address->barangay_no = $request->barangay;
-                            $address->barangay = strtoupper($request->barangay_text);
-                            $address->save();
-                            $address = $address->id;
-                        }
-                        
                         if($request->changepass == "1")
                         {
                             if(Hash::check($request->curr_pwd, $user->password))
@@ -270,14 +298,27 @@ class UserController extends Controller
             }
             else
             {
-                $validator = Validator::make($request->all(), [
-                    'name' => 'required|string|unique:users,name,'.$user_id.',id',
-                    'contactnumber' => 'required|min:10|max:10',
-                    'email' => 'required|email|unique:users,email,'.$user_id.',',
-                    'region' => 'required',
-                    'province' => 'required',
-                    'city' => 'required',
-                ]);
+                $validations = [];
+                if($request->address_id != "")
+                {
+                    $validations = [
+                        'name' => 'required|string|unique:users,name,'.$user_id.',id',
+                        'contactnumber' => 'required|min:10|max:10',
+                        'email' => 'required|email|unique:users,email,'.$user_id.',',
+                    ];
+                }
+                else
+                {
+                    $validations = [
+                        'name' => 'required|string|unique:users,name,'.$user_id.',id',
+                        'contactnumber' => 'required|min:10|max:10',
+                        'email' => 'required|email|unique:users,email,'.$user_id.',',
+                        'region' => 'required',
+                        'province' => 'required',
+                        'city' => 'required',
+                    ];
+                }
+                $validator = Validator::make($request->all(), $validations);
                
                 if($validator->fails())
                 {
@@ -286,30 +327,34 @@ class UserController extends Controller
                 }
                 else
                 {
-                    $address = DB::table('addresses')->select('id')->where([
-                        'region_no' => $request->region,
-                        'province_no' => $request->province,
-                        'city_no' => $request->city,
-                        'barangay_no' => $request->barangay,
-                    ])->first();
-    
-                    if($address !== null)
+                    $address = $request->address_id;
+                    if($request->address_id == "")
                     {
-                        $address = $address->id;
-                    }
-                    else
-                    {
-                        $address = new Address;
-                        $address->region_no = $request->region;
-                        $address->region = strtoupper($request->region_text);
-                        $address->province_no = $request->province;
-                        $address->province =  strtoupper($request->province_text);
-                        $address->city_no = $request->city;
-                        $address->city = strtoupper($request->city_text);
-                        $address->barangay_no = $request->barangay;
-                        $address->barangay = strtoupper($request->barangay_text);
-                        $address->save();
-                        $address = $address->id;
+                        $address = DB::table('addresses')->select('id')->where([
+                            'region_no' => $request->region,
+                            'province_no' => $request->province,
+                            'city_no' => $request->city,
+                            'barangay_no' => $request->barangay,
+                        ])->first();
+        
+                        if($address !== null)
+                        {
+                            $address = $address->id;
+                        }
+                        else
+                        {
+                            $address = new Address;
+                            $address->region_no = $request->region;
+                            $address->region = strtoupper($request->region_text);
+                            $address->province_no = $request->province;
+                            $address->province =  strtoupper($request->province_text);
+                            $address->city_no = $request->city;
+                            $address->city = strtoupper($request->city_text);
+                            $address->barangay_no = $request->barangay;
+                            $address->barangay = strtoupper($request->barangay_text);
+                            $address->save();
+                            $address = $address->id;
+                        }
                     }
     
                     $user = User::find($user_id);

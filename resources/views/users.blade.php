@@ -55,7 +55,6 @@
                     </div>
                 </div>
               </div>
-             
               <!-- /.card-header -->
               <div class="card-body">
                 <table id="users" class="table  table-stripped table-bordered table-hovered">
@@ -107,15 +106,18 @@
                         <input type="hidden"  name = "user_id" id = "user_id" value = "0">
                         <input type="hidden"  name = "role" id = "role"  value  = "0">
                         <input type="hidden"  name = "changepass" id = "changepass"  value  = "0">
+                        <input type="hidden"  name = "address_id" id = "address_id"  value  = "">
+                        <input type="hidden"  name = "address_id1" id = "address_id1"  value  = "">
+
                         <div class="col-md-4">
                             <label for="">Name<span style="color:red">*</span></label>
                             <input type="text" style = "text-transform: uppercase" name="name" id="name" class="form-control form-control-border border-width-3" autocomplete = "off" 
-                                onkeydown="return /[a-zA-Z ]/i.test(event.key)" oninput="return $('#sp_name').html(''), $(this).removeClass('is-invalid')">
+                                onkeydown="return /[a-zA-Z ]/i.test(event.key)" oninput="return $('#errmsg_name').html(''), $(this).removeClass('is-invalid')">
                             <span class = "span_error" style ="color:red; font-size: 12px" id = "errmsg_name"></span>
                         </div>
                         <div class="col-md-4" >
                             <label for="">Email<span style="color:red">*</span></label>
-                            <input type="email" oninput="return $('#sp_email').html(''), $(this).removeClass('is-invalid')" style = "text-transform: uppercase" name="email" id="email" class="form-control form-control-border border-width-3" autocomplete = "off">
+                            <input type="email" oninput="return $('#errmsg_email').html(''), $(this).removeClass('is-invalid')" style = "text-transform: uppercase" name="email" id="email" class="form-control form-control-border border-width-3" autocomplete = "off">
                             <span class = "span_error" style ="color:red; font-size: 12px" id = "errmsg_email"></span>
                         </div>
                         <div class="col-md-4" >
@@ -126,35 +128,66 @@
                                 </div>
                                 <input type="tel" maxlength = "10" pattern = "^(9|\+639)\d{9}$" oninput="return $('#sp_contactnumber').html(''), $(this).removeClass('is-invalid')" id = "contactnumber" name = "contactnumber" class="form-control form-control-border" >
                             </div>
-                            <span style = "color: red" class = "span" id = "sp_contactnumber"></span>
+                            <span style = "color: red" class = "span_error" id = "sp_contactnumber"></span>
                         </div>
                     </div>
                     <p></p>
                     <div class="row">
+                        <div class="col-md-6">
+                          <button type = "button" class = "button btn btn-sm btn-primary" id = "btn_changeaddress">Change Address</button>
+                          <button  style = "display: none" type = "button" class = "button btn btn-sm btn-secondary" id = "btn_unchangeaddress">Unchange Address</button>
+                        </div>
+                      </div>
+                    <p></p>
+                    <div class="row" id = "address_area1">
+                        <div class="col-md-3">
+                            <label for="">Region</label>
+                            <select class="form-control form-control-border select2 select2-primary " disabled data-dropdown-css-class="select2-primary" id = "region1"  style="width: 100%;">
+                                
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">Province</label>
+                            <select class="form-control form-control-border select2-primary " disabled data-dropdown-css-class="select2-primary" id = "province1" style="width: 100%;">
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">City / Municipality</label>
+                            <select class="form-control form-control-border select2-primary"  disabled data-dropdown-css-class="select2-primary" id = "city1"  style="width: 100%;">
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">Barangay</label>
+                            <select class="form-control form-control-border select2-primary" disabled data-dropdown-css-class="select2-primary" id = "barangay1" n style="width: 100%; text-transform: uppercase">
+                            </select>
+                        </div>
+                    </div>
+                    <p></p>
+                    <div class="row" id = "address_area" style = "display: none">
                         <div class="col-md-3">
                             <label for="">Region</label>
                             <select class="form-control form-control-border select2 select2-primary" onchange="return $('#sp_region').html(''), $(this).removeClass('is-invalid')" data-dropdown-css-class="select2-primary" id = "region" name = "region" style="width: 100%;">
                                 
                             </select>
-                            <span style = "color: red" class = "span" id = "sp_region"></span>
+                            <span style = "color: red" class = "span_error" id = "sp_region"></span>
                         </div>
                         <div class="col-md-3">
                             <label for="">Province</label>
-                            <select class="form-control form-control-border select2-primary" onchange="return $('#sp_province').html(''), $(this).removeClass('is-invalid')"data-dropdown-css-class="select2-primary" id = "province" name = "province" style="width: 100%;">
+                            <select class="form-control form-control-border select2-primary " onchange="return $('#sp_province').html(''), $(this).removeClass('is-invalid')"data-dropdown-css-class="select2-primary" id = "province" name = "province" style="width: 100%;">
                             </select>
-                            <span style = "color: red" class = "span" id = "sp_province"></span>
+                            <span style = "color: red" class = "span_error" id = "sp_province"></span>
                         </div>
                         <div class="col-md-3">
                             <label for="">City / Municipality</label>
-                            <select class="form-control form-control-border select2-primary" onchange="return $('#sp_city').html(''), $(this).removeClass('is-invalid')" data-dropdown-css-class="select2-primary" id = "city" name = "city" style="width: 100%;">
+                            <select class="form-control form-control-border select2-primary " onchange="return $('#sp_city').html(''), $(this).removeClass('is-invalid')" data-dropdown-css-class="select2-primary" id = "city" name = "city" style="width: 100%;">
                             </select>
-                            <span style = "color: red" class = "span" id = "sp_city"></span>
+                            <span style = "color: red" class = "span_error" id = "sp_city"></span>
                         </div>
                         <div class="col-md-3">
                             <label for="">Barangay</label>
-                            <select class="form-control form-control-border select2-primary" onchange="return $('#sp_barangay').html(''), $(this).removeClass('is-invalid')" data-dropdown-css-class="select2-primary" id = "barangay" name = "barangay" style="width: 100%; text-transform: uppercase">
+                            <select class="form-control form-control-border select2-primary " onchange="return $('#sp_barangay').html(''), $(this).removeClass('is-invalid')" data-dropdown-css-class="select2-primary" id = "barangay" name = "barangay" style="width: 100%; text-transform: uppercase">
                             </select>
-                            <span style = "color: red" class = "span" id = "sp_barangay"></span>
+                            <span style = "color: red" class = "span_error" id = "sp_barangay"></span>
                         </div>
                     </div>
                     <p></p>
@@ -171,17 +204,17 @@
                           <div class="col-md-4">
                             <label for="">Current Password<span style="color:red">*</span></label>
                             <input class="form-control form-control-border select2-primary" type="password" name="prev_pwd" id="prev_pwd" oninput="return $('#sp_prevpwd').html(''), $(this).removeClass('is-invalid')">
-                            <span style = "color: red" class = "span" id = "sp_prevpwd"></span>
+                            <span style = "color: red" class = "span_error" id = "sp_prevpwd"></span>
                           </div>
                           <div class="col-md-4">
                             <label for="">New Password<span style="color:red">*</span></label>
                             <input class="form-control form-control-border select2-primary" type="password" name="new_pwd" id="new_pwd" oninput="return $('#sp_newpwd').html(''), $(this).removeClass('is-invalid')">
-                            <span style = "color: red" class = "span" id = "sp_newpwd"></span>
+                            <span style = "color: red" class = "span_error" id = "sp_newpwd"></span>
                           </div>
                           <div class="col-md-4">
                             <label for="">Confirm Password<span style="color:red">*</span></label>
                             <input class="form-control form-control-border select2-primary" type="password" name="con_pwd" id="con_pwd" oninput="return $('#sp_conpwd').html(''), $(this).removeClass('is-invalid')">
-                            <span style = "color: red" class = "span" id = "sp_conpwd"></span>
+                            <span style = "color: red" class = "span_error" id = "sp_conpwd"></span>
                           </div>
                       </div>
                     </div>
@@ -383,21 +416,56 @@
           $(".login-cred").hide();
           $("#user_id").val("");
           $("#role").val("");
+          $("#address_id").val("");
           $("#changepass").val("");
           $("select").val("");
+
+          $("#address_area1").hide();
+          $("#address_area").show();
+          $("#btn_unchangeaddress").hide();
+          $("#btn_changeaddress").hide();
           $("#modal_form").modal({
               'backdrop': 'static',
               'keyboard': false
           });
           $('#region').ph_locations('fetch_list');
         })
+        $("#btn_changeaddress").on('click', function(){
+          $("#address_area1").hide();
+          $("#address_area").show();
+          $("#btn_unchangeaddress").show();
+          $("#address_id").val("");
+          $('#region').ph_locations('fetch_list');
+        })
+        $("#btn_unchangeaddress").on('click', function(){
+          $("#address_area1").show();
+          $("#address_area").hide();
+          var address1 = $("#address_id1").val();
+          $("#address_id").val(address1);
+          $("#btn_unchangeaddress").hide();
+        })
         $("#users").on('click', '#btn_edit', function(e){
           e.preventDefault();
-          $('#region').ph_locations('fetch_list');
           var id = $(this).data('rowid');
           $("#user_id").val(id);
           $("#user_form")[0].reset();
           $("select").html("");
+
+          //Remove invalid error messages of inputs.
+          $("#name").removeClass('is-invalid');
+          $("#email").removeClass('is-invalid');
+          $("#contactnumber").removeClass('is-invalid');
+          $("#region").removeClass('is-invalid');
+          $("#province").removeClass('is-invalid');
+          $("#city").removeClass('is-invalid');
+          $("#barangay").removeClass('is-invalid');
+          $(".span_error").html("");
+          //Show address area
+          $("#address_area1").show();
+          $("#address_area").hide();
+          $("#btn_changeaddress").show();
+          $("#btn_unchangeaddress").hide();
+
           $("#creden").hide();
           $("#btn_unchangepass").hide();
           $(".login-cred").hide();
@@ -406,19 +474,16 @@
             url: 'users/show/'+id,
             dataType: 'json',
             success: function(user){
-            
               $("#name").val(user[0].name);
               $("#email").val(user[0].email);
               $("#contactnumber").val(user[0].contactnumber.replace("63", ""));
-    
-              $('#region option').filter(function() {
-                  return $(this).val() == user[0].region_no;
-              }).attr('selected', true);
+              $("#address_id").val(user[0].address_id);
+              $("#address_id1").val(user[0].address_id);
               
-              // $('select[name="region"] option:'+user[0].region_no+'').attr("selected", "selected");
-              $("#province").prepend("<option selected='selected' value = "+user[0].province_no+">"+user[0].province+"</option>");
-              $("#city").prepend("<option selected='selected' value = "+user[0].city_no+">"+user[0].city+"</option>");
-              $("#barangay").prepend("<option selected='selected' value = "+user[0].barangay_no+">"+user[0].barangay+"</option>");
+              $("#region1").prepend("<option selected='selected' value = "+user[0].region_no+">"+user[0].region+"</option>");
+              $("#province1").prepend("<option selected='selected' value = "+user[0].province_no+">"+user[0].province+"</option>");
+              $("#city1").prepend("<option selected='selected' value = "+user[0].city_no+">"+user[0].city+"</option>");
+              $("#barangay1").prepend("<option selected='selected' value = "+user[0].barangay_no+">"+user[0].barangay+"</option>");
             
               $("#modal_form").modal({
                   'backdrop': 'static',
@@ -440,6 +505,22 @@
           $(".login-cred").show();
           $("#role").val("1");
           $("#changepass").val("0");
+
+          //Remove invalid error messages of inputs.
+          $("#name").removeClass('is-invalid');
+          $("#email").removeClass('is-invalid');
+          $("#contactnumber").removeClass('is-invalid');
+          $("#region").removeClass('is-invalid');
+          $("#province").removeClass('is-invalid');
+          $("#city").removeClass('is-invalid');
+          $("#barangay").removeClass('is-invalid');
+          $(".span_error").html("");
+          //Show address area
+          $("#address_area1").show();
+          $("#address_area").hide();
+          $("#btn_changeaddress").show();
+          $("#btn_unchangeaddress").hide();
+
           $.ajax({
             type:'get',
             url: 'users/show/'+id,
@@ -448,13 +529,13 @@
               $("#name").val(user[0].name);
               $("#email").val(user[0].email);
               $("#contactnumber").val(user[0].contactnumber.replace("63", ""));
-              $("#region option").filter(function() {
-                  return $(this).val() == user[0].region_no;
-              }).attr('selected', true);
-              $('#region').ph_locations('fetch_list');
-              $("#province").prepend("<option selected='selected' value = "+user[0].province_no+">"+user[0].province+"</option>");
-              $("#city").prepend("<option selected='selected' value = "+user[0].city_no+">"+user[0].city+"</option>");
-              $("#barangay").prepend("<option selected='selected' value = "+user[0].barangay_no+">"+user[0].barangay+"</option>");
+              $("#address_id").val(user[0].address_id);
+              $("#address_id1").val(user[0].address_id);
+              
+              $("#region1").prepend("<option selected='selected' value = "+user[0].region_no+">"+user[0].region+"</option>");
+              $("#province1").prepend("<option selected='selected' value = "+user[0].province_no+">"+user[0].province+"</option>");
+              $("#city1").prepend("<option selected='selected' value = "+user[0].city_no+">"+user[0].city+"</option>");
+              $("#barangay1").prepend("<option selected='selected' value = "+user[0].barangay_no+">"+user[0].barangay+"</option>");
              
               $("#modal_form").modal({
                   'backdrop': 'static',
@@ -479,12 +560,13 @@
                 region_text: $("#region option:selected").text(),
                 province: $("#province").val(),
                 province_text: $("#province option:selected").text(),
-                city: $("#region").val(),
-                city_text: $("#region option:selected").text(),
-                barangay: $("#region").val(),
-                barangay_text: $("#region option:selected").text(),
+                city: $("#city").val(),
+                city_text: $("#city option:selected").text(),
+                barangay: $("#barangay").val(),
+                barangay_text: $("#barangay option:selected").text(),
                 changepass: $("#changepass").val(),
                 role: $("#role").val(),
+                address_id: $("#address_id").val(),
                 curr_pwd: $("#prev_pwd").val(),
                 new_pwd: $("#new_pwd").val(),
                 con_pwd: $("#con_pwd").val(),
@@ -576,10 +658,21 @@
             $.ajax({
               type: 'post',
               url: '{{ route("users.store") }}',
-              data: new FormData(this),
+              data: {
+                address_id: $("#address_id").val(),
+                name: $("#name").val(),
+                email: $("#email").val(),
+                contactnumber: $("#contactnumber").val(),
+                region: $("#region").val(),
+                region_text: $("#region option:selected").text(),
+                province: $("#province").val(),
+                province_text: $("#province option:selected").text(),
+                city: $("#city").val(),
+                city_text: $("#city option:selected").text(),
+                barangay: $("#barangay").val(),
+                barangay_text: $("#barangay option:selected").text(),
+              },
               dataType: 'json',
-              contentType: false,
-              processData: false,
               success: function(resp){
                 if(resp.status == 200)
                 {
