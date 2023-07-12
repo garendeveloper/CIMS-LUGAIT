@@ -105,7 +105,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h4>Manage Deceaseds <span class = "badge badge-sm badge-success" id = "no_ofrecords">0</span></h4>
+            <h4>Manage Deceaseds</h4>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">

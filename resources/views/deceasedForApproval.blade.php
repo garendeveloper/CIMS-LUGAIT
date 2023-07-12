@@ -12,7 +12,7 @@
   </div> -->
    <!-- Preloader -->
    <div id = "pageloader" class="preloader flex-column justify-content-center align-items-center" style = "display: none">
-    <img class="animation__shake" src="{{ asset('dist/img/loader.gif')}}" alt="AdminLTELogo" height="60" width="60">
+    <img class="animation__shake" src="{{ asset('dist/img/loader.gif')}}" alt="LCIMS Logo" height="60" width="60">
     <p>Please wait ... </p>
   </div>
    
@@ -81,7 +81,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h4>Deceased for Approval  <span class = "badge badge-sm badge-success" id = "no_ofrecords">0</span></h4>
+            <h4>Deceased for Approval</h4>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">

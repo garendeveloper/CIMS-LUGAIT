@@ -28,6 +28,22 @@
     input[type=text]{
         border-color: 3px solid #555;
     }
+    .img-responsive { 
+        top:-50px; 
+        left:-50px; 
+        position: center;
+        display:block; 
+        z-index:999; 
+        cursor: pointer; 
+        -webkit-transition-property: all; 
+        -webkit-transition-duration: 0.3s; 
+        -webkit-transition-timing-function: ease; 
+    } 
+
+    /*change the number below to scale to the appropriate size*/ 
+    .img-responsive:hover { 
+        transform: scale(3); 
+    }
   </style>
   @if(Session::get('NotFound'))
     <script>
