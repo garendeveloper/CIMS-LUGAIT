@@ -39,7 +39,20 @@ class DashboardController extends Controller
             $dateofbirth_label[] = $dob->age;
             $dateofbirth_values[] = $dob->value;
         }
-        return view('manager_dashboard', compact('deaths_values', 'deaths_label', 'no_ofdeceaseds', 'dateofbirth_label', 'dateofbirth_values'));
+
+        $schedules_data = array();
+        $schedules = DB::select("SELECT firstname, middlename, lastname, dateof_burial, burial_time FROM deceaseds where deceaseds.approvalStatus = 0");
+        foreach($schedules as $sched)
+        {
+            $schedules_data[] = [
+                'title'=>$sched->firstname." ".$sched->middlename." ".$sched->lastname,
+                'start'=> $sched->dateof_burial." ".$sched->burial_time, 
+                'end'=> $sched->dateof_burial." ".$sched->burial_time, 
+                'backgroundColor'=> '#f39c12',
+                'borderColor'=> '#f39c12',
+            ];
+        }
+        return view('manager_dashboard', compact('deaths_values', 'deaths_label', 'no_ofdeceaseds', 'dateofbirth_label', 'dateofbirth_values', 'schedules_data'));
     }
     public function staff_index()
     {

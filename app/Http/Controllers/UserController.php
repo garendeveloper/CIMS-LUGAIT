@@ -397,4 +397,9 @@ class UserController extends Controller
             'message' => "User successfully deactivated",
         ]);
     }
+    public function get_allContactPeople()
+    {
+        $contactpeople = DB::select('select users.*, addresses.* from users, addresses where addresses.id = users.address_id and users.role = 3');
+        return response()->json($contactpeople);
+    }
 }

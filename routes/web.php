@@ -36,6 +36,7 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
         Route::get('users/deactivate/{id}', [UserController::class, 'deactivate']);
         Route::get('users/show/{id}', [UserController::class, 'show']);
 
+        Route::get('users/get/contactpeople', [UserController::class, 'get_allcontactpeople'])->name('users.contactpeople');
         //services
         Route::resource('services', ServicesController::class);
         Route::get('/services', [ServicesController::class, 'index'])->name('services');

@@ -54,7 +54,9 @@
 <script src="{{ asset('plugins/ekko-lightbox/ekko-lightbox.min.js') }}"></script>
 <!-- Filterizr-->
 <script src="{{ asset('plugins/filterizr/jquery.filterizr.min.js') }}"></script>
-
+<!-- fullCalendar 2.2.5 -->
+<script src="{{ asset('plugins/moment/moment.min.js') }}"></script>
+<script src="{{ asset('plugins/fullcalendar/main.js') }}"></script>
 <!-- PAGE PLUGINS -->
 <!-- jQuery Mapael -->
 <!-- <script src="{{ asset('plugins/jquery-mousewheel/jquery.mousewheel.js') }}"></script>

@@ -492,7 +492,6 @@ class DeceasedController extends Controller
 
                 $contactperson = User::where([
                     'role' => 3,
-                    'address_id' => $conperson_add,
                     'name' => strtoupper($request->contactperson),
                 ])->first();
 
@@ -552,7 +551,6 @@ class DeceasedController extends Controller
                     }
                     $contactperson1 = User::where([
                         'role' => 3,
-                        'address_id' => $conperson_add1,
                         'name' => strtoupper($request->contactperson1),
                     ])->first();
     

@@ -561,15 +561,15 @@
                     </div>
                     <p></p>
                     <h5 style = "color: green"><b>Contact Person Information</b> </h5><p></p>
-                    <div class="row" >
-                      
+                    <div class="row">
                         <div class="col-md-4" >
                             <label for="">Contact Person</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-user"></i></span>
                                 </div>
-                                <input type="text" autocomplete = "off" onkeydown="return /[a-zA-Z, ]/i.test(event.key)" oninput="return $('#sp_contactperson').html(''), $(this).removeClass('is-invalid')" name="contactperson" id="contactperson" class="form-control form-control-border">
+                                <input list = "contactpersons" type="text" autocomplete = "off" onkeydown="return /[a-zA-Z, ]/i.test(event.key)" oninput="return $('#sp_contactperson').html(''), $(this).removeClass('is-invalid')" name="contactperson" id="contactperson" class="form-control form-control-border">
+                                <datalist id = "contactpersons"></datalist>
                             </div>
                             <span style = "color: red" class = "span" id = "sp_contactperson"></span>
                         </div>
@@ -659,7 +659,8 @@
                                     <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-user"></i></span>
                                     </div>
-                                    <input type="text" autocomplete = "off" oninput="return $('#sp_contactperson1').html(''), $(this).removeClass('is-invalid')" onkeydown="return /[a-zA-Z ]/i.test(event.key)" name="contactperson1" id="contactperson1" class="form-control form-control-border">
+                                    <input type="text" list="contactpersons1" autocomplete = "off" oninput="return $('#sp_contactperson1').html(''), $(this).removeClass('is-invalid')" onkeydown="return /[a-zA-Z ]/i.test(event.key)" name="contactperson1" id="contactperson1" class="form-control form-control-border">
+                                    <datalist id = "contactpersons1"></datalist>
                                 </div>
                                 <span style = "color: red" class = "span" id = "sp_contactperson1"></span>
                             </div>
@@ -1682,6 +1683,36 @@
                     row += '<option>No data available.</option>';
                 }
                 $(".block_id").html(row);
+            },
+            error: function()
+            {
+                alert("System cannot process request.")
+            }
+        })
+    }
+    show_allContactPeople();
+    function show_allContactPeople()
+    {
+        $.ajax({
+            type: 'get',
+            url: "{{ route('users.contactpeople') }}",
+            dataType: 'json',
+            success:function(data)
+            {
+                var row = "<option></option>";
+                if(data.length > 0)
+                {
+                    for(var i = 0; i<data.length; i++)
+                    {
+                        row += "<option>"+data[i].name+"</option>";
+                    }
+                }
+                else
+                {
+                    row += '<option>No data available.</option>';
+                }
+                $("#contactpersons").html(row);
+                $("#contactpersons1").html(row);
             },
             error: function()
             {

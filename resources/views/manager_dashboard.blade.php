@@ -42,7 +42,7 @@
     <div class="content">
       <div class="container-fluid">
         <div class="row">
-          <div class="col-lg-12">
+          <div class="col-lg-6">
             <div class="card">
               <div class="card-header border-0" style = "background-color: darkred; color: white">
                 <div class="d-flex justify-content-between" >
@@ -73,7 +73,7 @@
             <!-- /.card -->
           </div>
           <!-- /.col-md-6 -->
-          <div class="col-lg-12">
+          <div class="col-lg-6">
             <div class="card">
               <div class="card-header border-0" style = "background-color: darkred; color: white">
                 <div class="d-flex justify-content-between" >
@@ -102,6 +102,18 @@
               </div>
             </div>
             <!-- /.card -->
+          </div>
+          <div class="col-lg-12">
+            <div class="card card-warning">
+              <div class="card-header">
+                <h5>Deceased for Approval</h5>
+              </div>
+              <div class="card-body p-0">
+                <!-- THE CALENDAR -->
+                <div id="calendar"></div>
+              </div>
+              <!-- /.card-body -->
+            </div>
           </div>
           <!-- /.col-md-6 -->
         </div>
@@ -279,6 +291,66 @@
 <script type="text/javascript">
   $(document).ready(function(){
     $("#s_dashboard").addClass('active');
+  })
+</script>
+<script>
+  $(function () {
+
+    /* initialize the external events
+     -----------------------------------------------------------------*/
+    function ini_events(ele) {
+      ele.each(function () {
+
+        // create an Event Object (https://fullcalendar.io/docs/event-object)
+        // it doesn't need to have a start or end
+        var eventObject = {
+          title: $.trim($(this).text()) // use the element's text as the event title
+        }
+
+        // store the Event Object in the DOM element so we can get to it later
+        $(this).data('eventObject', eventObject)
+
+        // make the event draggable using jQuery UI
+        $(this).draggable({
+          zIndex        : 1070,
+          revert        : true, // will cause the event to go back to its
+          revertDuration: 0  //  original position after the drag
+        })
+
+      })
+    }
+
+
+    /* initialize the calendar
+     -----------------------------------------------------------------*/
+    //Date for the calendar events (dummy data)
+    var date = new Date()
+    var d    = date.getDate(),
+        m    = date.getMonth(),
+        y    = date.getFullYear()
+
+    var Calendar = FullCalendar.Calendar;
+
+    var calendarEl = document.getElementById('calendar');
+
+    // initialize the external events
+    // -----------------------------------------------------------------
+    var schedules_data = {{Js::From($schedules_data)}};
+    var calendar = new Calendar(calendarEl, {
+      headerToolbar: {
+        left  : 'prev,next today',
+        center: 'title',
+        right : 'dayGridMonth,timeGridWeek,timeGridDay'
+      },
+      themeSystem: 'bootstrap',
+      //Random default events
+      events: schedules_data,
+      editable  : false,
+      droppable :false, // this allows things to be dropped onto the calendar !!!
+    });
+
+    calendar.render();
+    // $('#calendar').fullCalendar()
   })
 </script>
 </body>

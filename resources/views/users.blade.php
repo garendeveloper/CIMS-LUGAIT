@@ -220,8 +220,8 @@
                     </div>
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <button type="submit" class="btn btn-primary btn-flat ">Save changes</button>
-                    <button type="button" class="btn btn-danger btn-flat " data-dismiss="modal">X Close</button>
+                    <button type="submit" class="btn btn-primary btn-flat "><i class="fa fa-save"></i>&nbsp;&nbsp; Save changes</button>
+                    <button type="button" class="btn btn-danger btn-flat " data-dismiss="modal"><i class="fa fa-times"></i>&nbsp;&nbsp; Close</button>
                 </div>
             </form>
         </div>

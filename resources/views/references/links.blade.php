@@ -39,7 +39,8 @@
 <!-- dropzonejs -->
 <link rel="stylesheet" href="{{ asset('plugins/dropzone/min/dropzone.min.css') }}">
 
-
+  <!-- fullCalendar -->
+  <link rel="stylesheet" href="{{ asset('plugins/fullcalendar/main.css') }}">
 
 <!-- Theme style -->
 <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
